@@ -1,0 +1,24 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'uninstall', '-g', 'uncss' ]
+2 info using npm@1.2.18
+3 info using node@v0.10.4
+4 verbose node symlink /usr/bin/node
+5 info /usr/lib/node_modules/uncss unbuild
+6 verbose read json /usr/lib/node_modules/uncss/package.json
+7 info preuninstall uncss@0.2.1
+8 info uninstall uncss@0.2.1
+9 verbose true,/usr/lib/node_modules,/usr/lib/node_modules unbuild uncss@0.2.1
+10 verbose /usr/bin,[object Object] binRoot
+11 error Error: EACCES, unlink '/usr/bin/uncss'
+11 error  { [Error: EACCES, unlink '/usr/bin/uncss'] errno: 3, code: 'EACCES', path: '/usr/bin/uncss' }
+12 error Please try running this command again as root/Administrator.
+13 error System Linux 3.5.0-27-generic
+14 error command "/usr/bin/node" "/usr/bin/npm" "uninstall" "-g" "uncss"
+15 error cwd /home/gix/Dropbox/git/uncss
+16 error node -v v0.10.4
+17 error npm -v 1.2.18
+18 error path /usr/bin/uncss
+19 error code EACCES
+20 error errno 3
+21 error stack Error: EACCES, unlink '/usr/bin/uncss'
+22 verbose exit [ 3, true ]
