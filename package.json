@@ -1,0 +1,37 @@
+{
+  "name": "uncss",
+  "version": "0.2.0",
+  "description": "Remove unused CSS styles",
+  "main": "lib/uncss.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "uncss": "bin/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/giakki/uncss.git"
+  },
+  "keywords": [
+    "Optimize",
+    "unused",
+    "CSS",
+    "HTML"
+  ],
+  "author": "Giakki",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "1c7cf8fd782515ad2ffd44f6be2a6cee62da9d5f",
+  "dependencies": {
+    "commander": ">= 1.1.1",
+    "css-parse": ">= 1.2.0",
+    "csso": ">= 1.3.7",
+    "deferred": ">= 0.6.3",
+    "htmlparser": ">= 1.7.6",
+    "soupselect": ">= 0.2.0"
+  }
+}
