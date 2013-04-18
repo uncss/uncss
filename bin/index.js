@@ -23,8 +23,9 @@ options = {
 };
 
 if (program.outfile) {
+    console.log(program.outfile);
     callback = function (uncss) {
-        fs.writeFile(options.outfile, uncss, function (err) {
+        fs.writeFile(options.outfile, options, function (err) {
             if (err) {
                 throw err;
             }

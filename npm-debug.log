@@ -1,24 +1,28 @@
 0 info it worked if it ends with ok
-1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'uninstall', '-g', 'uncss' ]
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'version', 'build' ]
 2 info using npm@1.2.18
 3 info using node@v0.10.4
 4 verbose node symlink /usr/bin/node
-5 info /usr/lib/node_modules/uncss unbuild
-6 verbose read json /usr/lib/node_modules/uncss/package.json
-7 info preuninstall uncss@0.2.1
-8 info uninstall uncss@0.2.1
-9 verbose true,/usr/lib/node_modules,/usr/lib/node_modules unbuild uncss@0.2.1
-10 verbose /usr/bin,[object Object] binRoot
-11 error Error: EACCES, unlink '/usr/bin/uncss'
-11 error  { [Error: EACCES, unlink '/usr/bin/uncss'] errno: 3, code: 'EACCES', path: '/usr/bin/uncss' }
-12 error Please try running this command again as root/Administrator.
-13 error System Linux 3.5.0-27-generic
-14 error command "/usr/bin/node" "/usr/bin/npm" "uninstall" "-g" "uncss"
-15 error cwd /home/gix/Dropbox/git/uncss
-16 error node -v v0.10.4
-17 error npm -v 1.2.18
-18 error path /usr/bin/uncss
-19 error code EACCES
-20 error errno 3
-21 error stack Error: EACCES, unlink '/usr/bin/uncss'
-22 verbose exit [ 3, true ]
+5 silly exec git "status" "--porcelain"
+6 silly git,status,--porcelain, spawning
+7 error Error: Git working directory not clean.
+7 error M bin/index.js
+7 error D npm-debug.log
+7 error     at /usr/lib/node_modules/npm/lib/version.js:82:33
+7 error     at /usr/lib/node_modules/npm/node_modules/once/once.js:17:15
+7 error     at ChildProcess.<anonymous> (/usr/lib/node_modules/npm/lib/utils/exec.js:64:5)
+7 error     at ChildProcess.EventEmitter.emit (events.js:98:17)
+7 error     at maybeClose (child_process.js:730:16)
+7 error     at Socket.<anonymous> (child_process.js:943:11)
+7 error     at Socket.EventEmitter.emit (events.js:95:17)
+7 error     at Pipe.close (net.js:451:12)
+8 error If you need help, you may report this log at:
+8 error     <http://github.com/isaacs/npm/issues>
+8 error or email it to:
+8 error     <npm-@googlegroups.com>
+9 error System Linux 3.5.0-27-generic
+10 error command "/usr/bin/node" "/usr/bin/npm" "version" "build"
+11 error cwd /home/gix/Dropbox/git/uncss
+12 error node -v v0.10.4
+13 error npm -v 1.2.18
+14 verbose exit [ 1, true ]
