@@ -17,21 +17,30 @@ Usage
 
     -h, --help            output usage information
     -V, --version         output the version number
-    -c, --compress        Compress CSS
-    -o, --outfile [file]  redirect the output to [file]
+    -m, --minify          Minify css output
+    -o, --outfile <file>  Redirect output to <file>
 
 ### Within node: ###
 
     var uncss = require('uncss');
 
-    var css     = ['my', 'array', 'of', 'css', 'files'],
-        html    = ['some', 'html', 'files'],
+    var files   = ['my', 'array', 'of', 'css/html', 'files'],
         options = {
             compress: false,
-            outfile: 'css/style.min.css'
+            /* More options to come */
         };
 
-    uncss(css, html, options);
+    uncss(files, options, function (output) {
+        console.log(output);
+    });
+
+    /* Look Ma, no options! */
+    uncss(files, function (output) {
+        console.log(output);
+    });    
+
+## License: MIT ##
 
 ## TODO: ##
 - Remove some dependencies
+- Fetch css files from <link>s in HTML

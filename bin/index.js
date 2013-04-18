@@ -8,7 +8,7 @@ var uncss   = require('../lib/uncss.js'),
 
 /* Parse command line options */
 program
-    .version('0.1.0')
+    .version('0.3.0')
     .usage('[options] <file.html file.css ...>')
     .option('-m, --minify', 'Minify css output')
     .option('-o, --outfile <file>', 'Redirect output to <file>')
@@ -23,13 +23,12 @@ options = {
 };
 
 if (program.outfile) {
-    console.log(program.outfile);
     callback = function (uncss) {
-        fs.writeFile(options.outfile, options, function (err) {
+        fs.writeFile(program.outfile, uncss, function (err) {
             if (err) {
                 throw err;
             }
-            console.log('uncss: wrote %s', options.outfile);
+            console.log('uncss: wrote %s', program.outfile);
         });
     };
 } else {
