@@ -8,7 +8,11 @@ var uncss   = require('../lib/uncss.js'),
 
 /* Parse command line options */
 program
+<<<<<<< HEAD
     .version('0.3.0')
+=======
+    .version('0.2.4-1')
+>>>>>>> development
     .usage('[options] <file.html file.css ...>')
     .option('-m, --minify', 'Minify css output')
     .option('-o, --outfile <file>', 'Redirect output to <file>')
