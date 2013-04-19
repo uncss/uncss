@@ -15,10 +15,8 @@ Usage
 
   Options:
 
-    -h, --help            output usage information
-    -V, --version         output the version number
-    -m, --minify          Minify css output
-    -o, --outfile <file>  Redirect output to <file>
+    -h, --help     output this message
+    -c, --compress compress css
 
 ### Within node: ###
 

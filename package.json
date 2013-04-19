@@ -27,7 +27,6 @@
   "readmeFilename": "README.md",
   "gitHead": "1c7cf8fd782515ad2ffd44f6be2a6cee62da9d5f",
   "dependencies": {
-    "commander": ">= 1.1.1",
     "css": ">= 1.1.0",
     "htmlparser": ">= 1.7.6",
     "soupselect": ">= 0.2.0"

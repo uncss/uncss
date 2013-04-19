@@ -1,40 +1,33 @@
 #!/usr/bin/env node
 var uncss   = require('../lib/uncss.js'),
-    program = require('commander'),
-    fs      = require('fs'),
+    utility = require('../lib/utility.js'),
 
-    options,
-    callback;
+    argv,
+    callback,
+    compress,
+    files,
+    options = {},
+    usage   = '[options] <file.html file.css ...>';
 
 /* Parse command line options */
-program
-    .version('0.2.5-2')
-    .usage('[options] <file.html file.css ...>')
-    .option('-c, --compress', 'Compress css output')
-    .option('-o, --outfile <file>', 'Redirect output to <file>')
-    .parse(process.argv);
+argv = process.argv.splice(2);
 
-if (program.args.length === 0) {
-    program.help();
+files = argv.filter(function (str) {
+    return (/\.css$/).test(str) ||
+           (/\.html$/).test(str)
+});
+
+if (files.length === 0 ||
+    utility.isInCommandLine(argv, '--help')) {
+    utility.showHelp();
 }
 
-options = {
-    compress: program.compress
-};
-
-if (program.outfile) {
-    callback = function (uncss) {
-        fs.writeFile(program.outfile, uncss, function (err) {
-            if (err) {
-                throw err;
-            }
-            console.log('uncss: wrote %s', program.outfile);
-        });
-    };
+if (utility.isInCommandLine(argv, '--compress')) {
+    options.compress = true;
 } else {
-    callback = function (uncss) {
-        console.log(uncss);
-    };
+    options.compress = false;
 }
 
-uncss(program.args, options, callback);
+uncss(files, options, function (uncss) {
+    console.log(uncss);
+});
