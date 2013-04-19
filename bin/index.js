@@ -10,7 +10,7 @@ var uncss   = require('../lib/uncss.js'),
 program
     .version('0.2.5-2')
     .usage('[options] <file.html file.css ...>')
-    .option('-m, --minify', 'Minify css output')
+    .option('-c, --compress', 'Compress css output')
     .option('-o, --outfile <file>', 'Redirect output to <file>')
     .parse(process.argv);
 
@@ -19,7 +19,7 @@ if (program.args.length === 0) {
 }
 
 options = {
-    minify: program.minify
+    compress: program.compress
 };
 
 if (program.outfile) {
