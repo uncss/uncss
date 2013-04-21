@@ -41,4 +41,4 @@ Usage
 
 ## TODO: ##
 - Remove some dependencies
-- Fetch css files from <link>s in HTML
+- Fetch css files from stylesheets in HTML

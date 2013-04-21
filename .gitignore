@@ -4,3 +4,10 @@
 
 npm-debug.log
 node_modules/
+
+##########
+## subl ##
+##########
+
+uncss.sublime-project
+uncss.sublime-workspace
