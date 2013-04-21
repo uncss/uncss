@@ -2,32 +2,56 @@
 var uncss   = require('../lib/uncss.js'),
     utility = require('../lib/utility.js'),
 
+    arg,
     argv,
+    buffer = '',
     callback,
     compress,
-    files,
-    options = {},
-    usage   = '[options] <file.html file.css ...>';
+    files   = [],
+    i,
+    options = {};
 
 /* Parse command line options */
 argv = process.argv.splice(2);
 
-files = argv.filter(function (str) {
-    return (/\.css$/).test(str) ||
-           (/\.html$/).test(str)
-});
+for (i = 0; i < argv.length; i++) {
+    arg = argv[i];
+    if (arg.length < 2) {
+        console.log('Unrecognized token: ' + arg);
+        process.exit();
+    }
+    if (arg[0] === '-') {
+        options[arg[1]] = true;
+    } else {
+        files.push(arg);
+    }
+}
 
-if (files.length === 0 ||
-    utility.isInCommandLine(argv, '--help')) {
+if (options.h) {
     utility.showHelp();
 }
 
-if (utility.isInCommandLine(argv, '--compress')) {
+if (options.c) {
     options.compress = true;
 } else {
     options.compress = false;
 }
 
-uncss(files, options, function (uncss) {
-    console.log(uncss);
-});
+if (files.length === 0) {
+    process.stdin.resume();
+    process.stdin.setEncoding('utf8');
+
+    process.stdin.on('data', function(chunk) {
+        buffer += chunk;
+    });
+
+    process.stdin.on('end', function() {
+        uncss(buffer, options, function (uncss) {
+            console.log(uncss);
+        });        
+    });
+} else {
+    uncss(files, options, function (uncss) {
+        console.log(uncss);
+    });  
+}

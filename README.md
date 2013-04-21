@@ -11,21 +11,20 @@ Usage
 
 ### From the command line: ###
 
-    uncss [options] <file.html file.css ...>
+    uncss [options] <files.html ...>
 
   Options:
 
-    -h, --help     output this message
-    -c, --compress compress css
+    -h      output this message
+    -c      compress css
 
 ### Within node: ###
 
     var uncss = require('uncss');
 
-    var files   = ['my', 'array', 'of', 'css/html', 'files'],
+    var files   = ['my', 'array', 'of', 'HTML', 'files'],
         options = {
             compress: false,
-            /* More options to come */
         };
 
     uncss(files, options, function (output) {
@@ -35,10 +34,16 @@ Usage
     /* Look Ma, no options! */
     uncss(files, function (output) {
         console.log(output);
+    });
+
+    /* Specifying raw HTML*/
+    var raw_html = '...'
+    uncss(files, options, function (output) {
+        console.log(output);
     });    
 
 ## License: MIT ##
 
 ## TODO: ##
-- Remove some dependencies
-- Fetch css files from stylesheets in HTML
+- Add some better minification
+- See TODO comments
