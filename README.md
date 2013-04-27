@@ -45,5 +45,6 @@ Usage
 ## License: MIT ##
 
 ## TODO: ##
-- Add some better minification
+- Switch to a newer css selector engine
 - See TODO comments
+- Feedback appreciated!
