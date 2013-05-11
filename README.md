@@ -15,7 +15,7 @@ Usage
 
   Options:
 
-    -h      output this message
+    -h      output help message
     -c      compress css
 
 ### Within node: ###
