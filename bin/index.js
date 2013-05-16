@@ -29,6 +29,7 @@ for (i = 0; i < argv.length; i++) {
 
 if (options.h) {
     utility.showHelp();
+    process.exit();
 }
 
 if (options.c) {
