@@ -11,12 +11,15 @@ Usage
 
 ### From the command line: ###
 
-    uncss [options] <files.html ...>
+  Usage: uncss [options] <file ...>
 
   Options:
 
-    -h      output help message
-    -c      compress css
+    -h, --help                   output usage information
+    -V, --version                output the version number
+    -c, --compress               Compress CSS output
+    -i, --ignore=<selector ...>  Do not remove given selectors
+
 
 ### Within node: ###
 
@@ -24,7 +27,8 @@ Usage
 
     var files   = ['my', 'array', 'of', 'HTML', 'files'],
         options = {
-            compress: false,
+            ignore: ['#added_at_runtime', '.created_by_jQuery']
+            compress: true,
         };
 
     uncss(files, options, function (output) {
@@ -38,13 +42,12 @@ Usage
 
     /* Specifying raw HTML*/
     var raw_html = '...'
-    uncss(files, options, function (output) {
+    uncss(raw_html, options, function (output) {
         console.log(output);
-    });    
+    });
 
 ## License: MIT ##
 
-## TODO: ##
-- Switch to a newer css selector engine
-- See TODO comments
-- Feedback appreciated!
+
+### Features planned: ###
+- Add PhantomJS integration
