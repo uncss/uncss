@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 var uncss   = require('../lib/uncss.js'),
-    utility = require('../lib/utility.js'),
+    utility = require('../lib/lib.js'),
     program = require('commander'),
     buffer  = '';
 

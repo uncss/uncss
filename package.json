@@ -29,8 +29,6 @@
   "dependencies": {
     "css": ">= 1.1.0",
     "csso": ">= 1.3.7",
-    "htmlparser2": ">= 3.0.5",
-    "soupselect": ">= 0.2.0",
     "commander": "~2.0.0"
   }
 }
