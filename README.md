@@ -46,8 +46,8 @@ Usage
         console.log(output);
     });
 
-## License: MIT ##
-
+## License ##
+Copyright (c) 2013 Giacomo Martino. See the LICENSE file for license rights and limitations (MIT).
 
 ### Features planned: ###
 - Add PhantomJS integration
