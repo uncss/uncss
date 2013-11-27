@@ -20,7 +20,6 @@ Usage
     -c, --compress               Compress CSS output
     -i, --ignore=<selector ...>  Do not remove given selectors
 
-
 ### Within node: ###
 
     var uncss = require('uncss');
@@ -47,6 +46,9 @@ Usage
     uncss(raw_html, options, function (output) {
         console.log(output);
     });
+
+### grunt-uncss ###
+If you are looking for the grunt plugin, head over to [grunt-uncss](https://github.com/addyosmani/grunt-uncss), created by @addyosmani
 
 ## License ##
 Copyright (c) 2013 Giacomo Martino. See the LICENSE file for license rights and limitations (MIT).
