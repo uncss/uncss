@@ -26,7 +26,7 @@ Usage
 
     var files   = ['my', 'array', 'of', 'HTML', 'files'],
         options = {
-            ignore: ['#added_at_runtime', '.created_by_jQuery']
+            ignore: ['#added_at_runtime', '.created_by_jQuery'],
             compress: true,
             csspath: "../public/css/", // path where the CSS files are related to the html files. By default, uncss uses the path specified in the <link rel="stylesheet" href="path/to/file.css">
             stylesheets: ["lib/bootstrap/dist/css/bootstrap.css", "src/public/css/main.css"] // Force the list of stylesheets to optimize using a path relative to the `Gruntfile.js`. Otherwise, it extracts the stylesheets from the html files
