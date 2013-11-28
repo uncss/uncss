@@ -1,43 +1,45 @@
-#!/usr/bin/env node
-var uncss   = require('../lib/uncss.js'),
-    utility = require('../lib/lib.js'),
-    program = require('commander'),
-    buffer  = '',
-    options;
+(function () {
+    'use strict';
 
-program
-    .version('0.4.4')
-    .usage('[options] <file, ...>')
-    .option('-c, --compress', 'Compress CSS output')
-    .option('-i, --ignore <selector, ...>', 'Do not remove given selectors')
-    .option('-C, --csspath <path>', 'Relative path where the CSS files are located')
-    .option('-s, --stylesheets <file, ...>', 'Specify additional stylesheets to process')
-    .parse(process.argv);
+    var uncss   = require('../lib/uncss.js'),
+        program = require('commander'),
+        buffer  = '',
+        options;
 
-options = {
-    compress: program.compress || false,
-    ignore: program.ignore
-        ? program.ignore.split(', ')
-        : []
-};
+    program
+        .version('0.4.4')
+        .usage('[options] <file, ...>')
+        .option('-c, --compress', 'Compress CSS output')
+        .option('-i, --ignore <selector, ...>', 'Do not remove given selectors')
+        .option('-C, --csspath <path>', 'Relative path where the CSS files are located')
+        .option('-s, --stylesheets <file, ...>', 'Specify additional stylesheets to process')
+        .parse(process.argv);
 
-if (program.args.length === 0) {
-    // No files were specified, read html from stdin
-    process.stdin.resume();
-    process.stdin.setEncoding('utf8');
+    options = {
+        compress: program.compress || false,
+        ignore: program.ignore
+            ? program.ignore.split(', ')
+            : []
+    };
 
-    process.stdin.on('data', function (chunk) {
-        buffer += chunk;
-    });
+    if (program.args.length === 0) {
+        // No files were specified, read html from stdin
+        process.stdin.resume();
+        process.stdin.setEncoding('utf8');
 
-    process.stdin.on('end', function () {
-        uncss(buffer, options, function (uncss) {
+        process.stdin.on('data', function (chunk) {
+            buffer += chunk;
+        });
+
+        process.stdin.on('end', function () {
+            uncss(buffer, options, function (uncss) {
+                console.log(uncss);
+            });
+        });
+    } else {
+        uncss(program.args, options, function (uncss) {
             console.log(uncss);
         });
-    });
-} else {
-    uncss(program.args, options, function (uncss) {
-        console.log(uncss);
-    });
-}
+    }
 
+}());

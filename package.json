@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "uncss": "bin/index.js"
+    "uncss": "node bin/index.js"
   },
   "repository": {
     "type": "git",
