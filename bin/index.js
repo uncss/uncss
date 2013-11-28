@@ -7,9 +7,11 @@ var uncss   = require('../lib/uncss.js'),
 
 program
     .version('0.4.4')
-    .usage('[options] <file ...>')
+    .usage('[options] <file, ...>')
     .option('-c, --compress', 'Compress CSS output')
     .option('-i, --ignore <selector, ...>', 'Do not remove given selectors')
+    .option('-C, --csspath <path>', 'Relative path where the CSS files are located')
+    .option('-s, --stylesheets <file, ...>', 'Specify additional stylesheets to process')
     .parse(process.argv);
 
 options = {
