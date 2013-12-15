@@ -14,6 +14,7 @@
         .option('-i, --ignore <selector, ...>', 'Do not remove given selectors')
         .option('-C, --csspath <path>', 'Relative path where the CSS files are located')
         .option('-s, --stylesheets <file, ...>', 'Specify additional stylesheets to process')
+        .option('-t, --timeout <milliseconds>', 'Wait for JS evaluation')
         .parse(process.argv);
 
     options = {

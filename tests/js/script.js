@@ -9,7 +9,7 @@ column = document.createElement('div');
 column.className = 'col-lg-4';
 
 heading = document.createElement('h3');
-heading.className = 'green';
+heading.className = 'test-green';
 heading.innerHTML = 'PhantomJS';
 
 text = document.createTextNode("PhantomJS works! This paragraph was added at runtime.");
