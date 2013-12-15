@@ -15,10 +15,14 @@ Usage
 
   Options:
 
-    -h, --help                   output usage information
-    -V, --version                output the version number
-    -c, --compress               Compress CSS output
-    -i, --ignore=<selector ...>  Do not remove given selectors
+    -h, --help                     output usage information
+    -V, --version                  output the version number
+    -c, --compress                 Compress CSS output
+    -i, --ignore <selector, ...>   Do not remove given selectors
+    -C, --csspath <path>           Relative path where the CSS files are located
+    -s, --stylesheets <file, ...>  Specify additional stylesheets to process
+    -t, --timeout <milliseconds>   Wait for JS evaluation
+
 
 ### Within node: ###
 
@@ -26,10 +30,11 @@ Usage
 
     var files   = ['my', 'array', 'of', 'HTML', 'files'],
         options = {
-            ignore: ['#added_at_runtime', '.created_by_jQuery'],
             compress: true,
-            csspath: "../public/css/", // path where the CSS files are related to the html files. By default, uncss uses the path specified in the <link rel="stylesheet" href="path/to/file.css">
-            stylesheets: ["lib/bootstrap/dist/css/bootstrap.css", "src/public/css/main.css"] // Force the list of stylesheets to optimize using a path relative to the `Gruntfile.js`. Otherwise, it extracts the stylesheets from the html files
+            ignore: ['#added_at_runtime', /test\-[0-9]+/],
+            csspath: "../public/css/",
+            stylesheets: ["lib/bootstrap/dist/css/bootstrap.css", "src/public/css/main.css"],
+            timeout: 1000
         };
 
     uncss(files, options, function (output) {
@@ -46,6 +51,13 @@ Usage
     uncss(raw_html, options, function (output) {
         console.log(output);
     });
+
+#### Options in depth: ####
+- __compress__ [Boolean]: Whether the CSS output should be compressed.
+- __ignore__ [Array]: provide a list of selectors that should not be removed by UnCSS. For example, styles added by user interaction with the page (hover, click), since those are not detectable by UnCSS yet. Both literal names and regex patterns are recognized.
+- __csspath__ [String]: Path where the CSS files are related to the html files. By default, UnCSS uses the path specified in the <link rel="stylesheet" href="path/to/file.css"\>
+- __stylesheets__ [Array]: Force the list of stylesheets to optimize using a path relative to the `Gruntfile.js`. Otherwise, it extracts the stylesheets from the html files.
+- __timeout__ [Number]: Specify how long to wait for the JS to be loaded.
 
 ### grunt-uncss ###
 If you are looking for the grunt plugin, head over to [grunt-uncss](https://github.com/addyosmani/grunt-uncss), created by @addyosmani
