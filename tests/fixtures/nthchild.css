@@ -1,0 +1,11 @@
+span:nth-child(odd) {
+    border-bottom: 1px solid red;
+}
+
+span:nth-child(2) {
+    border-bottom: 1px solid blue;
+}
+
+span:nth-child(3) {
+    border-bottom: 1px solid blue;
+}

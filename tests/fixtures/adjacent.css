@@ -1,0 +1,7 @@
+span + span {
+    text-decoration: underline;
+}
+
+#battleground + div {
+    background: white;
+}
