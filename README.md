@@ -1,5 +1,7 @@
 # UnCSS #
 
+[![Build Status](https://travis-ci.org/giakki/uncss.png)](https://travis-ci.org/giakki/uncss)
+
 Remove unused styles from CSS
 
 ## Installation: ##
