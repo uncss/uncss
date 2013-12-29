@@ -1,0 +1,7 @@
+.red ~ span {
+    color: blue;
+}
+
+.blue ~ span {
+    color: green;
+}

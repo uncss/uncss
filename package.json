@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha tests/*.js --reporter min"
   },
   "bin": {
     "uncss": "bin/index.js"
@@ -34,5 +34,9 @@
     "underscore": "~1.5.2",
     "async": "~0.2.9",
     "phantomjs": "~1.9.2-5"
+  },
+  "devDependencies": {
+    "mocha": "~1.15.1",
+    "chai": "~1.8.1"
   }
 }

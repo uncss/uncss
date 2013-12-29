@@ -1,0 +1,7 @@
+span:nth-of-type(2) {
+    border-bottom: 1px solid blue;
+}
+
+span:nth-of-type(4) {
+    border-bottom: 1px solid white;
+}
