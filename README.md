@@ -11,21 +11,6 @@ Remove unused styles from CSS
 Usage
 -----
 
-### From the command line: ###
-
-  Usage: uncss [options] <file ...>
-
-  Options:
-
-    -h, --help                     output usage information
-    -V, --version                  output the version number
-    -i, --ignore <selector, ...>   Do not remove given selectors
-    -C, --csspath <path>           Relative path where the CSS files are located
-    -s, --stylesheets <file, ...>  Specify additional stylesheets to process
-    -r, --raw <string>             Pass in a raw string of CSS
-    -t, --timeout <milliseconds>   Wait for JS evaluation
-
-
 ### Within node: ###
 
     var uncss = require('uncss');
@@ -54,6 +39,25 @@ Usage
         console.log(output);
     });
 
+### From the command line: ###
+
+  Usage: uncss [options] <file ...>
+
+  Options:
+
+    -h, --help                     output usage information
+    -V, --version                  output the version number
+    -i, --ignore <selector, ...>   Do not remove given selectors
+    -C, --csspath <path>           Relative path where the CSS files are located
+    -s, --stylesheets <file, ...>  Specify additional stylesheets to process
+    -r, --raw <string>             Pass in a raw string of CSS
+    -t, --timeout <milliseconds>   Wait for JS evaluation
+
+### At build-time ###
+UnCSS can also be used in conjunction with other javascript build systems, thanks to @addyosmani for creating:
+- [grunt-uncss](https://github.com/addyosmani/grunt-uncss)
+- [gulp-uncss](https://github.com/addyosmani/gulp-uncss-task)
+
 #### Options in depth: ####
 - __ignore__ [Array]: provide a list of selectors that should not be removed by UnCSS. For example, styles added by user interaction with the page (hover, click), since those are not detectable by UnCSS yet. Both literal names and regex patterns are recognized.
 - __csspath__ [String]: Path where the CSS files are related to the html files. By default, UnCSS uses the path specified in the <link rel="stylesheet" href="path/to/file.css"\>
@@ -68,4 +72,5 @@ If you are looking for the grunt plugin, head over to [grunt-uncss](https://gith
 Copyright (c) 2013 Giacomo Martino. See the LICENSE file for license rights and limitations (MIT).
 
 ### Features planned: ###
-- Add PhantomJS integration
+- Fully support all CSS selectors
+- Support @-rules
