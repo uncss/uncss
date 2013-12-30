@@ -30,8 +30,6 @@ uncss(rfs('index.html'), { csspath: 'tests' }, function (output) {
 });
 
 describe('uncss', function () {
-    /* Need a bit more time for PhantomJS */
-    this.timeout(5000);
     /* Wait until uncss finished doing its thing before running our tests */
     var check = function (done) {
         if (rawcss) {
@@ -46,12 +44,17 @@ describe('uncss', function () {
     before(function (done) {
         check(done);
     });
-    /* We're testing that the CSS is stripped out from the result, not that the result contains
-       the CSS in the unused folder. */
-    it('should not be an empty string', function () {
+
+    it('should output something', function () {
         expect(rawcss).not.to.equal(false);
     });
 
+    it('should not be an empty string', function () {
+        expect(rawcss).to.have.length.above(0);
+    });
+
+    /* We're testing that the CSS is stripped out from the result, not that the result contains
+       the CSS in the unused folder. */
     tests.forEach(function (test) {
         it('should handle ' + test.split('.')[0], function () {
             expect(rawcss).to.not.include.string(rfs('unused/' + test));
