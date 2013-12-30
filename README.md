@@ -57,7 +57,7 @@ Usage
 UnCSS can also be used in conjunction with other javascript build systems, thanks to @addyosmani for creating:
 
 - [grunt-uncss](https://github.com/addyosmani/grunt-uncss)
-- [gulp-uncss](https://github.com/addyosmani/gulp-uncss-task)
+- [gulp-uncss-task](https://github.com/addyosmani/gulp-uncss-task)
 
 #### Options in depth: ####
 - __ignore__ [Array]: provide a list of selectors that should not be removed by UnCSS. For example, styles added by user interaction with the page (hover, click), since those are not detectable by UnCSS yet. Both literal names and regex patterns are recognized.
@@ -65,9 +65,6 @@ UnCSS can also be used in conjunction with other javascript build systems, thank
 - __stylesheets__ [Array]: Force the list of stylesheets to optimize using a path relative to the `Gruntfile.js`. Otherwise, it extracts the stylesheets from the html files.
 - __raw__ [String]: Give the task a raw string of CSS in addition to the existing stylesheet options; useful in scripting when your CSS hasn't yet been written to disk.
 - __timeout__ [Number]: Specify how long to wait for the JS to be loaded.
-
-### grunt-uncss ###
-If you are looking for the grunt plugin, head over to [grunt-uncss](https://github.com/addyosmani/grunt-uncss), created by @addyosmani
 
 ## License ##
 Copyright (c) 2013 Giacomo Martino. See the LICENSE file for license rights and limitations (MIT).
