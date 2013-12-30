@@ -1,1 +1,3 @@
-.blue~span{color:green}
+.blue ~ span {
+    color: green;
+}

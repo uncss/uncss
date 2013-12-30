@@ -1,1 +1,3 @@
-#battleground+div{background:#fff}
+#battleground + div {
+    background: white;
+}

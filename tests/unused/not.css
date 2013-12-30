@@ -1,1 +1,3 @@
-div:not(#battleground){display:inline-block}
+div:not(#battleground) {
+    display: inline-block;
+}
