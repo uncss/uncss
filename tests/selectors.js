@@ -26,7 +26,7 @@ tests.forEach(function (test, i) {
 });
 
 uncss(rfs('index.html'), { csspath: 'tests' }, function (output) {
-    rawcss = output;
+    rawcss = output.join('\n');
 });
 
 describe('uncss', function () {

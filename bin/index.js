@@ -24,7 +24,7 @@
     };
 
     if (program.args.length === 0) {
-        // No files were specified, read html from stdin
+        /* No files were specified, read html from stdin */
         process.stdin.resume();
         process.stdin.setEncoding('utf8');
 
@@ -38,8 +38,9 @@
             });
         });
     } else {
+        /* If used from the command line, concatenate the output */
         uncss(program.args, options, function (uncss) {
-            console.log(uncss);
+            console.log(uncss.join('\n'));
         });
     }
 
