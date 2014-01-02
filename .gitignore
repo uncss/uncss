@@ -1,0 +1,11 @@
+*~
+*.lock
+*.DS_Store
+*.swp
+*.out
+
+npm-debug.log
+node_modules/
+
+uncss.sublime-project
+uncss.sublime-workspace
