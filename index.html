@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Uncss : Remove unused styles from CSS" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Uncss</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/giakki/uncss">View on GitHub</a>
+
+          <h1 id="project_title">Uncss</h1>
+          <h2 id="project_tagline">Remove unused styles from CSS</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/giakki/uncss/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/giakki/uncss/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="uncss" class="anchor" href="#uncss"><span class="octicon octicon-link"></span></a>UnCSS</h1>
+
+<p><a href="https://travis-ci.org/giakki/uncss"><img src="https://travis-ci.org/giakki/uncss.png" alt="Build Status"></a></p>
+
+<p>Remove unused styles from CSS</p>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation:</h2>
+
+<pre><code>npm install -g uncss
+</code></pre>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<h3>
+<a name="within-node" class="anchor" href="#within-node"><span class="octicon octicon-link"></span></a>Within node:</h3>
+
+<pre><code>var uncss = require('uncss');
+
+var files   = ['my', 'array', 'of', 'HTML', 'files'],
+    options = {
+        ignore: ['#added_at_runtime', /test\-[0-9]+/],
+        csspath: "../public/css/",
+        raw: 'h1 { color: green }',
+        stylesheets: ["lib/bootstrap/dist/css/bootstrap.css", "src/public/css/main.css"],
+        urls: ["http://localhost:3000/mypage", "..."] //array of urls
+        timeout: 1000
+    };
+
+uncss(files, options, function (output) {
+    console.log(output);
+});
+
+/* Look Ma, no options! */
+uncss(files, function (output) {
+    console.log(output);
+});
+
+/* Specifying raw HTML*/
+var raw_html = '...'
+uncss(raw_html, options, function (output) {
+    console.log(output);
+});
+</code></pre>
+
+<h3>
+<a name="from-the-command-line" class="anchor" href="#from-the-command-line"><span class="octicon octicon-link"></span></a>From the command line:</h3>
+
+<p>Usage: uncss [options] </p>
+
+<p>Options:</p>
+
+<pre><code>-h, --help                     output usage information
+-V, --version                  output the version number
+-i, --ignore &lt;selector, ...&gt;   Do not remove given selectors
+-C, --csspath &lt;path&gt;           Relative path where the CSS files are located
+-s, --stylesheets &lt;file, ...&gt;  Specify additional stylesheets to process
+-r, --raw &lt;string&gt;             Pass in a raw string of CSS
+-t, --timeout &lt;milliseconds&gt;   Wait for JS evaluation
+</code></pre>
+
+<h3>
+<a name="at-build-time" class="anchor" href="#at-build-time"><span class="octicon octicon-link"></span></a>At build-time</h3>
+
+<p>UnCSS can also be used in conjunction with other javascript build systems, thanks to <a href="https://github.com/addyosmani" class="user-mention">@addyosmani</a> for creating:</p>
+
+<ul>
+<li><a href="https://github.com/addyosmani/grunt-uncss">grunt-uncss</a></li>
+<li><a href="https://github.com/addyosmani/gulp-uncss-task">gulp-uncss-task</a></li>
+</ul><h4>
+<a name="options-in-depth" class="anchor" href="#options-in-depth"><span class="octicon octicon-link"></span></a>Options in depth:</h4>
+
+<ul>
+<li>
+<strong>ignore</strong> [Array]: provide a list of selectors that should not be removed by UnCSS. For example, styles added by user interaction with the page (hover, click), since those are not detectable by UnCSS yet. Both literal names and regex patterns are recognized.</li>
+<li>
+<strong>csspath</strong> [String]: Path where the CSS files are related to the html files. By default, UnCSS uses the path specified in the </li>
+<li>
+<strong>stylesheets</strong> [Array]: Force the list of stylesheets to optimize using a path relative to the <code>Gruntfile.js</code>. Otherwise, it extracts the stylesheets from the html files.</li>
+<li>
+<strong>raw</strong> [String]: Give the task a raw string of CSS in addition to the existing stylesheet options; useful in scripting when your CSS hasn't yet been written to disk.</li>
+<li>
+<strong>urls</strong> [Array]: Array of URLs to load with Phantom (on top of the files already passed if any).</li>
+<li>
+<strong>timeout</strong> [Number]: Specify how long to wait for the JS to be loaded.</li>
+</ul><h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>Copyright (c) 2013 Giacomo Martino. See the LICENSE file for license rights and limitations (MIT).</p>
+
+<h3>
+<a name="features-planned" class="anchor" href="#features-planned"><span class="octicon octicon-link"></span></a>Features planned:</h3>
+
+<ul>
+<li>Fully support all CSS selectors</li>
+<li>Support @-rules</li>
+</ul>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Uncss maintained by <a href="https://github.com/giakki">giakki</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
