@@ -3,9 +3,7 @@
   font-style: normal;
   font-weight: 400;
   src: local('Fjalla One'), local('FjallaOne-Regular'), url(http://themes.googleusercontent.com/static/fonts/fjallaone/v1/rxxXUYj4oZ6Q5oDJFtEd6i3USBnSvpkopQaUR-2r7iU.ttf) format('truetype');
-}
-
-/*
+},/*
 Theme Name: The Next Web
 Theme URI: http://thenextweb.com/
 Description: The single blog version of TNW's 2010 template
@@ -1077,7 +1075,12 @@ input[type="submit"] {
   margin: 0px auto;
 }
 
-#fm-content-well {
+#bottom-leaderboard {
+  text-align: center;
+  overflow: hidden;
+}
+
+#bottom-leaderboard {
   margin: 0 1.875em;
 }
 
@@ -1811,6 +1814,10 @@ input[type="submit"] {
     padding-left: 4.4em;
   }
 
+  #bottom-leaderboard {
+    margin: 0 .35em;
+  }
+
   .comments-wrapper {
     padding-left: 4.2em;
     padding-right: 4.2em;
@@ -1992,7 +1999,7 @@ input[type="submit"] {
     padding: 1em;
   }
 
-  #fm-content-well {
+  #bottom-leaderboard {
     margin-left: .375em;
     margin-right: .375em;
   }
@@ -2101,6 +2108,7 @@ input[type="submit"] {
   #stream,
   .article-meta,
   .article-more,
+  #bottom-leaderboard,
   #footer,
   #top,
   .article-companies {
@@ -2148,9 +2156,7 @@ input[type="submit"] {
   .article-body {
     font-size: 140%;
   }
-}
-
-@charset "UTF-8";
+},@charset "UTF-8";
 
 /*
 * Symbolset
@@ -2323,9 +2329,7 @@ i.ss-pika:before {
   content: '';
 }
 
-/* Legacy */
-
-@font-face {
+/* Legacy */,@font-face {
   font-family: 'tnw-icons';
   src: url('http://cdn2.tnwcdn.com/fonts/tnw-icons.eot');
 }
