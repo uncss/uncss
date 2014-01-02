@@ -33,7 +33,8 @@
     "cheerio": "~0.13.0",
     "underscore": "~1.5.2",
     "async": "~0.2.9",
-    "phantomjs": "~1.9.2-6"
+    "phantomjs": "~1.9.2-6",
+    "request": "~2.30.0"
   },
   "devDependencies": {
     "mocha": "~1.16.2",
