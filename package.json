@@ -28,7 +28,6 @@
   "gitHead": "1c7cf8fd782515ad2ffd44f6be2a6cee62da9d5f",
   "dependencies": {
     "css": "~1.6.0",
-    "csso": "~1.3.10",
     "commander": "~2.1.0",
     "cheerio": "~0.13.0",
     "underscore": "~1.5.2",
