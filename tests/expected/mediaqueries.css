@@ -1,6 +1,5 @@
 @media screen and (min-width:320px) {
-  body,
-  a {
+  body {
     color: blue;
   }
 }
