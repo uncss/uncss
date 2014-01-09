@@ -5,6 +5,7 @@ body {
 h1 {
   font-weight: normal;
 }
+
 @media (max-width: 480px) {
   h1 {
     color: red;

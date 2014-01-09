@@ -39,7 +39,7 @@ describe('UnCSS', function () {
 
     before(function (done) {
         uncss(rfs('index.html'), { csspath: 'tests' }, function (output) {
-            rawcss = output.join('\n') + '\n';
+            rawcss = output;
         });
         check(done);
     });
