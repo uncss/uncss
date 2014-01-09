@@ -25,11 +25,7 @@ tests.forEach(function (test, i) {
     }
 });
 
-uncss(rfs('index.html'), { csspath: 'tests' }, function (output) {
-    rawcss = output.join('\n');
-});
-
-describe('uncss', function () {
+describe('UnCSS', function () {
     /* Wait until uncss finished doing its thing before running our tests */
     var check = function (done) {
         if (rawcss) {
@@ -42,6 +38,9 @@ describe('uncss', function () {
     };
 
     before(function (done) {
+        uncss(rfs('index.html'), { csspath: 'tests' }, function (output) {
+            rawcss = output.join('\n') + '\n';
+        });
         check(done);
     });
 
@@ -53,12 +52,25 @@ describe('uncss', function () {
         expect(rawcss).to.have.length.above(0);
     });
 
-    /* We're testing that the CSS is stripped out from the result, not that the result contains
-       the CSS in the unused folder. */
+    /* Test that the CSS in the 'unused' folder is not included in the generated
+     * CSS
+     */
     tests.forEach(function (test) {
-        it('should handle ' + test.split('.')[0], function () {
+        it('should not output unused ' + test.split('.')[0], function () {
             expect(rawcss).to.not.include.string(rfs('unused/' + test));
         });
     });
+
+    /* Test that the CSS in the 'expected' folder is included in the generated
+     * CSS
+     */
+    tests.forEach(function (test) {
+        it('should output expected ' + test.split('.')[0], function () {
+            expect(rawcss).to.include.string(rfs('expected/' + test));
+        });
+    });
+});
+describe('uncss', function () {
+
 
 });

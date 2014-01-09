@@ -1,7 +1,7 @@
 .red ~ span {
-    color: blue;
+  color: blue;
 }
 
 .blue ~ span {
-    color: green;
+  color: green;
 }
