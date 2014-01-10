@@ -5,7 +5,7 @@ var expect = require('chai').expect,
 describe('Compile the CSS of an html page passed by url', function () {
     'use strict';
     it('Accepts an array of urls', function (done) {
-        this.timeout(10000);
+        this.timeout(15000);
         uncss(['http://getbootstrap.com/examples/jumbotron/'], function (output) {
             expect(output).to.exist;
             fs.writeFile(__dirname + '/output/bootstrap/jumbotron.compiled.css', output, done);
