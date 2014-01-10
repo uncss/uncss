@@ -13,14 +13,16 @@ var rfs = function (file) {
 };
 
 var stylesheets = ['coverage/override.css'],
+    rawcss = rfs('coverage/raw.css'),
     options = {
         csspath: 'tests',
-        stylesheets: stylesheets
+        stylesheets: stylesheets,
+        raw: rawcss
     };
 
 describe('UnCSS', function () {
 
-    describe('basic functionality', function () {
+    describe('Basic functionality', function () {
         var output = false;
 
         before(function (done) {
@@ -39,7 +41,7 @@ describe('UnCSS', function () {
         });
     });
 
-    describe('options', function () {
+    describe('Options', function () {
         var output;
 
         before(function (done) {
@@ -50,7 +52,11 @@ describe('UnCSS', function () {
         });
 
         it('options.stylesheets should override <link> tags', function () {
-            expect(output).to.equal(rfs(stylesheets[0]));
+            expect(output).to.include(rfs(stylesheets[0]));
+        });
+
+        it('options.raw should be added to the processed CSS', function () {
+            expect(output).to.include(rawcss);
         });
     });
 });
