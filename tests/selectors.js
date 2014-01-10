@@ -25,7 +25,7 @@ tests.forEach(function (test, i) {
     }
 });
 
-describe('UnCSS', function () {
+describe('Selectors', function () {
     /* Wait until uncss finished doing its thing before running our tests */
     var check = function (done) {
         if (rawcss) {
@@ -42,14 +42,6 @@ describe('UnCSS', function () {
             rawcss = output;
         });
         check(done);
-    });
-
-    it('should output something', function () {
-        expect(rawcss).not.to.equal(false);
-    });
-
-    it('should not be an empty string', function () {
-        expect(rawcss).to.have.length.above(0);
     });
 
     /* Test that the CSS in the 'unused' folder is not included in the generated
@@ -69,8 +61,4 @@ describe('UnCSS', function () {
             expect(rawcss).to.include.string(rfs('expected/' + test));
         });
     });
-});
-describe('uncss', function () {
-
-
 });
