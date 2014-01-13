@@ -43,6 +43,7 @@ Usage
 ### From the command line: ###
 
   Usage: uncss [options] <file ...>
+         e.g. uncss http://getbootstrap.com/examples/jumbotron/ > stylesheet.css
 
   Options:
 

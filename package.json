@@ -10,7 +10,7 @@
     "test": "mocha tests/*.js --reporter spec"
   },
   "bin": {
-    "uncss": "bin/index.js"
+    "uncss": "bin/uncss"
   },
   "repository": {
     "type": "git",
