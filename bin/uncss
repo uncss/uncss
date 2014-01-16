@@ -9,20 +9,28 @@
         buffer  = '',
         options;
 
+    function listArg(val) {
+        return val.split(',');
+    }
+
     program
         .version('0.4.4')
         .usage('[options] <file or url, ...>\n\t e.g. uncss http://getbootstrap.com/examples/jumbotron/ > stylesheet.css')
-        .option('-i, --ignore <selector, ...>', 'Do not remove given selectors')
+        .option('-i, --ignore <selector, ...>', 'Do not remove given selectors', listArg)
+        .option('-m, --media <media_query, ...>', 'Process additional media queries', listArg)
         .option('-C, --csspath <path>', 'Relative path where the CSS files are located')
-        .option('-s, --stylesheets <file, ...>', 'Specify additional stylesheets to process')
+        .option('-s, --stylesheets <file, ...>', 'Specify additional stylesheets to process', listArg)
         .option('-r, --raw <string>', 'Pass in a raw string of CSS')
         .option('-t, --timeout <milliseconds>', 'Wait for JS evaluation')
         .parse(process.argv);
 
     options = {
-        ignore: program.ignore
-            ? program.ignore.split(', ')
-            : []
+        ignore      : program.ignore,
+        media       : program.media,
+        csspath     : program.csspath,
+        stylesheets : program.stylesheets,
+        raw         : program.raw,
+        timeout     : program.timeout
     };
 
     if (program.args.length === 0) {
