@@ -1,5 +1,3 @@
-/* jshint node: true */
-/* global describe, it, before, beforeEach, after, afterEach */
 'use strict';
 
 var expect    = require('chai').expect,
@@ -26,29 +24,19 @@ tests.forEach(function (test, i) {
 });
 
 describe('Selectors', function () {
-    /* Wait until uncss finished doing its thing before running our tests */
-    var check = function (done) {
-        if (rawcss) {
-            done();
-        } else {
-            setTimeout(function () {
-                check(done);
-            }, 500);
-        }
-    };
 
     before(function (done) {
         uncss(rfs('index.html'), { csspath: 'tests' }, function (output) {
             rawcss = output;
+            done();
         });
-        check(done);
     });
 
     /* Test that the CSS in the 'unused' folder is not included in the generated
      * CSS
      */
     tests.forEach(function (test) {
-        it('should not output unused ' + test.split('.')[0], function () {
+        it('Should not output unused ' + test.split('.')[0], function () {
             expect(rawcss).to.not.include.string(rfs('unused/' + test));
         });
     });
@@ -57,7 +45,7 @@ describe('Selectors', function () {
      * CSS
      */
     tests.forEach(function (test) {
-        it('should output expected ' + test.split('.')[0], function () {
+        it('Should output expected ' + test.split('.')[0], function () {
             expect(rawcss).to.include.string(rfs('expected/' + test));
         });
     });
