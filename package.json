@@ -1,6 +1,6 @@
 {
   "name": "uncss",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "description": "Remove unused CSS styles",
   "main": "lib/uncss.js",
   "directories": {
