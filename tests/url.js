@@ -1,23 +1,63 @@
 var expect = require('chai').expect,
     fs = require('fs'),
-    uncss = require('../lib/uncss');
+    uncss = require('../lib/uncss'),
+    /* Local */
+    gh_path = __dirname + '/output/gh-pages/stylesheets/stylesheet.css',
+    prev_run;
 
-describe('Compile the CSS of an html page passed by url', function () {
+describe('Compile the CSS of an html page passed by url (May take a while)', function () {
     'use strict';
+
+    /* Used to check that all the requests to gh-pages generate the same CSS.
+     * Expected to fail once if the gh-page is updated.
+     */
+    before(function (done) {
+        fs.readFile(gh_path, 'utf-8', function (err, stylesheet) {
+            if (err) {
+                throw err;
+            }
+            prev_run = stylesheet;
+            done();
+        });
+    });
+
     it('Accepts an array of urls', function (done) {
         this.timeout(15000);
         uncss(['http://getbootstrap.com/examples/jumbotron/'], function (output) {
-            expect(output).to.exist;
+            expect(output).to.have.length.above(2);
             fs.writeFile(__dirname + '/output/bootstrap/jumbotron.compiled.css', output, done);
         });
     });
 
-    it('Deal with CSS files linked with absolute url', function (done) {
-        this.timeout(10000);
+    it('Deals with CSS files linked with absolute url', function (done) {
+        this.timeout(15000);
         uncss(['http://giakki.github.io/uncss/'], function (output) {
-                expect(output).to.exist;
-                fs.writeFile(__dirname + '/output/gh-pages/stylesheets/stylesheet.css', output, done);
+            expect(output).to.equal(prev_run);
+            prev_run = output;
+            done();
         });
+    });
+
+    it('Deals with relative options.stylesheets when using urls', function (done) {
+        this.timeout(15000);
+        uncss(['http://giakki.github.io/uncss/'], { stylesheets: ['stylesheets/stylesheet.css'] }, function (output) {
+            expect(output).to.equal(prev_run);
+            prev_run = output;
+            done();
+        });
+    });
+
+    it('Deals with absolute options.stylesheets when using urls', function (done) {
+        this.timeout(15000);
+        uncss(['http://giakki.github.io/uncss/'], { stylesheets: ['/uncss/stylesheets/stylesheet.css'] }, function (output) {
+            expect(output).to.equal(prev_run);
+            prev_run = output;
+            done();
+        });
+    });
+
+    after(function (done) {
+        fs.writeFile(__dirname + '/output/bootstrap/jumbotron.compiled.css', prev_run, done);
     });
 
 });
