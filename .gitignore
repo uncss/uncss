@@ -5,7 +5,9 @@
 *.out
 
 npm-debug.log
-node_modules/
+node_modules
+
+coverage
 
 uncss.sublime-project
 uncss.sublime-workspace

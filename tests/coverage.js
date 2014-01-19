@@ -21,6 +21,8 @@ var stylesheets = ['coverage/override.css'],
 describe('UnCSS', function () {
 
     describe('Basic functionality', function () {
+        this.timeout(5000);
+
         var output = false;
 
         before(function (done) {
