@@ -4,5 +4,5 @@ node_js:
   - "0.8"
 
 before_script: 'npm install -g istanbul && npm install -g mocha'
-script: 'istanbul cover _mocha -- -R spec test/*js'
-after_success: 'cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js'
+script: 'make test-cov'
+after_success: 'make coveralls'

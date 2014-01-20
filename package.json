@@ -1,45 +1,44 @@
 {
-  "name": "uncss",
-  "version": "0.7.3",
-  "description": "Remove unused CSS styles",
-  "main": "lib/uncss.js",
-  "directories": {
-    "test": "test"
-  },
-  "scripts": {
-    "test": "mocha tests/*.js --reporter spec",
-    "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec tests/*.js && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
-  },
-  "bin": {
-    "uncss": "bin/uncss"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/giakki/uncss.git"
-  },
-  "keywords": [
-    "Optimize",
-    "unused",
-    "CSS",
-    "HTML"
-  ],
-  "author": "Giakki",
-  "license": "MIT",
-  "readmeFilename": "README.md",
-  "gitHead": "1c7cf8fd782515ad2ffd44f6be2a6cee62da9d5f",
-  "dependencies": {
-    "css": "~1.6.0",
-    "commander": "~2.1.0",
-    "cheerio": "~0.13.1",
-    "underscore": "~1.5.2",
-    "async": "~0.2.9",
-    "phantomjs": "~1.9.2-6",
-    "request": "~2.33.0"
-  },
-  "devDependencies": {
-    "mocha": "~1.17.0",
-    "chai": "~1.8.1",
-    "coveralls": "~2.6.1",
-    "mocha-lcov-reporter": "0.0.1"
-  }
+    "name": "uncss",
+    "version": "0.7.3",
+    "description": "Remove unused CSS styles",
+    "main": "lib/uncss.js",
+    "directories": {
+        "test": "test"
+    },
+    "scripts": {
+        "test": "make test"
+    },
+    "bin": {
+        "uncss": "bin/uncss"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/giakki/uncss.git"
+    },
+    "keywords": [
+        "Optimize",
+        "unused",
+        "CSS",
+        "HTML"
+    ],
+    "author": "Giakki",
+    "license": "MIT",
+    "readmeFilename": "README.md",
+    "gitHead": "1c7cf8fd782515ad2ffd44f6be2a6cee62da9d5f",
+    "dependencies": {
+        "css": "~1.6.0",
+        "commander": "~2.1.0",
+        "cheerio": "~0.13.1",
+        "underscore": "~1.5.2",
+        "async": "~0.2.9",
+        "phantomjs": "~1.9.2-6",
+        "request": "~2.33.0"
+    },
+    "devDependencies": {
+        "mocha": "~1.17.0",
+        "chai": "~1.8.1",
+        "coveralls": "~2.6.1",
+        "mocha-lcov-reporter": "0.0.1"
+    }
 }
