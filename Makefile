@@ -1,11 +1,8 @@
 test: mocha
-test-cov: istanbul
-
-istanbul:
-	istanbul cover _mocha -- -R spec tests/*.js
+test-cov: coveralls
 
 coveralls:
-	cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+	istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec tests/*.js && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage
 
 mocha:
 	node_modules/mocha/bin/_mocha tests/*.js --reporter spec
