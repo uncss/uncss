@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/giakki/uncss.png)](https://travis-ci.org/giakki/uncss)
 [![Coverage Status](https://coveralls.io/repos/giakki/uncss/badge.png?branch=master)](https://coveralls.io/r/giakki/uncss?branch=master)
+[![Dependency Status](https://gemnasium.com/giakki/uncss.png)](https://gemnasium.com/giakki/uncss)
 
 UnCSS is a tool that removes unused CSS from your stylesheets.
 It works across multiple files and supports Javascript-injected CSS.
