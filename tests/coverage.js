@@ -1,3 +1,4 @@
+/* jshint expr: true */
 'use strict';
 
 var expect    = require('chai').expect,
@@ -10,42 +11,22 @@ var rfs = function (file) {
     return fs.readFileSync(path.join(__dirname, file), 'utf-8').toString();
 };
 
-var stylesheets = ['coverage/override.css'],
+var stylesheets = ['coverage/override.css', 'coverage/ignore.css'],
     rawcss = rfs('coverage/raw.css'),
     options = {
         csspath: 'tests',
+        ignore: ['.unused_test', /^#test/],
         stylesheets: stylesheets,
         raw: rawcss
     };
 
 describe('UnCSS', function () {
 
-    describe('Basic functionality', function () {
-        this.timeout(5000);
-
-        var output = false;
-
-        before(function (done) {
-            uncss('<html><body></body></html>', function (res) {
-                output = res;
-                done();
-            });
-        });
-
-        it('should output something', function () {
-            expect(output).not.to.equal(false);
-        });
-
-        it('should be an empty string', function () {
-            expect(output).to.equal('');
-        });
-    });
-
     describe('Options', function () {
         var output;
 
         before(function (done) {
-            uncss(rfs('index.html'), options, function (res) {
+            uncss(rfs('index.html'), options, function (err, res) {
                 output = res;
                 done();
             });
@@ -57,6 +38,19 @@ describe('UnCSS', function () {
 
         it('options.raw should be added to the processed CSS', function () {
             expect(output).to.include(rawcss);
+        });
+
+        it('options.ignore should be added to the output and accept a regex', function () {
+            expect(output).to.include(rfs(stylesheets[1]));
+        });
+
+        it('options.urls should be processed', function (done) {
+            this.timeout(15000);
+            uncss([], { urls: ['http://giakki.github.io/uncss/'] }, function (err, output) {
+                expect(err).to.be.null;
+                expect(output).to.exist;
+                done();
+            });
         });
     });
 });

@@ -43,14 +43,20 @@
         });
 
         process.stdin.on('end', function () {
-            uncss(buffer, options, function (uncss) {
-                console.log(uncss);
+            uncss(buffer, options, function (err, css) {
+                if (err) {
+                    throw err;
+                }
+                console.log(css);
             });
         });
     } else {
         /* If used from the command line, concatenate the output */
-        uncss(program.args, options, function (uncss) {
-            console.log(uncss);
+        uncss(program.args, options, function (err, css) {
+            if (err) {
+                throw err;
+            }
+            console.log(css);
         });
     }
 

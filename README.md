@@ -28,18 +28,20 @@ Usage
             timeout: 1000
         };
 
-    uncss(files, options, function (output) {
+    uncss(files, options, function (error, output) {
         console.log(output);
     });
 
     /* Look Ma, no options! */
-    uncss(files, function (output) {
+    uncss(files, function (error, output) {
         console.log(output);
     });
 
-    /* Specifying raw HTML*/
+    /* Specifying raw HTML
+     * NOTE: raw HTML is not parsed by phantom
+     */
     var raw_html = '...'
-    uncss(raw_html, options, function (output) {
+    uncss(raw_html, options, function (error, output) {
         console.log(output);
     });
 
