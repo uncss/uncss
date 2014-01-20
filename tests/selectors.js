@@ -11,13 +11,13 @@ var rfs = function (file) {
 };
 
 var rawcss = false;
-var tests = fs.readdirSync(path.join(__dirname, 'fixtures/'));
+var tests = fs.readdirSync(path.join(__dirname, 'selectors/fixtures'));
 var input = '';
 
 /* Only read through CSS files */
 tests.forEach(function (test, i) {
     if (test.indexOf('.css') > -1) {
-        input += rfs('fixtures/' + test);
+        input += rfs('selectors/fixtures/' + test);
     } else {
         tests.splice(i, 1);
     }
@@ -26,7 +26,7 @@ tests.forEach(function (test, i) {
 describe('Selectors', function () {
 
     before(function (done) {
-        uncss(rfs('index.html'), { csspath: 'tests' }, function (err, output) {
+        uncss(rfs('index.html'), { csspath: 'tests/selectors' }, function (err, output) {
             rawcss = output;
             done();
         });
@@ -37,7 +37,7 @@ describe('Selectors', function () {
      */
     tests.forEach(function (test) {
         it('Should not output unused ' + test.split('.')[0], function () {
-            expect(rawcss).to.not.include.string(rfs('unused/' + test));
+            expect(rawcss).to.not.include.string(rfs('selectors/unused/' + test));
         });
     });
 
@@ -46,7 +46,7 @@ describe('Selectors', function () {
      */
     tests.forEach(function (test) {
         it('Should output expected ' + test.split('.')[0], function () {
-            expect(rawcss).to.include.string(rfs('expected/' + test));
+            expect(rawcss).to.include.string(rfs('selectors/expected/' + test));
         });
     });
 });

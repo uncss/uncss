@@ -1,0 +1,18 @@
+<html>
+<head>
+    <link rel="stylesheet" href="phantomjs.css">
+</head>
+<body>
+<script type="text/javascript">
+    /* Simulate long computation */
+    var i;
+    for (i = 0; i < 2000000000; ++i) {
+        i++;
+    }
+    /* Append an element */
+    var div = document.createElement('div');
+    div.className = 'long-wait';
+    document.body.appendChild(div);
+</script>
+</body>
+</html>

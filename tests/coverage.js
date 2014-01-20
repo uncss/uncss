@@ -20,37 +20,35 @@ var stylesheets = ['coverage/override.css', 'coverage/ignore.css'],
         raw: rawcss
     };
 
-describe('UnCSS', function () {
+describe('Options', function () {
 
-    describe('Options', function () {
-        var output;
+    var output;
 
-        before(function (done) {
-            uncss(rfs('index.html'), options, function (err, res) {
-                output = res;
-                done();
-            });
+    before(function (done) {
+        uncss(rfs('index.html'), options, function (err, res) {
+            output = res;
+            done();
         });
+    });
 
-        it('options.stylesheets should override <link> tags', function () {
-            expect(output).to.include(rfs(stylesheets[0]));
-        });
+    it('options.stylesheets should override <link> tags', function () {
+        expect(output).to.include(rfs(stylesheets[0]));
+    });
 
-        it('options.raw should be added to the processed CSS', function () {
-            expect(output).to.include(rawcss);
-        });
+    it('options.raw should be added to the processed CSS', function () {
+        expect(output).to.include(rawcss);
+    });
 
-        it('options.ignore should be added to the output and accept a regex', function () {
-            expect(output).to.include(rfs(stylesheets[1]));
-        });
+    it('options.ignore should be added to the output and accept a regex', function () {
+        expect(output).to.include(rfs(stylesheets[1]));
+    });
 
-        it('options.urls should be processed', function (done) {
-            this.timeout(15000);
-            uncss([], { urls: ['http://giakki.github.io/uncss/'] }, function (err, output) {
-                expect(err).to.be.null;
-                expect(output).to.exist;
-                done();
-            });
+    it('options.urls should be processed', function (done) {
+        this.timeout(15000);
+        uncss([], { urls: ['http://giakki.github.io/uncss/'] }, function (err, output) {
+            expect(err).to.be.null;
+            expect(output).to.exist;
+            done();
         });
     });
 });
