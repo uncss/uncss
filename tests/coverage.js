@@ -25,7 +25,10 @@ describe('Options', function () {
     var output;
 
     before(function (done) {
-        uncss(rfs('index.html'), options, function (err, res) {
+        uncss(rfs('selectors/index.html'), options, function (err, res) {
+            if (err) {
+                throw err;
+            }
             output = res;
             done();
         });

@@ -26,7 +26,10 @@ tests.forEach(function (test, i) {
 describe('Selectors', function () {
 
     before(function (done) {
-        uncss(rfs('index.html'), { csspath: 'tests/selectors' }, function (err, output) {
+        uncss(rfs('selectors/index.html'), { csspath: 'tests/selectors' }, function (err, output) {
+            if (err) {
+                throw err;
+            }
             rawcss = output;
             done();
         });
