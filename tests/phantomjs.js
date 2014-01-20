@@ -22,7 +22,7 @@ describe('PhantomJS', function () {
     });
 
     it('Should exit only when JS evaluation has finished', function (done) {
-        this.timeout(5000);
+        this.timeout(20000);
         uncss(['tests/phantomjs/long_wait.html'], function (err, output) {
             expect(output).to.include('.long-wait');
             done();
