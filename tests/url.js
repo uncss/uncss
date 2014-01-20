@@ -10,7 +10,7 @@ describe('Compile the CSS of an html page passed by url (May take a while)', fun
     'use strict';
 
     /* Used to check that all the requests to gh-pages generate the same CSS.
-     * Expected to fail once if the gh-page is updated.
+     * Expected to fail if the gh-page is updated.
      */
     before(function (done) {
         fs.readFile(gh_path, 'utf-8', function (err, stylesheet) {
@@ -43,26 +43,36 @@ describe('Compile the CSS of an html page passed by url (May take a while)', fun
 
     it('Deals with relative options.stylesheets when using urls', function (done) {
         this.timeout(15000);
-        uncss(['http://giakki.github.io/uncss/'], { stylesheets: ['stylesheets/stylesheet.css'] }, function (err, output) {
-            expect(err).to.be.null;
-            expect(output).to.equal(prev_run);
-            prev_run = output;
-            done();
-        });
+        uncss(
+            ['http://giakki.github.io/uncss/'],
+            { stylesheets: ['//cdnjs.cloudflare.com/ajax/libs/colors/1.0/colors.min.css',
+                            'stylesheets/stylesheet.css'] },
+            function (err, output) {
+                expect(err).to.be.null;
+                expect(output).to.equal(prev_run);
+                prev_run = output;
+                done();
+            }
+        );
     });
 
     it('Deals with absolute options.stylesheets when using urls', function (done) {
         this.timeout(15000);
-        uncss(['http://giakki.github.io/uncss/'], { stylesheets: ['/uncss/stylesheets/stylesheet.css'] }, function (err, output) {
-            expect(err).to.be.null;
-            expect(output).to.equal(prev_run);
-            prev_run = output;
-            done();
-        });
+        uncss(
+            ['http://giakki.github.io/uncss/'],
+            { stylesheets: ['//cdnjs.cloudflare.com/ajax/libs/colors/1.0/colors.min.css',
+                            '/uncss/stylesheets/stylesheet.css'] },
+            function (err, output) {
+                expect(err).to.be.null;
+                expect(output).to.equal(prev_run);
+                prev_run = output;
+                done();
+            }
+        );
     });
 
     after(function (done) {
-        fs.writeFile(__dirname + '/output/bootstrap/jumbotron.compiled.css', prev_run, done);
+        fs.writeFile(__dirname + '/output/gh-pages/stylesheets/stylesheet.css', prev_run, done);
     });
 
 });
