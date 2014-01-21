@@ -1,0 +1,7 @@
+h3:hover {
+  color: red;
+}
+
+.unused:hover {
+  color: gray;
+}
