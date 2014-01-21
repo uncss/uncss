@@ -47,7 +47,7 @@ describe('Options', function () {
     });
 
     it('options.urls should be processed', function (done) {
-        this.timeout(15000);
+        this.timeout(25000);
         uncss([], { urls: ['http://giakki.github.io/uncss/'] }, function (err, output) {
             expect(err).to.be.null;
             expect(output).to.exist;

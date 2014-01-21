@@ -8,7 +8,7 @@ var expect = require('chai').expect,
 describe("Compile the CSS of an html page passed by path", function () {
 
     it("Should compile two stylesheets into one and keep the media query", function (done) {
-        this.timeout(10000);
+        this.timeout(25000);
 
         uncss(["tests/input/testpage.html"], function (err, output) {
             expect(err).to.be.null;
