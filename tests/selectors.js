@@ -6,21 +6,35 @@ var expect    = require('chai').expect,
     uncss     = require('./../lib/uncss.js');
 
 /* Read file sync sugar. */
-var rfs = function (file) {
-    return fs.readFileSync(path.join(__dirname, file), 'utf-8').toString();
-};
-
-var rawcss = false;
-var tests = fs.readdirSync(path.join(__dirname, 'selectors/fixtures'));
-var input = '';
-
-/* Only read through CSS files */
-tests.forEach(function (test, i) {
-    if (test.indexOf('.css') > -1) {
-        input += rfs('selectors/fixtures/' + test);
-    } else {
-        tests.splice(i, 1);
+function rfs(file) {
+    var filename = path.join(__dirname, file);
+    if (fs.existsSync(filename)) {
+        return fs.readFileSync(filename, 'utf-8');
     }
+    return null;
+}
+
+var rawcss   = false,
+    fixtures = fs.readdirSync(path.join(__dirname, 'selectors/fixtures')),
+    expected = fs.readdirSync(path.join(__dirname, 'selectors/expected')),
+    unused   = fs.readdirSync(path.join(__dirname, 'selectors/unused')),
+    tests;
+
+/* Build test object in the form:
+ * [{
+ *     fixture  : 'filename.css',
+ *     expected : Boolean,
+ *     unused   : Boolean
+ *  }, {
+ *   ...
+ *  }, ...]
+ */
+tests = fixtures.map(function (test, i) {
+    return {
+        fixture  : test,
+        expected : expected.indexOf(test) === -1 ? null : true,
+        unused   : unused.indexOf(test) === -1 ? null : true,
+    };
 });
 
 describe('Selectors', function () {
@@ -35,21 +49,18 @@ describe('Selectors', function () {
         });
     });
 
-    /* Test that the CSS in the 'unused' folder is not included in the generated
-     * CSS
-     */
     tests.forEach(function (test) {
-        it('Should not output unused ' + test.split('.')[0], function () {
-            expect(rawcss).to.not.include.string(rfs('selectors/unused/' + test));
-        });
-    });
 
-    /* Test that the CSS in the 'expected' folder is included in the generated
-     * CSS
-     */
-    tests.forEach(function (test) {
-        it('Should output expected ' + test.split('.')[0], function () {
-            expect(rawcss).to.include.string(rfs('selectors/expected/' + test));
-        });
+        if (test.expected) {
+            it('Should output expected ' + test.fixture.split('.')[0], function () {
+                expect(rawcss).to.include.string(rfs('selectors/expected/' + test.fixture));
+            });
+        }
+
+        if (test.unused) {
+            it('Should not output unused ' + test.fixture.split('.')[0], function () {
+                expect(rawcss).to.not.include.string(rfs('selectors/unused/' + test.fixture));
+            });
+        }
     });
 });

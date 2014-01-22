@@ -5,6 +5,7 @@
         <link rel="stylesheet" href="fixtures/adjacent.css">
         <link rel="stylesheet" href="fixtures/child.css">
         <link rel="stylesheet" href="fixtures/classes.css">
+        <link rel="stylesheet" href="fixtures/complex.css">
         <link rel="stylesheet" href="fixtures/elements.css">
         <link rel="stylesheet" href="fixtures/generalsibling.css">
         <link rel="stylesheet" href="fixtures/ids.css">
@@ -15,9 +16,14 @@
         <link rel="stylesheet" href="fixtures/pseudo.css">
     </head>
     <body>
-        <div id="battleground">
+        <div id="battleground" data-section="">
             <h1><span class="red">Red</span> vs. <span class="blue">Blue</span></h1>
             <h3>Green on hover</h3>
+            <section>
+                <span data-section-title>
+                    <h4>Cyan<h4>
+                </span>
+            </section>
         </div>
     </body>
 </html>
