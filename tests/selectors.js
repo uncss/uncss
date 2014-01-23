@@ -63,4 +63,8 @@ describe('Selectors', function () {
             });
         }
     });
+
+    after(function (done) {
+        fs.writeFile(__dirname + '/output/selectors/uncss.css', rawcss, done);
+    });
 });
