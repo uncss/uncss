@@ -1,8 +1,18 @@
 language: node_js
 node_js:
-  - "0.10"
-  - "0.8"
+    - "0.10"
+    - "0.8"
 
-before_script: 'npm install -g istanbul && npm install -g mocha'
-script: 'make test-cov'
-after_success: 'make coveralls'
+before_install:
+    - sudo apt-get update
+
+install:
+    - sudo apt-get install imagemagick graphicsmagick
+    - npm install -g istanbul mocha
+    - npm install
+
+script:
+    - make test-cov
+
+after_success:
+    - make coveralls

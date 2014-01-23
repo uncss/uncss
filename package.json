@@ -39,6 +39,7 @@
     "mocha": "~1.17.0",
     "chai": "~1.8.1",
     "coveralls": "~2.6.1",
-    "mocha-lcov-reporter": "0.0.1"
+    "mocha-lcov-reporter": "0.0.1",
+    "gm": "~1.14.2"
   }
 }

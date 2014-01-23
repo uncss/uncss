@@ -87,5 +87,9 @@ e.g. ```uncss --ignore .donotwant,#nope http://getbootstrap.com/examples/jumbotr
 
 - __timeout__ (Number): specify how long to wait for the JS to be loaded.
 
+## Testing ##
+The UnCSS test suite requires you to have imagemagick and graphicsmagick installed (Required by [gm](https://github.com/aheckmann/gm/)).
+
 ## License ##
 Copyright (c) 2013 Giacomo Martino. See the LICENSE file for license rights and limitations (MIT).
+
