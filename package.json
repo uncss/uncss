@@ -31,15 +31,16 @@
     "commander": "~2.1.0",
     "cheerio": "~0.13.1",
     "underscore": "~1.5.2",
-    "async": "~0.2.9",
+    "async": "~0.2.10",
     "phantomjs": "~1.9.2-6",
     "request": "~2.33.0"
   },
   "devDependencies": {
-    "mocha": "~1.17.0",
+    "mocha": "~1.17.1",
     "chai": "~1.8.1",
     "coveralls": "~2.6.1",
     "mocha-lcov-reporter": "0.0.1",
-    "gm": "~1.14.2"
+    "gm": "~1.14.2",
+    "chai-resemble": "0.0.2"
   }
 }
