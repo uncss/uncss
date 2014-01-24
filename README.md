@@ -22,11 +22,12 @@ Usage
         options = {
             ignore: ['#added_at_runtime', /test\-[0-9]+/],
             media: ['(min-width: 700px) handheld and (orientation: landscape)'],
-            csspath: "../public/css/",
+            csspath: '../public/css/',
             raw: 'h1 { color: green }',
-            stylesheets: ["lib/bootstrap/dist/css/bootstrap.css", "src/public/css/main.css"],
-            urls: ["http://localhost:3000/mypage", "..."] //array of urls
-            timeout: 1000
+            stylesheets: ['lib/bootstrap/dist/css/bootstrap.css', 'src/public/css/main.css'],
+            urls: ['http://localhost:3000/mypage', '...'] //array of urls
+            timeout: 1000,
+            htmlroot: 'public'
         };
 
     uncss(files, options, function (error, output) {
@@ -72,6 +73,7 @@ e.g. ```uncss --ignore .donotwant,#nope http://getbootstrap.com/examples/jumbotr
     -s, --stylesheets <file, ...>   Specify additional stylesheets to process
     -r, --raw <string>              Pass in a raw string of CSS
     -t, --timeout <milliseconds>    Wait for JS evaluation
+    -H, --htmlroot <folder>         Absolute paths' root location
 
 - __ignore__ (Array): provide a list of selectors that should not be removed by UnCSS. For example, styles added by user interaction with the page (hover, click), since those are not detectable by UnCSS yet. Both literal names and regex patterns are recognized.
 
@@ -86,6 +88,8 @@ e.g. ```uncss --ignore .donotwant,#nope http://getbootstrap.com/examples/jumbotr
 - __urls__ (Array): array of URLs to load with Phantom (on top of the files already passed if any).
 
 - __timeout__ (Number): specify how long to wait for the JS to be loaded.
+
+- __htmlroot__ (String): Where the project root is. Useful for example if you are running UnCSS on _local_ files that have absolute href to the stylesheets, i.e. ```href="/css/style.css"```
 
 ## Testing ##
 The UnCSS test suite requires you to have imagemagick and graphicsmagick installed (Required by [gm](https://github.com/aheckmann/gm/)).

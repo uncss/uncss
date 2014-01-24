@@ -46,6 +46,14 @@ describe('Options', function () {
         expect(output).to.include(rfs(stylesheets[1]));
     });
 
+    it('options.htmlroot should be respected', function (done) {
+        uncss(rfs('coverage/htmlroot.html'), { htmlroot: 'tests/coverage' }, function (err, output) {
+            expect(err).to.be.null;
+            expect(output).to.include(rfs('coverage/override.css'));
+            done();
+        });
+    });
+
     it('options.urls should be processed', function (done) {
         this.timeout(25000);
         uncss([], { urls: ['http://giakki.github.io/uncss/'] }, function (err, output) {
