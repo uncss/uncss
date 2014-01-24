@@ -1,4 +1,4 @@
-# UnCSS #
+# UnCSS
 
 [![Build Status](https://travis-ci.org/giakki/uncss.png)](https://travis-ci.org/giakki/uncss)
 [![Coverage Status](https://coveralls.io/repos/giakki/uncss/badge.png?branch=master)](https://coveralls.io/r/giakki/uncss?branch=master)
@@ -8,47 +8,50 @@
 UnCSS is a tool that removes unused CSS from your stylesheets.
 It works across multiple files and supports Javascript-injected CSS.
 
-## Installation: ##
+## Installation:
 
-    npm install -g uncss
+```shell
+npm install -g uncss
+```
 
-Usage
------
+## Usage
 
-### Within node: ###
+### Within node:
 
-    var uncss = require('uncss');
+```js
+var uncss = require('uncss');
 
-    var files   = ['my', 'array', 'of', 'HTML', 'files'],
-        options = {
-            ignore: ['#added_at_runtime', /test\-[0-9]+/],
-            media: ['(min-width: 700px) handheld and (orientation: landscape)'],
-            csspath: '../public/css/',
-            raw: 'h1 { color: green }',
-            stylesheets: ['lib/bootstrap/dist/css/bootstrap.css', 'src/public/css/main.css'],
-            urls: ['http://localhost:3000/mypage', '...'] //array of urls
-            timeout: 1000,
-            htmlroot: 'public'
-        };
+var files   = ['my', 'array', 'of', 'HTML', 'files'],
+    options = {
+        ignore: ['#added_at_runtime', /test\-[0-9]+/],
+        media: ['(min-width: 700px) handheld and (orientation: landscape)'],
+        csspath: '../public/css/',
+        raw: 'h1 { color: green }',
+        stylesheets: ['lib/bootstrap/dist/css/bootstrap.css', 'src/public/css/main.css'],
+        urls: ['http://localhost:3000/mypage', '...'] //array of urls
+        timeout: 1000,
+        htmlroot: 'public'
+    };
 
-    uncss(files, options, function (error, output) {
-        console.log(output);
-    });
+uncss(files, options, function (error, output) {
+    console.log(output);
+});
 
-    /* Look Ma, no options! */
-    uncss(files, function (error, output) {
-        console.log(output);
-    });
+/* Look Ma, no options! */
+uncss(files, function (error, output) {
+    console.log(output);
+});
 
-    /* Specifying raw HTML
-     * NOTE: raw HTML is not parsed by phantom
-     */
-    var raw_html = '...'
-    uncss(raw_html, options, function (error, output) {
-        console.log(output);
-    });
+/* Specifying raw HTML
+ * NOTE: raw HTML is not parsed by phantom
+ */
+var raw_html = '...'
+uncss(raw_html, options, function (error, output) {
+    console.log(output);
+});
+```
 
-### At build-time ###
+### At build-time
 UnCSS can also be used in conjunction with other javascript build systems, such as [Grunt](https://github.com/gruntjs/grunt) or [Gulp](https://github.com/gulpjs/gulp)!
 Thanks to @addyosmani for creating:
 
@@ -59,22 +62,24 @@ and to @ben-eb for creating:
 
 - [gulp-uncss](https://github.com/ben-eb/gulp-uncss)
 
-### From the command line: ###
+### From the command line:
 
-Usage: ```uncss [options] <file ...>```
-e.g. ```uncss --ignore .donotwant,#nope http://getbootstrap.com/examples/jumbotron/```
+```
+Usage: uncss [options] <file or url, ...>
+       e.g. uncss http://getbootstrap.com/examples/jumbotron/ > stylesheet.css
 
-  Options:
+Options:
 
-    -h, --help                      output usage information
-    -V, --version                   output the version number
-    -i, --ignore <selector, ...>    Do not remove given selectors
-    -m, --media <media_query, ...>  Process additional media queries
-    -C, --csspath <path>            Relative path where the CSS files are located
-    -s, --stylesheets <file, ...>   Specify additional stylesheets to process
-    -r, --raw <string>              Pass in a raw string of CSS
-    -t, --timeout <milliseconds>    Wait for JS evaluation
-    -H, --htmlroot <folder>         Absolute paths' root location
+  -h, --help                      output usage information
+  -V, --version                   output the version number
+  -i, --ignore <selector, ...>    Do not remove given selectors
+  -m, --media <media_query, ...>  Process additional media queries
+  -C, --csspath <path>            Relative path where the CSS files are located
+  -s, --stylesheets <file, ...>   Specify additional stylesheets to process
+  -r, --raw <string>              Pass in a raw string of CSS
+  -t, --timeout <milliseconds>    Wait for JS evaluation
+  -H, --htmlroot <folder>         Absolute paths' root location
+```
 
 - __ignore__ (Array): provide a list of selectors that should not be removed by UnCSS. For example, styles added by user interaction with the page (hover, click), since those are not detectable by UnCSS yet. Both literal names and regex patterns are recognized.
 
@@ -92,9 +97,8 @@ e.g. ```uncss --ignore .donotwant,#nope http://getbootstrap.com/examples/jumbotr
 
 - __htmlroot__ (String): Where the project root is. Useful for example if you are running UnCSS on _local_ files that have absolute href to the stylesheets, i.e. ```href="/css/style.css"```
 
-## Testing ##
+## Testing
 The UnCSS test suite requires you to have imagemagick and graphicsmagick installed (Required by [gm](https://github.com/aheckmann/gm/)).
 
-## License ##
-Copyright (c) 2013 Giacomo Martino. See the LICENSE file for license rights and limitations (MIT).
-
+## License
+Copyright (c) 2013 Giacomo Martino. See the [LICENSE](/LICENSE.md) file for license rights and limitations (MIT).
