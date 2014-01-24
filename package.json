@@ -30,6 +30,12 @@
     "CSS",
     "HTML"
   ],
+  "files": [
+    "bin",
+    "lib",
+    "LICENSE.md",
+    "README.md"
+  ],
   "dependencies": {
     "async": "~0.2.10",
     "cheerio": "~0.13.1",
