@@ -1,14 +1,17 @@
 {
   "name": "uncss",
   "version": "0.7.5",
+  "author": "Giakki",
   "description": "Remove unused CSS styles",
-  "main": "lib/uncss.js",
+  "license": "MIT",
+  "homepage": "https://github.com/giakki/uncss",
   "directories": {
-    "test": "test"
+    "test": "tests"
   },
   "scripts": {
     "test": "make test"
   },
+  "main": "lib/uncss.js",
   "bin": {
     "uncss": "bin/uncss"
   },
@@ -16,31 +19,38 @@
     "type": "git",
     "url": "https://github.com/giakki/uncss.git"
   },
+  "bugs": {
+    "url": "https://github.com/giakki/uncss/issues"
+  },
   "keywords": [
-    "Optimize",
+    "optimize",
+    "optimise",
     "unused",
+    "selector",
     "CSS",
     "HTML"
   ],
-  "author": "Giakki",
-  "license": "MIT",
-  "readmeFilename": "README.md",
-  "gitHead": "1c7cf8fd782515ad2ffd44f6be2a6cee62da9d5f",
+  "files": [
+    "bin",
+    "lib",
+    "LICENSE.md",
+    "README.md"
+  ],
   "dependencies": {
-    "css": "~1.6.0",
-    "commander": "~2.1.0",
-    "cheerio": "~0.13.1",
-    "underscore": "~1.5.2",
     "async": "~0.2.10",
+    "cheerio": "~0.13.1",
+    "commander": "~2.1.0",
+    "css": "~1.6.0",
     "phantomjs": "~1.9.2-6",
-    "request": "~2.33.0"
+    "request": "~2.33.0",
+    "underscore": "~1.5.2"
   },
   "devDependencies": {
-    "mocha": "~1.17.1",
     "chai": "~1.8.1",
+    "chai-resemble": "~0.0.3",
     "coveralls": "~2.6.1",
-    "mocha-lcov-reporter": "0.0.1",
     "gm": "~1.14.2",
-    "chai-resemble": "0.0.2"
+    "mocha": "~1.17.1",
+    "mocha-lcov-reporter": "~0.0.1"
   }
 }
