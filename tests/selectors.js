@@ -29,7 +29,7 @@ var rawcss   = false,
  *   ...
  *  }, ...]
  */
-tests = fixtures.map(function (test, i) {
+tests = fixtures.map(function (test) {
     return {
         fixture  : test,
         expected : expected.indexOf(test) === -1 ? null : true,

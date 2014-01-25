@@ -1,16 +1,7 @@
-/* jshint expr: true */
 'use strict';
 
-var expect    = require('chai').expect,
-    fs        = require('fs'),
-    path      = require('path'),
-    uncss     = require('./../lib/uncss.js'),
-    inspect = require('util').inspect;
-
-/* Read file sync sugar. */
-var rfs = function (file) {
-    return fs.readFileSync(path.join(__dirname, file), 'utf-8').toString();
-};
+var expect  = require('chai').expect,
+    uncss   = require('./../lib/uncss.js');
 
 describe('PhantomJS', function () {
 

@@ -1,18 +1,9 @@
 language: node_js
 node_js:
-    - "0.10"
     - "0.8"
-
-before_install:
-    - sudo apt-get update
+    - "0.10"
 
 install:
     - sudo apt-get install imagemagick graphicsmagick
-    - npm install -g istanbul mocha
+    - npm install -g istanbul grunt-cli
     - npm install
-
-script:
-    - make test-cov
-
-after_success:
-    - make coveralls

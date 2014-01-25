@@ -22,7 +22,7 @@
         .option('-s, --stylesheets <file, ...>', 'Specify additional stylesheets to process', listArg)
         .option('-r, --raw <string>', 'Pass in a raw string of CSS')
         .option('-t, --timeout <milliseconds>', 'Wait for JS evaluation')
-        .option('-H, --htmlroot <folder>', "Absolute paths' root location")
+        .option('-H, --htmlroot <folder>', 'Absolute paths\' root location')
         .parse(process.argv);
 
     options = {

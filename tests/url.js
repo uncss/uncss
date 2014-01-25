@@ -1,4 +1,3 @@
-/* jshint expr: true */
 var expect = require('chai').expect,
     fs = require('fs'),
     uncss = require('../lib/uncss'),

@@ -9,7 +9,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "make test"
+    "test": "grunt test"
   },
   "main": "lib/uncss.js",
   "bin": {
@@ -48,9 +48,13 @@
   "devDependencies": {
     "chai": "~1.8.1",
     "chai-resemble": "~0.0.3",
-    "coveralls": "~2.6.1",
     "gm": "~1.14.2",
-    "mocha": "~1.17.1",
-    "mocha-lcov-reporter": "~0.0.1"
+    "grunt": "~0.4.2",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-copy": "~0.5.0",
+    "grunt-contrib-jshint": "~0.8.0",
+    "grunt-mocha-cov": "~0.2.0",
+    "load-grunt-tasks": "~0.2.1",
+    "time-grunt": "~0.2.8"
   }
 }
