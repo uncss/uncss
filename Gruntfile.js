@@ -19,12 +19,6 @@ module.exports = function(grunt) {
                 src: ['lib/**/*.js']
             },
             tests: {
-                options: {
-                    globals: {
-                        describe: true,
-                        it: true
-                    }
-                },
                 src: ['tests/*.js']
             },
         },

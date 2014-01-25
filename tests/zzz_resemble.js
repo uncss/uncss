@@ -1,13 +1,10 @@
-/* jshint expr: true */
 /* The filenames is a workaround to make this test run last */
 'use strict';
 
 var chai     = require('chai'),
     expect   = chai.expect,
-    fs       = require('fs'),
     path     = require('path'),
-    resemble = require('chai-resemble'),
-    uncss    = require('../lib/uncss');
+    resemble = require('chai-resemble');
 
 chai.use(resemble);
 
@@ -15,7 +12,7 @@ function abs(file) {
     return path.join(__dirname, file);
 }
 
-describe("Pages should resemble the reference", function () {
+describe('Pages should resemble the reference', function () {
     this.timeout(15000);
 
     it('Bootstrap', function (done) {
