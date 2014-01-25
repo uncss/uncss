@@ -16,19 +16,21 @@ var stylesheets = ['coverage/override.css', 'coverage/ignore.css'],
         csspath: 'tests',
         ignore: ['.unused_test', /^#test/],
         stylesheets: stylesheets,
-        raw: rawcss
+        raw: rawcss,
+        report: true
     };
 
 describe('Options', function () {
 
-    var output;
+    var output, report;
 
     before(function (done) {
-        uncss(rfs('selectors/index.html'), options, function (err, res) {
+        uncss(rfs('selectors/index.html'), options, function (err, res, rep) {
             if (err) {
                 throw err;
             }
             output = res;
+            report = rep;
             done();
         });
     });
@@ -60,5 +62,9 @@ describe('Options', function () {
             expect(output).to.exist;
             done();
         });
+    });
+
+    it('options.report should generate report object', function () {
+        expect(report.original).to.be.greaterThan(report.tidy);
     });
 });

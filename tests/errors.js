@@ -60,4 +60,11 @@ describe('Error reporting', function () {
             done();
         });
     });
+
+    it('Report shopuld be generated only if specified', function (done) {
+        uncss(['tests/selectors/index.html'], function (error, output, report) {
+            expect(report).to.equal('Option report was set to false');
+            done();
+        });
+    });
 });
