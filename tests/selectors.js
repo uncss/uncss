@@ -38,6 +38,7 @@ tests = fixtures.map(function (test) {
 });
 
 describe('Selectors', function () {
+    this.timeout(5000);
 
     before(function (done) {
         uncss(rfs('selectors/index.html'), { csspath: 'tests/selectors' }, function (err, output) {
