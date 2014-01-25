@@ -61,7 +61,7 @@ describe('Error reporting', function () {
         });
     });
 
-    it('Report shopuld be generated only if specified', function (done) {
+    it('Report should be generated only if specified', function (done) {
         uncss(['tests/selectors/index.html'], function (error, output, report) {
             expect(report).to.equal('Option report was set to false');
             done();
