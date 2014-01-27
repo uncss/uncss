@@ -25,7 +25,10 @@ module.exports = function(grunt) {
 
         mochacov: {
             unit: {
-                reporter: 'spec',
+                options: {
+                    reporter: 'spec',
+                    slow: 5000
+                }
             },
             coveralls: {
                 options: {
