@@ -24,17 +24,7 @@ module.exports = function(grunt) {
         },
 
         mochacov: {
-            unit: {
-                options: {
-                    reporter: 'spec'
-                }
-            },
-            coverage: {
-                options: {
-                    reporter: 'mocha-term-cov-reporter',
-                    coverage: true
-                }
-            },
+            unit: {},
             coveralls: {
                 options: {
                     coveralls: {
@@ -43,6 +33,7 @@ module.exports = function(grunt) {
                 }
             },
             options: {
+                reporter: 'spec',
                 files: 'tests/*.js'
             }
         }
@@ -53,8 +44,8 @@ module.exports = function(grunt) {
     require('load-grunt-tasks')(grunt, { scope: 'devDependencies' });
     require('time-grunt')(grunt);
 
-    grunt.registerTask('test', ['jshint', 'mochacov:unit', 'mochacov:coverage']);
-    grunt.registerTask('travis', ['jshint', 'mochacov:coverage', 'mochacov:coveralls']);
+    grunt.registerTask('test', ['jshint', 'mochacov:unit']);
+    grunt.registerTask('travis', ['jshint', 'mochacov:coveralls']);
     grunt.registerTask('default', 'test');
 
 };
