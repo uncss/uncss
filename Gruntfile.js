@@ -24,7 +24,9 @@ module.exports = function(grunt) {
         },
 
         mochacov: {
-            unit: {},
+            unit: {
+                reporter: 'spec',
+            },
             coveralls: {
                 options: {
                     coveralls: {
@@ -33,7 +35,6 @@ module.exports = function(grunt) {
                 }
             },
             options: {
-                reporter: 'spec',
                 files: 'tests/*.js'
             }
         }
