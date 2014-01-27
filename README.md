@@ -28,6 +28,7 @@ var files   = ['my', 'array', 'of', 'HTML', 'files'],
         csspath: '../public/css/',
         raw: 'h1 { color: green }',
         stylesheets: ['lib/bootstrap/dist/css/bootstrap.css', 'src/public/css/main.css'],
+        ignore_sheets: [/fonts.googleapis/],
         urls: ['http://localhost:3000/mypage', '...'] //array of urls
         timeout: 1000,
         report: true,
@@ -78,15 +79,16 @@ Usage: uncss [options] <file or url, ...>
 
 Options:
 
-  -h, --help                      output usage information
-  -V, --version                   output the version number
-  -i, --ignore <selector, ...>    Do not remove given selectors
-  -m, --media <media_query, ...>  Process additional media queries
-  -C, --csspath <path>            Relative path where the CSS files are located
-  -s, --stylesheets <file, ...>   Specify additional stylesheets to process
-  -r, --raw <string>              Pass in a raw string of CSS
-  -t, --timeout <milliseconds>    Wait for JS evaluation
-  -H, --htmlroot <folder>         Absolute paths' root location
+  -h, --help                           output usage information
+  -V, --version                        output the version number
+  -i, --ignore <selector, ...>         Do not remove given selectors
+  -m, --media <media_query, ...>       Process additional media queries
+  -C, --csspath <path>                 Relative path where the CSS files are located
+  -s, --stylesheets <file, ...>        Specify additional stylesheets to process
+  -S, --ignore_sheets <selector, ...>  Do not include specified stylesheets
+  -r, --raw <string>                   Pass in a raw string of CSS
+  -t, --timeout <milliseconds>         Wait for JS evaluation
+  -H, --htmlroot <folder>              Absolute paths' root location
 ```
 
 - __ignore__ (Array): provide a list of selectors that should not be removed by UnCSS. For example, styles added by user interaction with the page (hover, click), since those are not detectable by UnCSS yet. Both literal names and regex patterns are recognized.
@@ -96,6 +98,8 @@ Options:
 - __csspath__ (String): path where the CSS files are related to the html files. By default, UnCSS uses the path specified in the <link rel="stylesheet" href="path/to/file.css"\>
 
 - __stylesheets__ (Array): use these stylesheets instead of those extracted from the html files.
+
+- __ignore_sheets__ (Array): do not process these stylesheets, e.g. Google fonts. Accepts strings or regex patterns
 
 - __raw__ (String): give the task a raw string of CSS in addition to the existing stylesheet options; useful in scripting when your CSS hasn't yet been written to disk.
 

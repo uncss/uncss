@@ -39,6 +39,24 @@ describe('Options', function () {
         expect(output).to.include(rfs(stylesheets[0]));
     });
 
+    it('options.ignore_sheets should be respected', function (done) {
+        uncss(
+            rfs('selectors/index.html'),
+            {
+                ignore_sheets: [
+                    '//fonts.googleapis.com/css?family=Open+Sans:400',
+                    /font\-awesome/
+                ],
+                csspath: 'tests/selectors'
+            },
+            function (err, output) {
+                expect(err).to.be.null;
+                expect(output).to.not.include('@font-face');
+                done();
+            }
+        );
+    });
+
     it('options.raw should be added to the processed CSS', function () {
         expect(output).to.include(rawcss);
     });

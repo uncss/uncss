@@ -5,7 +5,7 @@ var expect = require('chai').expect,
     gh_path = __dirname + '/output/gh-pages/stylesheets/stylesheet.css',
     prev_run;
 
-describe('Compile the CSS of an html page passed by url (May take a while)', function () {
+describe('Compile the CSS of an html page passed by url', function () {
     'use strict';
 
     /* Used to check that all the requests to gh-pages generate the same CSS.
