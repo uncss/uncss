@@ -56,6 +56,9 @@
     "time-grunt": "~0.2.8",
     "mocha-term-cov-reporter": "~0.2.0"
   },
+  "engines": {
+    "node": ">=0.10.1"
+  },
   "config": {
     "blanket": {
       "pattern": [
