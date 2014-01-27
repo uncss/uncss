@@ -16,7 +16,7 @@ npm install -g uncss
 
 ## Usage
 
-### Within node:
+### Within Node.js:
 
 ```js
 var uncss = require('uncss');
