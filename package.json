@@ -53,11 +53,10 @@
     "grunt-contrib-jshint": "~0.8.0",
     "grunt-mocha-cov": "~0.2.0",
     "load-grunt-tasks": "~0.3.0",
-    "time-grunt": "~0.2.8",
-    "mocha-term-cov-reporter": "~0.2.0"
+    "time-grunt": "~0.2.8"
   },
   "engines": {
-    "node": ">=0.10.1"
+    "node": ">= 0.8.0"
   },
   "config": {
     "blanket": {
