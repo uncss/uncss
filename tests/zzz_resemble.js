@@ -1,4 +1,4 @@
-/* The filenames is a workaround to make this test run last */
+/* The filename is a workaround to make this test run last */
 'use strict';
 
 var chai     = require('chai'),
@@ -17,16 +17,16 @@ describe('Pages should resemble the reference', function () {
 
     it('Bootstrap', function (done) {
         expect(abs('output/bootstrap/jumbotron.html'))
-            .to.resemble('http://getbootstrap.com/examples/jumbotron/', done);
+            .to.resemble('http://getbootstrap.com/examples/jumbotron/', 0.05, done);
     });
 
     it('Github pages', function (done) {
         expect(abs('output/gh-pages/index.html'))
-            .to.resemble('http://giakki.github.io/uncss/', done);
+            .to.resemble('http://giakki.github.io/uncss/', 0.05, done);
     });
 
     it('Selectors', function (done) {
         expect(abs('selectors/index.html'))
-            .to.resemble(abs('output/selectors/index.html'), done);
+            .to.resemble(abs('output/selectors/index.html'), 0.05, done);
     });
 });

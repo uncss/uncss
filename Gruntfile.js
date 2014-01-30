@@ -17,7 +17,7 @@ module.exports = function(grunt) {
                 options: {
                     reporter: 'spec',
                     slow: 7500,
-                    timeout: 5000
+                    timeout: 10000
                 }
             },
             coveralls: {
@@ -37,7 +37,7 @@ module.exports = function(grunt) {
     require('time-grunt')(grunt);
 
     grunt.registerTask('test', ['jshint', 'mochacov:unit']);
-    grunt.registerTask('travis', ['jshint', 'mochacov:coveralls']);
+    grunt.registerTask('travis', ['jshint', 'mochacov:unit', 'mochacov:coveralls']);
     grunt.registerTask('default', 'test');
 
 };

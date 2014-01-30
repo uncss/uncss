@@ -3,11 +3,7 @@ node_js:
     - "0.8"
     - "0.10"
 
-before_install:
-    - sudo apt-get update
-
 install:
-    - sudo apt-get install imagemagick graphicsmagick
     - npm install -g grunt-cli
     - npm install
 

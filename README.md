@@ -109,8 +109,5 @@ Options:
 
 - __htmlroot__ (String): Where the project root is. Useful for example if you are running UnCSS on _local_ files that have absolute href to the stylesheets, i.e. ```href="/css/style.css"```
 
-## Testing
-The UnCSS test suite requires you to have imagemagick and graphicsmagick installed (Required by [gm](https://github.com/aheckmann/gm/)).
-
 ## License
 Copyright (c) 2013 Giacomo Martino. See the [LICENSE](/LICENSE.md) file for license rights and limitations (MIT).
