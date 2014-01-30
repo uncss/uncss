@@ -6,13 +6,9 @@ var expect    = require('chai').expect,
     uncss     = require('./../lib/uncss.js');
 
 /* Read file sync sugar. */
-function rfs(file) {
-    var filename = path.join(__dirname, file);
-    if (fs.existsSync(filename)) {
-        return fs.readFileSync(filename, 'utf-8');
-    }
-    return null;
-}
+var rfs = function (file) {
+    return fs.readFileSync(path.join(__dirname, file), 'utf-8').replace(/\r\n/g, '\n');
+};
 
 var rawcss   = false,
     fixtures = fs.readdirSync(path.join(__dirname, 'selectors/fixtures')),

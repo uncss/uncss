@@ -26,7 +26,9 @@ describe('Compile the CSS of an html page passed by url', function () {
         uncss(['http://getbootstrap.com/examples/jumbotron/'], function (err, output) {
             expect(err).to.be.null;
             expect(output).to.have.length.above(2);
-            fs.writeFile(__dirname + '/output/bootstrap/jumbotron.compiled.css', output, done);
+            fs.writeFile(__dirname + '/output/bootstrap/jumbotron.compiled.css',
+                         output.replace(/\r\n/g, '\n'),
+                         done);
         });
     });
 
@@ -71,7 +73,9 @@ describe('Compile the CSS of an html page passed by url', function () {
     });
 
     after(function (done) {
-        fs.writeFile(__dirname + '/output/gh-pages/stylesheets/stylesheet.css', prev_run, done);
+        fs.writeFile(__dirname + '/output/gh-pages/stylesheets/stylesheet.css',
+                     prev_run.replace(/\r\n/g, '\n'),
+                     done);
     });
 
 });

@@ -7,7 +7,7 @@ var expect    = require('chai').expect,
 
 /* Read file sync sugar. */
 var rfs = function (file) {
-    return fs.readFileSync(path.join(__dirname, file), 'utf-8').toString();
+    return fs.readFileSync(path.join(__dirname, file), 'utf-8').replace(/\r\n/g, '\n');
 };
 
 var stylesheets = ['coverage/override.css', 'coverage/ignore.css'],
