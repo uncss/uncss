@@ -53,7 +53,7 @@ describe('Error reporting', function () {
     });
 
     it('Outputs Cheerio errors', function (done) {
-        uncss(['tests/selectors/index.html'], { raw: 'I break Cheerio :(' }, function (error, output) {
+        uncss(['tests/selectors/index.html'], { raw: 'I break css-parse :(' }, function (error, output) {
             expect(output).to.not.exist;
             expect(error).to.exist;
             done();
