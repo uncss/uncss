@@ -39,11 +39,11 @@ describe('Options', function () {
         expect(output).to.include(rfs(stylesheets[0]));
     });
 
-    it('options.ignore_sheets should be respected', function (done) {
+    it('options.ignoreSheets should be respected', function (done) {
         uncss(
             rfs('selectors/index.html'),
             {
-                ignore_sheets: [
+                ignoreSheets: [
                     '//fonts.googleapis.com/css?family=Open+Sans:400',
                     /font\-awesome/
                 ],

@@ -23,16 +23,16 @@ var uncss = require('uncss');
 
 var files   = ['my', 'array', 'of', 'HTML', 'files'],
     options = {
-        ignore: ['#added_at_runtime', /test\-[0-9]+/],
-        media: ['(min-width: 700px) handheld and (orientation: landscape)'],
-        csspath: '../public/css/',
-        raw: 'h1 { color: green }',
-        stylesheets: ['lib/bootstrap/dist/css/bootstrap.css', 'src/public/css/main.css'],
-        ignore_sheets: [/fonts.googleapis/],
-        urls: ['http://localhost:3000/mypage', '...'] //array of urls
-        timeout: 1000,
-        report: true,
-        htmlroot: 'public'
+        ignore       : ['#added_at_runtime', /test\-[0-9]+/],
+        media        : ['(min-width: 700px) handheld and (orientation: landscape)'],
+        csspath      : '../public/css/',
+        raw          : 'h1 { color: green }',
+        stylesheets  : ['lib/bootstrap/dist/css/bootstrap.css', 'src/public/css/main.css'],
+        ignoreSheets : [/fonts.googleapis/],
+        urls         : ['http://localhost:3000/mypage', '...'] // Deprecated
+        timeout      : 1000,
+        report       : true,
+        htmlroot     : 'public'
     };
 
 uncss(files, options, function (error, output) {
@@ -52,7 +52,7 @@ uncss(files, function (error, output, report) {
 });
 
 /* Specifying raw HTML
- * NOTE: raw HTML is not parsed by phantom
+ * NOTE: raw HTML is not parsed by PhantomJS
  */
 var raw_html = '...'
 uncss(raw_html, options, function (error, output) {
@@ -85,7 +85,7 @@ Options:
   -m, --media <media_query, ...>       Process additional media queries
   -C, --csspath <path>                 Relative path where the CSS files are located
   -s, --stylesheets <file, ...>        Specify additional stylesheets to process
-  -S, --ignore_sheets <selector, ...>  Do not include specified stylesheets
+  -S, --ignoreSheets <selector, ...>  Do not include specified stylesheets
   -r, --raw <string>                   Pass in a raw string of CSS
   -t, --timeout <milliseconds>         Wait for JS evaluation
   -H, --htmlroot <folder>              Absolute paths' root location
@@ -99,11 +99,12 @@ Options:
 
 - __stylesheets__ (Array): use these stylesheets instead of those extracted from the html files.
 
-- __ignore_sheets__ (Array): do not process these stylesheets, e.g. Google fonts. Accepts strings or regex patterns
+- __ignoreSheets__ (Array): do not process these stylesheets, e.g. Google fonts. Accepts strings or regex patterns
 
 - __raw__ (String): give the task a raw string of CSS in addition to the existing stylesheet options; useful in scripting when your CSS hasn't yet been written to disk.
 
 - __urls__ (Array): array of URLs to load with Phantom (on top of the files already passed if any).
+NOTE: this feature is deprecated, you can pass URLs directly as arguments.
 
 - __timeout__ (Number): specify how long to wait for the JS to be loaded.
 

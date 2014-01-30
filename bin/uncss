@@ -20,21 +20,21 @@
         .option('-m, --media <media_query, ...>', 'Process additional media queries', listArg)
         .option('-C, --csspath <path>', 'Relative path where the CSS files are located')
         .option('-s, --stylesheets <file, ...>', 'Specify additional stylesheets to process', listArg)
-        .option('-S, --ignore_sheets <selector, ...>', 'Do not include specified stylesheets', listArg)
+        .option('-S, --ignoreSheets <selector, ...>', 'Do not include specified stylesheets', listArg)
         .option('-r, --raw <string>', 'Pass in a raw string of CSS')
         .option('-t, --timeout <milliseconds>', 'Wait for JS evaluation')
         .option('-H, --htmlroot <folder>', 'Absolute paths\' root location')
         .parse(process.argv);
 
     options = {
-        ignore        : program.ignore,
-        ignore_sheets : program.ignore_sheets,
-        media         : program.media,
-        csspath       : program.csspath,
-        stylesheets   : program.stylesheets,
-        raw           : program.raw,
-        timeout       : program.timeout,
-        htmlroot      : program.htmlroot
+        ignore       : program.ignore,
+        ignoreSheets : program.ignoreSheets,
+        media        : program.media,
+        csspath      : program.csspath,
+        stylesheets  : program.stylesheets,
+        raw          : program.raw,
+        timeout      : program.timeout,
+        htmlroot     : program.htmlroot
     };
 
     if (program.args.length === 0) {
