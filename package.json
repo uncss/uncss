@@ -41,14 +41,13 @@
     "cheerio": "~0.13.1",
     "commander": "~2.1.0",
     "css": "~1.6.0",
-    "phantomjs": "~1.9.2-6",
+    "phantomjs": "~1.9.7-1",
     "request": "~2.33.0",
     "underscore": "~1.5.2"
   },
   "devDependencies": {
-    "chai": "~1.8.1",
-    "chai-resemble": "~0.0.3",
-    "gm": "~1.14.2",
+    "chai": "~1.9.0",
+    "chai-resemble": "~0.2.0",
     "grunt": "~0.4.2",
     "grunt-contrib-jshint": "~0.8.0",
     "grunt-mocha-cov": "~0.2.0",

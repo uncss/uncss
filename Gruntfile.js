@@ -6,28 +6,18 @@ module.exports = function(grunt) {
     grunt.initConfig({
 
         jshint: {
+            all: ['{lib,tests,.}/*.js', 'bin/uncss'],
             options: {
                 jshintrc: '.jshintrc'
-            },
-            gruntfile: {
-                src: 'Gruntfile.js'
-            },
-            bin: {
-                src: ['bin/uncss']
-            },
-            lib: {
-                src: ['lib/**/*.js']
-            },
-            tests: {
-                src: ['tests/*.js']
-            },
+            }
         },
 
         mochacov: {
             unit: {
                 options: {
                     reporter: 'spec',
-                    slow: 5000
+                    slow: 7500,
+                    timeout: 5000
                 }
             },
             coveralls: {
@@ -41,8 +31,6 @@ module.exports = function(grunt) {
                 files: 'tests/*.js'
             }
         }
-
-
     });
 
     require('load-grunt-tasks')(grunt, { scope: 'devDependencies' });

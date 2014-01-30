@@ -4,7 +4,6 @@ var expect    = require('chai').expect,
     uncss     = require('./../lib/uncss.js');
 
 describe('Error reporting', function () {
-    this.timeout(5000);
 
     it('No callback', function () {
         var throw_test = function () {
