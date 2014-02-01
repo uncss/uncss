@@ -5,6 +5,7 @@
     process.title = 'uncss';
 
     var uncss   = require('../lib/uncss.js'),
+        data    = require('../package.json'),
         program = require('commander'),
         buffer  = '',
         options;
@@ -14,7 +15,7 @@
     }
 
     program
-        .version('0.4.4')
+        .version(data.version)
         .usage('[options] <file or url, ...>\n\t e.g. uncss http://getbootstrap.com/examples/jumbotron/ > stylesheet.css')
         .option('-i, --ignore <selector, ...>', 'Do not remove given selectors', listArg)
         .option('-m, --media <media_query, ...>', 'Process additional media queries', listArg)
