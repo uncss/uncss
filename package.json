@@ -43,7 +43,8 @@
     "css": "~1.6.0",
     "phantomjs": "~1.9.7-1",
     "request": "~2.33.0",
-    "underscore": "~1.5.2"
+    "underscore": "~1.5.2",
+    "node-phantom-simple": "~1.0.16"
   },
   "devDependencies": {
     "chai": "~1.9.0",
