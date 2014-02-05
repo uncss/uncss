@@ -5,6 +5,9 @@ var expect    = require('chai').expect,
     path      = require('path'),
     uncss     = require('./../lib/uncss.js');
 
+/* node-phantom-simple seems to leak */
+process.setMaxListeners(0);
+
 /* Read file sync sugar. */
 var rfs = function (file) {
     return fs.readFileSync(path.join(__dirname, file), 'utf-8').replace(/\r\n/g, '\n');
@@ -84,5 +87,27 @@ describe('Options', function () {
 
     it('options.report should generate report object', function () {
         expect(report.original).to.be.greaterThan(report.tidy);
+    });
+
+    it('options.media should default to screen, all', function (done) {
+        uncss(rfs('coverage/media.html'), { csspath: 'tests/selectors' }, function (err, output) {
+            expect(err).to.be.null;
+            expect(output).to.include(rfs('selectors/expected/adjacent.css'));
+            expect(output).to.include(rfs('selectors/expected/child.css'));
+            expect(output).to.include(rfs('selectors/expected/complex.css'));
+            expect(output).to.not.include(rfs('selectors/expected/classes.css'));
+            done();
+        });
+    });
+
+    it('options.media should be configurable', function (done) {
+        uncss(rfs('coverage/media.html'), { csspath: 'tests/selectors', media: 'print' }, function (err, output) {
+            expect(err).to.be.null;
+            expect(output).to.include(rfs('selectors/expected/adjacent.css'));
+            expect(output).to.include(rfs('selectors/expected/child.css'));
+            expect(output).to.include(rfs('selectors/expected/complex.css'));
+            expect(output).to.include(rfs('selectors/expected/classes.css'));
+            done();
+        });
     });
 });
