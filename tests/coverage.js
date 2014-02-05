@@ -88,4 +88,26 @@ describe('Options', function () {
     it('options.report should generate report object', function () {
         expect(report.original).to.be.greaterThan(report.tidy);
     });
+
+    it('options.media should default to screen, all', function (done) {
+        uncss(rfs('coverage/media.html'), { csspath: 'tests/selectors' }, function (err, output) {
+            expect(err).to.be.null;
+            expect(output).to.include(rfs('selectors/expected/adjacent.css'));
+            expect(output).to.include(rfs('selectors/expected/child.css'));
+            expect(output).to.include(rfs('selectors/expected/complex.css'));
+            expect(output).to.not.include(rfs('selectors/expected/classes.css'));
+            done();
+        });
+    });
+
+    it('options.media should be configurable', function (done) {
+        uncss(rfs('coverage/media.html'), { csspath: 'tests/selectors', media: 'print' }, function (err, output) {
+            expect(err).to.be.null;
+            expect(output).to.include(rfs('selectors/expected/adjacent.css'));
+            expect(output).to.include(rfs('selectors/expected/child.css'));
+            expect(output).to.include(rfs('selectors/expected/complex.css'));
+            expect(output).to.include(rfs('selectors/expected/classes.css'));
+            done();
+        });
+    });
 });
