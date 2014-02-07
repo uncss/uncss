@@ -19,21 +19,20 @@ var stylesheets = ['coverage/override.css', 'coverage/ignore.css'],
         csspath: 'tests',
         ignore: ['.unused_test', /^#test/],
         stylesheets: stylesheets,
-        raw: rawcss,
-        report: true
+        raw: rawcss
     };
 
 describe('Options', function () {
 
-    var output, report;
+    var output, orig;
 
     before(function (done) {
-        uncss(rfs('selectors/index.html'), options, function (err, res, rep) {
+        uncss(rfs('selectors/index.html'), options, function (err, res, orig) {
             if (err) {
                 throw err;
             }
             output = res;
-            report = rep;
+            input  = orig;
             done();
         });
     });
@@ -83,10 +82,6 @@ describe('Options', function () {
             expect(output).to.exist;
             done();
         });
-    });
-
-    it('options.report should generate report object', function () {
-        expect(report.original).to.be.greaterThan(report.tidy);
     });
 
     it('options.media should default to screen, all', function (done) {
