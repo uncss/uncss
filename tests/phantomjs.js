@@ -20,9 +20,9 @@ describe('PhantomJS', function () {
         });
     });
 
-    it('Should not wait for timeouts by default', function (done) {
+    it('Should wait for timeouts by default', function (done) {
         uncss(['tests/phantomjs/timeout.html'], function (err, output) {
-            expect(output).to.not.include('.timeout');
+            expect(output).to.include('.timeout');
             done();
         });
     });
