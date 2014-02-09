@@ -3,6 +3,9 @@
 var expect    = require('chai').expect,
     uncss     = require('./../lib/uncss.js');
 
+var invalid_css = 'We need to create a string longer than 40 characters to ' +
+                  'check if the error string we are creating is helpful';
+
 describe('Error reporting', function () {
 
     it('No callback', function () {
@@ -53,11 +56,20 @@ describe('Error reporting', function () {
     });
 
     it('Outputs css-parse errors', function (done) {
-        uncss(['tests/selectors/index.html'], { raw: 'I break css-parse :(' }, function (error, output) {
-            expect(output).to.not.exist;
-            expect(error).to.exist;
-            done();
-        });
+        uncss(
+            ['tests/selectors/index.html'],
+            { raw: invalid_css },
+            function (error, output) {
+                expect(output).to.not.exist;
+                expect(
+                    error.message.substring(error.message.length - 40,
+                                            error.message.length))
+                    .to.equal(
+                        invalid_css.substring(invalid_css.length - 40,
+                                              invalid_css.length));
+                done();
+            }
+        );
     });
 
     it('Report should be generated only if specified', function (done) {

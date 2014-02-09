@@ -38,7 +38,6 @@
   ],
   "dependencies": {
     "async": "~0.2.10",
-    "cheerio": "~0.13.1",
     "commander": "~2.1.0",
     "css": "~1.6.0",
     "phantomjs": "~1.9.7-1",

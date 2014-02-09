@@ -145,3 +145,8 @@ h3:hover {
 h1 > span {
   color: crimson;
 }
+
+::-moz-selection {
+  color: gold;
+  background: red;
+}
