@@ -1,9 +1,9 @@
 'use strict';
 
-var expect    = require('chai').expect,
-    fs        = require('fs'),
-    path      = require('path'),
-    uncss     = require('./../lib/uncss.js');
+var expect = require('chai').expect,
+    fs     = require('fs'),
+    path   = require('path'),
+    uncss  = require('./../lib/uncss.js');
 
 /* node-phantom-simple seems to leak */
 process.setMaxListeners(0);
@@ -24,15 +24,15 @@ var stylesheets = ['coverage/override.css', 'coverage/ignore.css'],
 
 describe('Options', function () {
 
-    var output, orig;
+    var output, report;
 
     before(function (done) {
-        uncss(rfs('selectors/index.html'), options, function (err, res, orig) {
+        uncss(rfs('selectors/index.html'), options, function (err, res, rep) {
             if (err) {
                 throw err;
             }
             output = res;
-            input  = orig;
+            report  = rep;
             done();
         });
     });
@@ -104,5 +104,18 @@ describe('Options', function () {
             expect(output).to.include(rfs('selectors/expected/classes.css'));
             done();
         });
+    });
+
+    it('options.report should generate report object', function (done) {
+        uncss(
+            rfs('selectors/index.html'),
+            { csspath: 'tests/selectors', report: true },
+            function (err, res, rep) {
+                expect(err).to.be.null;
+                expect(rep).to.have.ownProperty('original');
+                expect(rep.original).to.have.length.above(res.length);
+                done();
+            }
+        );
     });
 });
