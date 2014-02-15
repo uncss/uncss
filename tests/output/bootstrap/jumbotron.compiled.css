@@ -1,5 +1,5 @@
 /*!
- * Bootstrap v3.1.0 (http://getbootstrap.com)
+ * Bootstrap v3.1.1 (http://getbootstrap.com)
  * Copyright 2011-2014 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
@@ -127,7 +127,7 @@ html {
 body {
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
   font-size: 14px;
-  line-height: 1.428571429;
+  line-height: 1.42857143;
   color: #333;
   background-color: #fff;
 }
@@ -243,7 +243,7 @@ p {
   }
 
   .col-md-4 {
-    width: 33.33333333333333%;
+    width: 33.33333333%;
   }
 }
 
@@ -253,7 +253,7 @@ p {
   height: 34px;
   padding: 6px 12px;
   font-size: 14px;
-  line-height: 1.428571429;
+  line-height: 1.42857143;
   color: #555;
   background-color: #fff;
   background-image: none;
@@ -270,10 +270,6 @@ p {
   outline: 0;
   -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
   box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
-}
-
-.form-control:-moz-placeholder {
-  color: #999;
 }
 
 .form-control::-moz-placeholder {
@@ -301,16 +297,16 @@ p {
   white-space: nowrap;
   padding: 6px 12px;
   font-size: 14px;
-  line-height: 1.428571429;
+  line-height: 1.42857143;
   border-radius: 4px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  -o-user-select: none;
   user-select: none;
 }
 
-.btn:focus {
+.btn:focus,
+.btn:active:focus {
   outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
@@ -486,7 +482,7 @@ p {
   padding: 15px;
   font-size: 18px;
   line-height: 20px;
-  height: 20px;
+  height: 50px;
 }
 
 .navbar-brand:hover,
