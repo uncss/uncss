@@ -42,8 +42,8 @@
     "commander": "~2.1.0",
     "css": "~1.6.0",
     "phantomjs": "~1.9.7-1",
-    "request": "~2.33.0",
-    "underscore": "~1.5.2"
+    "request": "~2.34.0",
+    "underscore": "~1.6.0"
   },
   "devDependencies": {
     "chai": "~1.9.0",
