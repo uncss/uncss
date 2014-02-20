@@ -1,9 +1,9 @@
 'use strict';
 
-var expect    = require('chai').expect,
-    fs        = require('fs'),
-    path      = require('path'),
-    uncss     = require('./../lib/uncss.js');
+var expect = require('chai').expect,
+    fs     = require('fs'),
+    path   = require('path'),
+    uncss  = require('./../lib/uncss.js');
 
 /* node-phantom-simple seems to leak */
 process.setMaxListeners(0);
@@ -19,8 +19,7 @@ var stylesheets = ['coverage/override.css', 'coverage/ignore.css'],
         csspath: 'tests',
         ignore: ['.unused_test', /^#test/],
         stylesheets: stylesheets,
-        raw: rawcss,
-        report: true
+        raw: rawcss
     };
 
 describe('Options', function () {
@@ -33,7 +32,7 @@ describe('Options', function () {
                 throw err;
             }
             output = res;
-            report = rep;
+            report  = rep;
             done();
         });
     });
@@ -85,10 +84,6 @@ describe('Options', function () {
         });
     });
 
-    it('options.report should generate report object', function () {
-        expect(report.original).to.be.greaterThan(report.tidy);
-    });
-
     it('options.media should default to screen, all', function (done) {
         uncss(rfs('coverage/media.html'), { csspath: 'tests/selectors' }, function (err, output) {
             expect(err).to.be.null;
@@ -109,5 +104,18 @@ describe('Options', function () {
             expect(output).to.include(rfs('selectors/expected/classes.css'));
             done();
         });
+    });
+
+    it('options.report should generate report object', function (done) {
+        uncss(
+            rfs('selectors/index.html'),
+            { csspath: 'tests/selectors', report: true },
+            function (err, res, rep) {
+                expect(err).to.be.null;
+                expect(rep).to.have.ownProperty('original');
+                expect(rep.original).to.have.length.above(res.length);
+                done();
+            }
+        );
     });
 });

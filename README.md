@@ -31,7 +31,6 @@ var files   = ['my', 'array', 'of', 'HTML', 'files'],
         ignoreSheets : [/fonts.googleapis/],
         urls         : ['http://localhost:3000/mypage', '...'] // Deprecated
         timeout      : 1000,
-        report       : true,
         htmlroot     : 'public'
     };
 
@@ -42,13 +41,6 @@ uncss(files, options, function (error, output) {
 /* Look Ma, no options! */
 uncss(files, function (error, output) {
     console.log(output);
-});
-
-/* Check out how much you've reduced your filesize! */
-uncss(files, function (error, output, report) {
-    console.log(output);
-    console.log('Original: ', report.original/1000, 'kilobytes');
-    console.log('Tidy: ', report.tidy/1000, 'kilobytes');
 });
 
 /* Specifying raw HTML
