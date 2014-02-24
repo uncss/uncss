@@ -8,6 +8,15 @@
 UnCSS is a tool that removes unused CSS from your stylesheets.
 It works across multiple files and supports Javascript-injected CSS.
 
+## How? ##
+The process by which UnCSS removes the unused rules is as follows:
+
+- The HTML files are loaded by PhantomJS, and JavaScript is executed.
+- Used stylesheets are extracted from the resulting HTML by Cheerio.
+- The stylesheets are concatenated, and the rules are parsed by css-parse.
+- Cheerio is used again to filter out selectors that are not found in the HTML files.
+- The remaining rules are converted back to CSS.
+
 ## Installation:
 
 ```shell
