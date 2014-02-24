@@ -12,9 +12,9 @@ It works across multiple files and supports Javascript-injected CSS.
 The process by which UnCSS removes the unused rules is as follows:
 
 - The HTML files are loaded by PhantomJS, and JavaScript is executed.
-- Used stylesheets are extracted from the resulting HTML by Cheerio.
+- Used stylesheets are extracted from the resulting HTML.
 - The stylesheets are concatenated, and the rules are parsed by css-parse.
-- Cheerio is used again to filter out selectors that are not found in the HTML files.
+- document.querySelector filters out selectors that are not found in the HTML files.
 - The remaining rules are converted back to CSS.
 
 ## Installation:
