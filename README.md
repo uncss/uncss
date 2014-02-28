@@ -52,9 +52,7 @@ uncss(files, function (error, output) {
     console.log(output);
 });
 
-/* Specifying raw HTML
- * NOTE: raw HTML is not parsed by PhantomJS
- */
+/* Specifying raw HTML */
 var raw_html = '...'
 uncss(raw_html, options, function (error, output) {
     console.log(output);
