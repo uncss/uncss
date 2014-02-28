@@ -8,7 +8,7 @@
 UnCSS is a tool that removes unused CSS from your stylesheets.
 It works across multiple files and supports Javascript-injected CSS.
 
-## How? ##
+## How?
 The process by which UnCSS removes the unused rules is as follows:
 
 - The HTML files are loaded by PhantomJS, and JavaScript is executed.
@@ -38,7 +38,7 @@ var files   = ['my', 'array', 'of', 'HTML', 'files'],
         raw          : 'h1 { color: green }',
         stylesheets  : ['lib/bootstrap/dist/css/bootstrap.css', 'src/public/css/main.css'],
         ignoreSheets : [/fonts.googleapis/],
-        urls         : ['http://localhost:3000/mypage', '...'] // Deprecated
+        urls         : ['http://localhost:3000/mypage', '...'], // Deprecated
         timeout      : 1000,
         htmlroot     : 'public'
     };
@@ -53,7 +53,7 @@ uncss(files, function (error, output) {
 });
 
 /* Specifying raw HTML */
-var raw_html = '...'
+var raw_html = '...';
 uncss(raw_html, options, function (error, output) {
     console.log(output);
 });
@@ -78,16 +78,16 @@ Usage: uncss [options] <file or url, ...>
 
 Options:
 
-  -h, --help                           output usage information
-  -V, --version                        output the version number
-  -i, --ignore <selector, ...>         Do not remove given selectors
-  -m, --media <media_query, ...>       Process additional media queries
-  -C, --csspath <path>                 Relative path where the CSS files are located
-  -s, --stylesheets <file, ...>        Specify additional stylesheets to process
-  -S, --ignoreSheets <selector, ...>  Do not include specified stylesheets
-  -r, --raw <string>                   Pass in a raw string of CSS
-  -t, --timeout <milliseconds>         Wait for JS evaluation
-  -H, --htmlroot <folder>              Absolute paths' root location
+  -h, --help                            output usage information
+  -V, --version                         output the version number
+  -i, --ignore <selector, ...>          Do not remove given selectors
+  -m, --media <media_query, ...>        Process additional media queries
+  -C, --csspath <path>                  Relative path where the CSS files are located
+  -s, --stylesheets <file, ...>         Specify additional stylesheets to process
+  -S, --ignoreSheets <selector, ...>    Do not include specified stylesheets
+  -r, --raw <string>                    Pass in a raw string of CSS
+  -t, --timeout <milliseconds>          Wait for JS evaluation
+  -H, --htmlroot <folder>               Absolute paths' root location
 ```
 
 - __ignore__ (Array): provide a list of selectors that should not be removed by UnCSS. For example, styles added by user interaction with the page (hover, click), since those are not detectable by UnCSS yet. Both literal names and regex patterns are recognized.
@@ -107,7 +107,7 @@ NOTE: this feature is deprecated, you can pass URLs directly as arguments.
 
 - __timeout__ (Number): specify how long to wait for the JS to be loaded.
 
-- __htmlroot__ (String): Where the project root is. Useful for example if you are running UnCSS on _local_ files that have absolute href to the stylesheets, i.e. ```href="/css/style.css"```
+- __htmlroot__ (String): Where the project root is. Useful for example if you are running UnCSS on _local_ files that have absolute href to the stylesheets, i.e. `href="/css/style.css"`
 
 ## License
 Copyright (c) 2013 Giacomo Martino. See the [LICENSE](/LICENSE.md) file for license rights and limitations (MIT).

@@ -1,22 +1,22 @@
 {
-    "browser": false,
-    "camelcase": false,
     "curly": true,
     "eqeqeq": true,
     "expr": true,
     "indent": 4,
     "latedef": true,
+    "immed": true,
     "noarg": true,
     "node": true,
     "noempty": true,
+    "onevar": true,
     "quotmark": "single",
     "strict": true,
     "trailing": true,
     "unused": true,
     "globals": {
-      "after": true,
-      "before": true,
-      "describe": true,
-      "it": true
+        "after": true,
+        "before": true,
+        "describe": true,
+        "it": true
     }
 }
