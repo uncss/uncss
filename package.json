@@ -51,7 +51,7 @@
     "grunt": "~0.4.2",
     "grunt-contrib-jshint": "~0.8.0",
     "grunt-mocha-cov": "~0.2.1",
-    "load-grunt-tasks": "~0.4.0",
+    "load-grunt-tasks": "~0.3.0",
     "time-grunt": "~0.2.9"
   },
   "engines": {
