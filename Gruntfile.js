@@ -17,7 +17,7 @@ module.exports = function(grunt) {
                 options: {
                     reporter: 'spec',
                     slow: 7500,
-                    timeout: 10000
+                    timeout: 20000
                 }
             },
             coveralls: {
@@ -33,7 +33,9 @@ module.exports = function(grunt) {
         }
     });
 
-    require('load-grunt-tasks')(grunt, { scope: 'devDependencies' });
+    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-mocha-cov');
+
     require('time-grunt')(grunt);
 
     grunt.registerTask('test', ['jshint', 'mochacov:unit']);
