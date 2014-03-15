@@ -94,7 +94,7 @@ Options:
 
 - __media__ (Array): By default UnCSS processes only stylesheets with media query "_all_", "_screen_", and those without one. Specify here which others to include.
 
-- __csspath__ (String): path where the CSS files are related to the html files. By default, UnCSS uses the path specified in the <link rel="stylesheet" href="path/to/file.css"\>
+- __csspath__ (String): path where the CSS files are related to the html files. By default, UnCSS uses the path specified in the `<link rel="stylesheet" href="path/to/file.css"/>`
 
 - __stylesheets__ (Array): use these stylesheets instead of those extracted from the html files.
 
