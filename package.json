@@ -1,6 +1,6 @@
 {
   "name": "uncss",
-  "version": "0.7.9",
+  "version": "0.8.0",
   "author": "Giakki",
   "description": "Remove unused CSS styles",
   "license": "MIT",
