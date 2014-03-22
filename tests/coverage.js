@@ -112,8 +112,13 @@ describe('Options', function () {
             { csspath: 'tests/selectors', report: true },
             function (err, res, rep) {
                 expect(err).to.be.null;
+
                 expect(rep).to.have.ownProperty('original');
                 expect(rep.original).to.have.length.above(res.length);
+
+                expect(rep.selectors.all).to.be.instanceof(Array);
+                expect(rep.selectors.used).to.be.instanceof(Array);
+
                 done();
             }
         );
