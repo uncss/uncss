@@ -41,17 +41,17 @@
     "commander": "~2.1.0",
     "css": "~1.6.0",
     "phantomjs": "~1.9.7-1",
-    "node-phantom-simple": "~1.1.0",
+    "node-phantom-simple": "~1.2.0",
     "request": "~2.34.0",
     "underscore": "~1.6.0"
   },
   "devDependencies": {
-    "chai": "~1.9.0",
+    "chai": "~1.9.1",
     "chai-resemble": "~0.2.0",
-    "grunt": "~0.4.2",
-    "grunt-contrib-jshint": "~0.8.0",
+    "grunt": "~0.4.4",
+    "grunt-contrib-jshint": "~0.9.2",
     "grunt-mocha-cov": "~0.2.1",
-    "time-grunt": "~0.2.9"
+    "time-grunt": "~0.3.1"
   },
   "engines": {
     "node": ">= 0.8.0"
