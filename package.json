@@ -54,7 +54,7 @@
     "time-grunt": "~0.3.1"
   },
   "engines": {
-    "node": ">= 0.8.0"
+    "node": ">= 0.10.0"
   },
   "config": {
     "blanket": {
