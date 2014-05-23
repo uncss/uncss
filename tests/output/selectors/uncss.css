@@ -1,3 +1,5 @@
+/*** uncss> filename: http://cdnjs.cloudflare.com/ajax/libs/colors/1.0/colors.min.css ***/
+
 .navy {
   color: #001f3f;
 }
@@ -10,12 +12,16 @@
   color: #ff4136;
 }
 
+/*** uncss> filename: http://fonts.googleapis.com/css?family=Open+Sans:400 ***/
+
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
   src: local('Open Sans'), local('OpenSans'), url(http://themes.googleusercontent.com/static/fonts/opensans/v8/cJZKeOuBrn4kERxqtaUH3aCWcynf_cDxXwCLxiixG1c.ttf) format('truetype');
 }
+
+/*** uncss> filename: http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css ***/
 
 /*!
  *  Font Awesome 4.0.3 by @davegandy - http://fontawesome.io - @fontawesome
@@ -80,9 +86,13 @@
   }
 }
 
+/*** uncss> filename: tests/selectors/fixtures/adjacent.css ***/
+
 span + span {
   text-decoration: underline;
 }
+
+/*** uncss> filename: tests/selectors/fixtures/classes.css ***/
 
 .red {
   color: red;
@@ -92,9 +102,13 @@ span + span {
   color: blue;
 }
 
+/*** uncss> filename: tests/selectors/fixtures/complex.css ***/
+
 [data-section=''] > section > [data-section-title] h4 {
   color: cyan;
 }
+
+/*** uncss> filename: tests/selectors/fixtures/elements.css ***/
 
 body {
   font-size: 100%;
@@ -108,13 +122,19 @@ span {
   display: block;
 }
 
+/*** uncss> filename: tests/selectors/fixtures/generalsibling.css ***/
+
 .red ~ span {
   color: blue;
 }
 
+/*** uncss> filename: tests/selectors/fixtures/ids.css ***/
+
 #battleground {
   box-shadow: 0 1px 3px rgba(0, 0, 0, .15);
 }
+
+/*** uncss> filename: tests/selectors/fixtures/mediaqueries.css ***/
 
 @media screen and (min-width:320px) {
   body {
@@ -122,9 +142,13 @@ span {
   }
 }
 
+/*** uncss> filename: tests/selectors/fixtures/not.css ***/
+
 div:not(#bat):not(#man) {
   display: inline-block;
 }
+
+/*** uncss> filename: tests/selectors/fixtures/nthchild.css ***/
 
 span:nth-child(odd) {
   border-bottom: 1px solid red;
@@ -134,17 +158,25 @@ span:nth-child(2) {
   border-bottom: 1px solid blue;
 }
 
+/*** uncss> filename: tests/selectors/fixtures/nthoftype.css ***/
+
 span:nth-of-type(2) {
   border-bottom: 1px solid blue;
 }
+
+/*** uncss> filename: tests/selectors/fixtures/pseudo.css ***/
 
 h3:hover {
   color: green;
 }
 
+/*** uncss> filename: tests/selectors/fixtures/child.css ***/
+
 h1 > span {
   color: crimson;
 }
+
+/*** uncss> filename: tests/selectors/fixtures/vendor.css ***/
 
 ::-moz-selection {
   color: gold;
