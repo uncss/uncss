@@ -61,12 +61,7 @@ describe('Error reporting', function () {
             { raw: invalid_css },
             function (error, output) {
                 expect(output).to.not.exist;
-                expect(
-                    error.message.substring(error.message.length - 40,
-                                            error.message.length))
-                    .to.equal(
-                        invalid_css.substring(invalid_css.length - 40,
-                                              invalid_css.length));
+                expect(error.message).to.contain('uncss/node_modules/css: unable to parse tests/selectors/fixtures/vendor.css');
                 done();
             }
         );
