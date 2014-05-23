@@ -39,7 +39,7 @@ describe('Error reporting', function () {
         });
     });
 
-    it('No stylesheet found should output an error', function (done) {
+    it('No stylesheet found', function (done) {
         uncss('<html><body></body></html>', function (error, output) {
             expect(output).to.not.exist;
             expect(error).to.exist;
@@ -47,7 +47,7 @@ describe('Error reporting', function () {
         });
     });
 
-    it('Outputs PhantomJS errors', function (done) {
+    it('PhantomJS errors', function (done) {
         uncss(['nonexistent.html'], function (error, output) {
             expect(output).to.not.exist;
             expect(error).to.exist;
@@ -55,7 +55,7 @@ describe('Error reporting', function () {
         });
     });
 
-    it('Outputs css-parse errors', function (done) {
+    it('css-parse errors', function (done) {
         uncss(
             ['tests/selectors/index.html'],
             { raw: invalid_css },
@@ -66,6 +66,19 @@ describe('Error reporting', function () {
             }
         );
     });
+
+    it('css-parse errors (minified stylesheet)', function (done) {
+        uncss(
+            ['tests/selectors/index.html'],
+            { stylesheets: ['../coverage/minified.css'] },
+            function (error, output) {
+                expect(output).to.not.exist;
+                expect(error.message).to.contain('uncss/node_modules/css: unable to parse tests/coverage/minified.css');
+                done();
+            }
+        );
+    });
+
 
     it('Report should be generated only if specified', function (done) {
         uncss(['tests/selectors/index.html'], function (error, output, report) {

@@ -1,0 +1,1 @@
+This is long CSS string that ~ should ~ break the { css parser }. We need it to be longer than 120 characters, that way we can test out error reporting functions.
