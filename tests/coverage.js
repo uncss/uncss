@@ -10,7 +10,7 @@ process.setMaxListeners(0);
 
 /* Read file sync sugar. */
 var rfs = function (file) {
-    return fs.readFileSync(path.join(__dirname, file), 'utf-8').replace(/\r\n/g, '\n');
+    return fs.readFileSync(path.join(__dirname, file), 'utf-8');
 };
 
 var stylesheets = ['coverage/override.css', 'coverage/ignore.css'],
