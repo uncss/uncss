@@ -15,9 +15,12 @@ module.exports = function(grunt) {
         mochacov: {
             unit: {
                 options: {
-                    reporter: 'spec',
-                    slow: 7500,
-                    timeout: 20000
+                    reporter: 'spec'
+                }
+            },
+            coverage: {
+                options: {
+                    reporter: 'html-cov'
                 }
             },
             coveralls: {
@@ -28,7 +31,9 @@ module.exports = function(grunt) {
                 }
             },
             options: {
-                files: 'tests/*.js'
+                files: 'tests/*.js',
+                slow: 7500,
+                timeout: 20000
             }
         }
     });
@@ -38,8 +43,8 @@ module.exports = function(grunt) {
 
     require('time-grunt')(grunt);
 
+    grunt.registerTask('cover', ['mochacov:coverage']);
     grunt.registerTask('test', ['jshint', 'mochacov:unit']);
     grunt.registerTask('travis', ['jshint', 'mochacov:unit', 'mochacov:coveralls']);
     grunt.registerTask('default', 'test');
-
 };
