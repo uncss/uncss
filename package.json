@@ -39,8 +39,8 @@
   "dependencies": {
     "async": "~0.9.0",
     "commander": "~2.2.0",
-    "css": "~1.6.0",
-    "phantomjs": "~1.9.7-5",
+    "css": "~2.0.0",
+    "phantomjs": "~1.9.7-12",
     "node-phantom-simple": "~1.2.0",
     "request": "~2.36.0",
     "underscore": "~1.6.0",
@@ -52,7 +52,7 @@
     "grunt": "~0.4.5",
     "grunt-contrib-jshint": "~0.10.0",
     "grunt-mocha-cov": "~0.2.1",
-    "time-grunt": "~0.3.1"
+    "time-grunt": "~0.3.2"
   },
   "engines": {
     "node": ">= 0.10.0"
