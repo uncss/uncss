@@ -5,3 +5,7 @@
 [data-section=''] > section > [data-section-title] h5 {
   color: cyan;
 }
+
+#battleground ~ main {
+    color: red;
+}

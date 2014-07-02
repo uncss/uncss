@@ -108,6 +108,10 @@ span + span {
   color: cyan;
 }
 
+#battleground ~ main {
+  color: red;
+}
+
 /*** uncss> filename: tests/selectors/fixtures/elements.css ***/
 
 body {

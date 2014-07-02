@@ -46,7 +46,7 @@ describe('Options', function () {
             rfs('selectors/index.html'),
             {
                 ignoreSheets: [
-                    '//fonts.googleapis.com/css?family=Open+Sans:400',
+                    'http://fonts.googleapis.com/css?family=Open+Sans:400',
                     /font\-awesome/
                 ],
                 csspath: 'tests/selectors'
