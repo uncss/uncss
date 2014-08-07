@@ -64,7 +64,6 @@ UnCSS can also be used in conjunction with other javascript build systems, such 
 Thanks to @addyosmani for creating:
 
 - [grunt-uncss](https://github.com/addyosmani/grunt-uncss)
-- [gulp-uncss-task](https://github.com/addyosmani/gulp-uncss-task)
 
 and to @ben-eb for creating:
 
