@@ -1,0 +1,19 @@
+@-webkit-keyframes slideLeft {
+  from {
+    right: 0px;
+  }
+
+  to {
+    right: 200px;
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    right: 0px;
+  }
+
+  to {
+    right: 200px;
+  }
+}
