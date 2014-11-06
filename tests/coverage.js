@@ -75,15 +75,6 @@ describe('Options', function () {
         });
     });
 
-    it('options.urls should be processed', function (done) {
-        this.timeout(25000);
-        uncss([], { urls: ['http://giakki.github.io/uncss/'] }, function (err, output) {
-            expect(err).to.be.null;
-            expect(output).to.exist;
-            done();
-        });
-    });
-
     it('options.media should default to screen, all', function (done) {
         uncss(rfs('coverage/media.html'), { csspath: 'tests/selectors' }, function (err, output) {
             expect(err).to.be.null;

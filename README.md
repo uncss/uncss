@@ -30,7 +30,7 @@ npm install -g uncss
 ```js
 var uncss = require('uncss');
 
-var files   = ['my', 'array', 'of', 'HTML', 'files'],
+var files   = ['my', 'array', 'of', 'HTML', 'files', 'or', 'http://urls.com'],
     options = {
         ignore       : ['#added_at_runtime', /test\-[0-9]+/],
         media        : ['(min-width: 700px) handheld and (orientation: landscape)'],
@@ -38,7 +38,6 @@ var files   = ['my', 'array', 'of', 'HTML', 'files'],
         raw          : 'h1 { color: green }',
         stylesheets  : ['lib/bootstrap/dist/css/bootstrap.css', 'src/public/css/main.css'],
         ignoreSheets : [/fonts.googleapis/],
-        urls         : ['http://localhost:3000/mypage', '...'], // Deprecated
         timeout      : 1000,
         htmlroot     : 'public'
     };
@@ -89,6 +88,8 @@ Options:
   -H, --htmlroot <folder>               Absolute paths' root location
 ```
 
+**Note that you can pass both local file paths and  URLs to the program.**
+
 - __ignore__ (Array): provide a list of selectors that should not be removed by UnCSS. For example, styles added by user interaction with the page (hover, click), since those are not detectable by UnCSS yet. Both literal names and regex patterns are recognized.
 
 - __media__ (Array): By default UnCSS processes only stylesheets with media query "_all_", "_screen_", and those without one. Specify here which others to include.
@@ -100,9 +101,6 @@ Options:
 - __ignoreSheets__ (Array): do not process these stylesheets, e.g. Google fonts. Accepts strings or regex patterns
 
 - __raw__ (String): give the task a raw string of CSS in addition to the existing stylesheet options; useful in scripting when your CSS hasn't yet been written to disk.
-
-- __urls__ (Array): array of URLs to load with Phantom (on top of the files already passed if any).
-NOTE: this feature is deprecated, you can pass URLs directly as arguments.
 
 - __timeout__ (Number): specify how long to wait for the JS to be loaded.
 
