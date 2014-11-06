@@ -1,12 +1,12 @@
 /*** uncss> filename: http://getbootstrap.com/dist/css/bootstrap.min.css ***/
 
 /*!
- * Bootstrap v3.2.0 (http://getbootstrap.com)
+ * Bootstrap v3.3.0 (http://getbootstrap.com)
  * Copyright 2011-2014 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 
-/*! normalize.css v3.0.1 | MIT License | git.io/normalize */
+/*! normalize.css v3.0.2 | MIT License | git.io/normalize */
 
 html {
   font-family: sans-serif;
@@ -18,12 +18,13 @@ body {
   margin: 0;
 }
 
-footer {
+footer,
+nav {
   display: block;
 }
 
 a {
-  background: 0 0;
+  background-color: transparent;
 }
 
 a:active,
@@ -73,8 +74,12 @@ input {
   line-height: normal;
 }
 
+/*! Source: https://github.com/h5bp/html5-boilerplate/blob/master/src/css/main.css */
+
 @media print {
-  * {
+  *,
+  :before,
+  :after {
     color: #000!important;
     text-shadow: none!important;
     background: transparent!important;
@@ -284,12 +289,33 @@ p {
 }
 
 .form-control::-moz-placeholder {
-  color: #777;
+  color: #999;
   opacity: 1;
 }
 
 .form-control:-ms-input-placeholder {
-  color: #777;
+  color: #999;
+}
+
+_:-ms-fullscreen,
+_:-ms-fullscreen,
+_:-ms-fullscreen,
+_:-ms-fullscreen {
+  line-height: 1.42857143;
+}
+
+_:-ms-fullscreen.input-sm,
+_:-ms-fullscreen.input-sm,
+_:-ms-fullscreen.input-sm,
+_:-ms-fullscreen.input-sm {
+  line-height: 1.5;
+}
+
+_:-ms-fullscreen.input-lg,
+_:-ms-fullscreen.input-lg,
+_:-ms-fullscreen.input-lg,
+_:-ms-fullscreen.input-lg {
+  line-height: 1.33;
 }
 
 .form-group {
@@ -306,6 +332,8 @@ p {
   text-align: center;
   white-space: nowrap;
   vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -399,6 +427,7 @@ p {
 
 .collapse {
   display: none;
+  visibility: hidden;
 }
 
 .navbar {
@@ -443,6 +472,7 @@ p {
     height: auto!important;
     padding-bottom: 0;
     overflow: visible!important;
+    visibility: visible!important;
   }
 
   .navbar-fixed-top .navbar-collapse {
@@ -455,7 +485,7 @@ p {
   max-height: 340px;
 }
 
-@media (max-width:480px) and (orientation:landscape) {
+@media (max-device-width:480px) and (orientation:landscape) {
   .navbar-fixed-top .navbar-collapse {
     max-height: 200px;
   }
@@ -480,9 +510,6 @@ p {
   right: 0;
   left: 0;
   z-index: 1030;
-  -webkit-transform: translate3d(0,0,0);
-  -o-transform: translate3d(0,0,0);
-  transform: translate3d(0,0,0);
 }
 
 @media (min-width:768px) {
@@ -549,12 +576,6 @@ p {
   }
 }
 
-@media (min-width:768px) {
-  .navbar-right {
-    float: right!important;
-  }
-}
-
 .navbar-form {
   padding: 10px 15px;
   margin-top: 8px;
@@ -598,8 +619,11 @@ p {
     -webkit-box-shadow: none;
     box-shadow: none;
   }
+}
 
-  .navbar-form.navbar-right:last-child {
+@media (min-width:768px) {
+  .navbar-right {
+    float: right!important;
     margin-right: -15px;
   }
 }
@@ -610,7 +634,7 @@ p {
 }
 
 .navbar-inverse .navbar-brand {
-  color: #777;
+  color: #9d9d9d;
 }
 
 .navbar-inverse .navbar-brand:hover,
@@ -638,7 +662,7 @@ p {
 }
 
 .jumbotron {
-  padding: 30px;
+  padding: 30px 15px;
   margin-bottom: 30px;
   color: inherit;
   background-color: #eee;
@@ -660,8 +684,7 @@ p {
 
 @media screen and (min-width:768px) {
   .jumbotron {
-    padding-top: 48px;
-    padding-bottom: 48px;
+    padding: 48px 0;
   }
 
   .jumbotron h1 {

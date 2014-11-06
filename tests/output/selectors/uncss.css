@@ -96,6 +96,12 @@ span {
   }
 }
 
+/*** uncss> filename: tests/selectors/fixtures/noscript.css ***/
+
+.noscript-one {
+  color: yellow;
+}
+
 /*** uncss> filename: tests/selectors/fixtures/not.css ***/
 
 div:not(#bat):not(#man) {
