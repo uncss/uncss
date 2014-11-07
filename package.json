@@ -42,8 +42,7 @@
     "css": "~2.1.0",
     "glob": "~4.3.1",
     "is-html": "~1.0.0",
-    "node-phantom-simple": "~1.2.0",
-    "phantomjs": "~1.9.12",
+    "phridge": "~1.0.7",
     "request": "~2.50.0",
     "underscore": "~1.7.0"
   },
