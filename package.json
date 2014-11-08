@@ -60,8 +60,9 @@
   "config": {
     "blanket": {
       "pattern": [
-        "src/uncss.js",
-        "src/lib.js"
+        "src/lib.js",
+        "src/uncss.js"
+        "src/utility.js"
       ]
     }
   }
