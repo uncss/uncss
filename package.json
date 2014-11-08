@@ -61,7 +61,7 @@
     "blanket": {
       "pattern": [
         "src/lib.js",
-        "src/uncss.js"
+        "src/uncss.js",
         "src/utility.js"
       ]
     }
