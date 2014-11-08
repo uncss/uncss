@@ -1,7 +1,7 @@
 'use strict';
 
 var expect  = require('chai').expect,
-    uncss   = require('./../lib/uncss.js');
+    uncss   = require('./../src/uncss.js');
 
 describe('PhantomJS', function () {
 

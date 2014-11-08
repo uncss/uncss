@@ -1,6 +1,6 @@
 var expect = require('chai').expect,
     fs = require('fs'),
-    uncss = require('../lib/uncss'),
+    uncss = require('../src/uncss'),
     /* Local */
     gh_path = __dirname + '/output/gh-pages/stylesheets/stylesheet.css',
     prev_run;
