@@ -1,7 +1,7 @@
 'use strict';
 
 var expect = require('chai').expect,
-    uncss  = require('../lib/uncss');
+    uncss  = require('../src/uncss');
 
 describe('Using globbing patterns', function () {
 

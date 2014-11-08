@@ -4,7 +4,7 @@
 
     process.title = 'uncss';
 
-    var uncss   = require('../lib/uncss.js'),
+    var uncss   = require('../src/uncss.js'),
         data    = require('../package.json'),
         program = require('commander'),
         buffer  = '',

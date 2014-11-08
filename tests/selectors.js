@@ -3,7 +3,7 @@
 var expect    = require('chai').expect,
     fs        = require('fs'),
     path      = require('path'),
-    uncss     = require('./../lib/uncss.js');
+    uncss     = require('./../src/uncss.js');
 
 /* Read file sync sugar. */
 var rfs = function (file) {

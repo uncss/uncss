@@ -1,7 +1,7 @@
 var expect = require('chai').expect,
     fs     = require('fs'),
     path   = require('path'),
-    uncss  = require('../lib/uncss'),
+    uncss  = require('../src/uncss'),
     /* Local */
     ghPath = path.join(__dirname, '/output/gh-pages/stylesheets/stylesheet.css'),
     prevRun;

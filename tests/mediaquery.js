@@ -3,7 +3,7 @@
 var expect = require('chai').expect,
     fs     = require('fs'),
     path   = require('path'),
-    uncss  = require('../lib/uncss');
+    uncss  = require('../src/uncss');
 
 describe('Compile the CSS of an HTML page passed by path', function () {
 
