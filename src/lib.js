@@ -1,108 +1,8 @@
 'use strict';
 
-var async   = require('async'),
-    fs      = require('fs'),
-    path    = require('path'),
+var promise = require('bluebird'),
     phantom = require('./phantom.js'),
-    request = require('request'),
-    zlib    = require('zlib'),
-    url     = require('url'),
-    _       = require('underscore');
-
-/**
- * Parse paths relatives to a source.
- * @param  {String} source      Where the paths originate from
- * @param  {Array}  stylesheets List of paths
- * @param  {Object} options     Options, as passed to UnCSS
- * @return {Array}              List of paths
- */
-function parsePaths(source, stylesheets, options) {
-    return stylesheets.map(function (sheet) {
-        var _url, _path, _protocol;
-
-        if (sheet.substr(0, 4) === 'http') {
-            /* No need to parse, it's already a valid path */
-            return sheet;
-        }
-
-        /* Check if we are fetching over http(s) */
-        if (source.match(/^http/)) {
-            _url      = url.parse(source);
-            _protocol = _url.protocol;
-        }
-
-        if (sheet.substr(0, 2) === '//') {
-            /* Use the same protocol we used for fetching this page.
-             * Default to http.
-             */
-            return (_protocol ? _protocol + sheet : 'http:' + sheet);
-        }
-
-        if (_url) {
-            /* Let the url module handle the parsing */
-            _path = url.resolve(source, sheet);
-        } else {
-            /* We are fetching local files
-             * Should probably report an error if we find an absolute path and
-             *   have no htmlroot specified.
-             */
-
-            /* Fix the case when there is a query string or hash */
-            sheet = sheet.split('?')[0].split('#')[0];
-            if (sheet[0] === '/' && options.htmlroot) {
-                _path = path.join(options.htmlroot, sheet);
-            } else {
-                _path = path.join(path.dirname(source), options.csspath, sheet);
-            }
-        }
-        return _path;
-    });
-}
-
-/**
- * Given an array of filenames, return an array of the files' contents,
- *   only if the filename matches a regex
- * @param {Array}    files    an array of the filenames to read
- * @param {Function} callback(Error, Array)
- */
-function readStylesheets(files, callback) {
-    return async.map(files, function (filename, done) {
-        if (filename.match(/^http/)) {
-
-            request(
-                filename,
-                { headers: {'User-Agent': 'UnCSS', 'Accept-Encoding':'gzip'} }
-            ).on('error', done).on('response', function (resp) {
-
-              if (resp.statusCode !== 200) { return done(new Error('Status not 200')); }
-              if (resp.headers['content-encoding'] && resp.headers['content-encoding'].indexOf('gzip') !== -1) {
-                resp = resp.pipe(zlib.createGunzip());
-              }
-              var body = '';
-              resp.on('data', function (data) { body += data; });
-              resp.on('end', function () { return done(null, body); });
-              resp.on('error', function (err) { return done(err); });
-            });
-
-        } else {
-            if (fs.existsSync(filename)) {
-                return fs.readFile(filename, 'utf8', done);
-            }
-            return done(new Error('UnCSS: could not open ' + path.join(process.cwd(), filename)));
-        }
-    }, function(err, res) {
-      // res is an array of the content of each file in files (in the same order)
-      for(var i = 0; i < files.length; i++) {
-        // We append a small banner to keep track of which file we are currently processing
-        // super helpful for debugging
-        var banner = '/*** uncss> filename: ' + files[i] + ' ***/\n';
-        res[i] = banner + res[i];
-      }
-
-      return callback(err, res);
-    });
-}
-
+    _       = require('lodash');
 
 /* Some styles are applied only with user interaction, and therefore its
  *   selectors cannot be used with querySelectorAll.
@@ -232,32 +132,27 @@ function filterEmptyRules(rules) {
 
 /**
  * Find which selectors are used in {pages}
- * @param {Array}    pages          List of PhantomJS pages
- * @param {Object}   stylesheet     The output of css.parse().stylesheet
- * @param {Function} callback(Error, Array)
- * @param {Boolean}  isRec          Used internally
+ * @param  {Array}    pages          List of PhantomJS pages
+ * @param  {Object}   stylesheet     The output of css.parse().stylesheet
+ * @param  {Function} callback(Error, Array)
+ * @param  {Boolean}  isRec          Used internally
+ * @return {promise}
  */
-function getUsedSelectors(page, stylesheet, callback, isRec) {
-    return async.concat(
-        stylesheet.rules,
-        function (rule, done) {
-            if (rule.type === 'rule') {
-                return done(null, rule.selectors);
-            } else if (rule.type === 'media') {
-                return getUsedSelectors(page, rule, done, true);
-            }
-            return done(null, []);
-        },
-        function (err, selectors) {
-            if (err) {
-                return callback(err);
-            }
-            if (isRec) {
-                return callback(err, selectors);
-            }
-            return phantom.findAll(page, selectors.map(dePseudify), callback);
+function getUsedSelectors(page, stylesheet, isRec) {
+    return promise.map(stylesheet.rules, function (rule) {
+        if (rule.type === 'rule') {
+            return rule.selectors;
+        } else if (rule.type === 'media') {
+            return getUsedSelectors(page, rule, true);
         }
-    );
+        return [];
+    }).then(function (selectors) {
+        selectors = _.flatten(selectors);
+        if (isRec) {
+            return selectors;
+        }
+        return phantom.findAll(page, selectors.map(dePseudify));
+    });
 }
 
 /**
@@ -328,38 +223,28 @@ function filterUnusedRules(pages, stylesheet, ignore, used_selectors) {
 
 /**
  * Main exposed function
- * @param {Array}    pages      list of PhantomJS pages
- * @param {Object}   stylesheet The output of css.parse().stylesheet
- * @param {Array}    ignore     List of selectors to be ignored
- * @param {Function} callback(Error, CSS)
+ * @param  {Array}   pages      list of PhantomJS pages
+ * @param  {Object}  stylesheet The output of css.parse().stylesheet
+ * @param  {Array}   ignore     List of selectors to be ignored
+ * @return {promise}
  */
-function uncss(pages, stylesheet, ignore, callback) {
-    return async.concat(
-        pages,
-        function (page, done) {
-            return getUsedSelectors(page, stylesheet, done);
-        },
-        function (err, used_selectors) {
-            if (err) {
-                return callback(err);
-            }
-            var processed = filterUnusedRules(pages, stylesheet, ignore, used_selectors);
+function uncss(pages, stylesheet, ignore) {
+    return promise.map(pages, function (page) {
+        return getUsedSelectors(page, stylesheet);
+    }).then(function (used_selectors) {
+        used_selectors = _.flatten(used_selectors);
+        var processed = filterUnusedRules(pages, stylesheet, ignore, used_selectors);
 
-            return callback(
-                err,
-                processed,
+        return new promise(function (resolve) {
+            resolve([processed,
                 /* Get the selectors for the report */
                 {
                     all:  getAllSelectors(stylesheet),
                     used: used_selectors
                 }
-            );
-        }
-    );
+            ]);
+        });
+    });
 }
 
-module.exports = {
-    parsePaths      : parsePaths,
-    uncss           : uncss,
-    readStylesheets : readStylesheets
-};
+module.exports = uncss;

@@ -4,8 +4,8 @@ node_js:
     - "0.10"
 
 branches:
-  only:
-    - master
+  except:
+    - gh-pages
 
 install:
     - npm install -g grunt-cli

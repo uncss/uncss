@@ -1,7 +1,7 @@
 'use strict';
 
 var expect    = require('chai').expect,
-    uncss     = require('./../lib/uncss.js');
+    uncss     = require('./../src/uncss.js');
 
 var invalid_css = 'We need to create a string longer than 40 characters to ' +
                   'check if the error string we are creating is helpful';
@@ -78,7 +78,6 @@ describe('Error reporting', function () {
             }
         );
     });
-
 
     it('Report should be generated only if specified', function (done) {
         uncss(['tests/selectors/index.html'], function (error, output, report) {
