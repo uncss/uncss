@@ -228,23 +228,19 @@ function filterUnusedRules(pages, stylesheet, ignore, used_selectors) {
  * @param  {Array}   ignore     List of selectors to be ignored
  * @return {promise}
  */
-function uncss(pages, stylesheet, ignore) {
+module.exports = function uncss(pages, stylesheet, ignore) {
     return promise.map(pages, function (page) {
         return getUsedSelectors(page, stylesheet);
     }).then(function (used_selectors) {
         used_selectors = _.flatten(used_selectors);
         var processed = filterUnusedRules(pages, stylesheet, ignore, used_selectors);
 
-        return new promise(function (resolve) {
-            resolve([processed,
-                /* Get the selectors for the report */
-                {
-                    all:  getAllSelectors(stylesheet),
-                    used: used_selectors
-                }
-            ]);
-        });
+        return [
+            processed,
+            /* Get the selectors for the report */
+            {
+                all:  getAllSelectors(stylesheet),
+                used: used_selectors
+            }];
     });
-}
-
-module.exports = uncss;
+};
