@@ -8,6 +8,13 @@ var fs      = require('fs'),
 var phantom;
 
 /**
+ * Close the open PhantomJS instances.
+ */
+function exit() {
+    return phridge.disposeAll();
+}
+
+/**
  * Create the PhantomJS instances, or use the given one.
  * @param  {Object}  instance The instance to use, if there is one
  * @return {promise}
@@ -18,19 +25,17 @@ function init(instance) {
         return;
     }
 
-    return phridge.spawn({
-        ignoreSslErrors: 'yes',
-        sslProtocol: 'any'
+    // Convert to bluebird promise
+    return new promise(function (resolve) {
+        resolve(phridge.spawn({
+            ignoreSslErrors: 'yes',
+            sslProtocol: 'any'
+        }));
     }).then(function (ph) {
         phantom = ph;
+    }).disposer(function () {
+        return exit();
     });
-}
-
-/**
- * Close the open PhantomJS instances.
- */
-function exit() {
-    return phridge.disposeAll();
 }
 
 /**
@@ -157,7 +162,6 @@ function findAll(page, selectors) {
 }
 
 module.exports = {
-    exit       : exit,
     init       : init,
     fromLocal  : fromLocal,
     fromRaw    : fromRaw,
