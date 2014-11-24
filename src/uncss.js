@@ -198,21 +198,14 @@ function init(files, options, callback) {
     gFiles = files;
     gOptions = options;
 
-    return phantom.init(options.phantom)
-        .then(getHTML)
-        .then(getStylesheets)
-        .then(getCSS)
-        .then(process)
-        .done(function (results) {
-            phantom.exit().then(function () {
-                return callback(null, results[0], results[1]);
-            });
-        }, function (err) {
-            // TODO: error messages
-            phantom.exit().then(function () {
-                return callback(err);
-            });
-        });
+    return promise
+        .using(phantom.init(options.phantom), function () {
+            return getHTML()
+                .then(getStylesheets)
+                .then(getCSS)
+                .then(process);
+        })
+        .nodeify(callback, { spread: true });
 }
 
 module.exports = init;
