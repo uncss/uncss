@@ -1,7 +1,7 @@
 /*** uncss> filename: http://getbootstrap.com/dist/css/bootstrap.min.css ***/
 
 /*!
- * Bootstrap v3.3.0 (http://getbootstrap.com)
+ * Bootstrap v3.3.1 (http://getbootstrap.com)
  * Copyright 2011-2014 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
@@ -155,13 +155,13 @@ button {
 }
 
 a {
-  color: #428bca;
+  color: #337ab7;
   text-decoration: none;
 }
 
 a:hover,
 a:focus {
-  color: #2a6496;
+  color: #23527c;
   text-decoration: underline;
 }
 
@@ -297,27 +297,6 @@ p {
   color: #999;
 }
 
-_:-ms-fullscreen,
-_:-ms-fullscreen,
-_:-ms-fullscreen,
-_:-ms-fullscreen {
-  line-height: 1.42857143;
-}
-
-_:-ms-fullscreen.input-sm,
-_:-ms-fullscreen.input-sm,
-_:-ms-fullscreen.input-sm,
-_:-ms-fullscreen.input-sm {
-  line-height: 1.5;
-}
-
-_:-ms-fullscreen.input-lg,
-_:-ms-fullscreen.input-lg,
-_:-ms-fullscreen.input-lg,
-_:-ms-fullscreen.input-lg {
-  line-height: 1.33;
-}
-
 .form-group {
   margin-bottom: 15px;
 }
@@ -384,16 +363,16 @@ _:-ms-fullscreen.input-lg {
 
 .btn-primary {
   color: #fff;
-  background-color: #428bca;
-  border-color: #357ebd;
+  background-color: #337ab7;
+  border-color: #2e6da4;
 }
 
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary:active {
   color: #fff;
-  background-color: #3071a9;
-  border-color: #285e8e;
+  background-color: #286090;
+  border-color: #204d74;
 }
 
 .btn-primary:active {

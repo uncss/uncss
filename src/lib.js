@@ -35,13 +35,12 @@ var dePseudify = (function () {
 
 /**
  * Private function used in filterUnusedRules.
- * @param  {Array} pages          List of PhantomJS pages
  * @param  {Array} selectors      CSS selectors created by the CSS parser
  * @param  {Array} ignore         List of selectors to be ignored
- * @param  {Array} used_selectors List of Selectors found in {pages}
+ * @param  {Array} used_selectors List of Selectors found in the PhantomJS pages
  * @return {Array}                The selectors matched in the DOMs
  */
-function filterUnusedSelectors(pages, selectors, ignore, used_selectors) {
+function filterUnusedSelectors(selectors, ignore, used_selectors) {
     /* There are some selectors not supported for matching, like
      *   :before, :after
      * They should be removed only if the parent is not found.
@@ -196,7 +195,6 @@ function filterUnusedRules(pages, stylesheet, ignore, used_selectors) {
     rules.forEach(function (rule) {
         if (rule.type === 'rule') {
             rule.selectors = filterUnusedSelectors(
-                pages,
                 rule.selectors,
                 ignore,
                 used_selectors
