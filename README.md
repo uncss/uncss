@@ -39,7 +39,8 @@ var files   = ['my', 'array', 'of', 'HTML', 'files', 'or', 'http://urls.com'],
         stylesheets  : ['lib/bootstrap/dist/css/bootstrap.css', 'src/public/css/main.css'],
         ignoreSheets : [/fonts.googleapis/],
         timeout      : 1000,
-        htmlroot     : 'public'
+        htmlroot     : 'public',
+        report       : false
     };
 
 uncss(files, options, function (error, output) {
@@ -90,7 +91,19 @@ Options:
 
 **Note that you can pass both local file paths and  URLs to the program.**
 
-- __ignore__ (Array): provide a list of selectors that should not be removed by UnCSS. For example, styles added by user interaction with the page (hover, click), since those are not detectable by UnCSS yet. Both literal names and regex patterns are recognized.
+- __ignore__ (Array): provide a list of selectors that should not be removed by UnCSS. For example, styles added by user interaction with the page (hover, click), since those are not detectable by UnCSS yet. Both literal names and regex patterns are recognized. Otherwise, you can add common in CSS file like:
+
+```css
+/* uncss:ignore */
+.selector1 {
+    /* this rule will be ignored */
+}
+
+.selector2 {
+    /* will NOT */
+}
+
+```
 
 - __media__ (Array): By default UnCSS processes only stylesheets with media query "_all_", "_screen_", and those without one. Specify here which others to include.
 
@@ -105,6 +118,8 @@ Options:
 - __timeout__ (Number): specify how long to wait for the JS to be loaded.
 
 - __htmlroot__ (String): Where the project root is. Useful for example if you are running UnCSS on _local_ files that have absolute href to the stylesheets, i.e. `href="/css/style.css"`
+
+- __report__ (Boolean): return the report object in callback
 
 ## License
 Copyright (c) 2013 Giacomo Martino. See the [LICENSE](/LICENSE.md) file for license rights and limitations (MIT).
