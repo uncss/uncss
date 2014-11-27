@@ -13,7 +13,7 @@ var rfs = function (file) {
     return fs.readFileSync(path.join(__dirname, file), 'utf-8').replace(/\r\n/g, '\n');
 };
 
-var stylesheets = ['coverage/override.css', 'coverage/ignore.css'],
+var stylesheets = ['coverage/override.css', 'coverage/ignore.css', 'coverage/ignore_comment.css'],
     rawcss = rfs('coverage/raw.css'),
     options = {
         csspath: 'tests',
@@ -65,6 +65,10 @@ describe('Options', function () {
 
     it('options.ignore should be added to the output and accept a regex', function () {
         expect(output).to.include(rfs(stylesheets[1]));
+    });
+
+    it('inline ignore comments should be respected', function () {
+        expect(output).to.include(rfs(stylesheets[2]));
     });
 
     it('options.htmlroot should be respected', function (done) {
