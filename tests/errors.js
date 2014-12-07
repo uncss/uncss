@@ -23,7 +23,7 @@ describe('Error reporting', function () {
         });
     });
 
-    it('Invalid options.stylesheets with url', function (done) {
+    it('Invalid options.stylesheets with URL', function (done) {
         uncss('<html></html>', { stylesheets: ['http://invalid'] }, function (error, output) {
             expect(output).to.not.exist;
             expect(error).to.exist;
