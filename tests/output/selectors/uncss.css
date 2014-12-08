@@ -136,6 +136,12 @@ h1 > span {
   color: crimson;
 }
 
+/*** uncss> filename: tests/selectors/fixtures/target.css ***/
+
+h1:target {
+  color: blue;
+}
+
 /*** uncss> filename: tests/selectors/fixtures/vendor.css ***/
 
 ::-moz-selection {
