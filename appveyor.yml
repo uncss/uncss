@@ -1,0 +1,31 @@
+# http://www.appveyor.com/docs/appveyor-yml
+
+version: "{build}"
+
+init:
+  - git config --global core.autocrlf true
+
+environment:
+  matrix:
+    - nodejs_version: 0.10
+    - nodejs_version: 0.11
+
+install:
+  - ps: Install-Product node $env:nodejs_version
+  - npm install -g grunt-cli
+  - npm install
+
+build: off
+
+test_script:
+  - node --version && npm --version
+  - npm test
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - nodejs_version: 0.11
+
+cache:
+  - C:\Users\appveyor\AppData\Roaming\npm\node_modules  # global npm modules
+  - node_modules                                        # local npm modules
