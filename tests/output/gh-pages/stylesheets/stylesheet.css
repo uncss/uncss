@@ -48,13 +48,14 @@ span,
 h1,
 h2,
 h3,
-h4,
 p,
 pre,
 a,
 code,
+em,
 img,
 strong,
+ol,
 ul,
 li,
 footer,
@@ -75,6 +76,7 @@ section {
   display: block;
 }
 
+ol,
 ul {
   list-style: none;
 }
@@ -95,8 +97,7 @@ body {
 
 h1,
 h2,
-h3,
-h4 {
+h3 {
   margin: 10px 0;
   font-weight: 700;
   color: #222222;
@@ -117,10 +118,6 @@ h2 {
 
 h3 {
   font-size: 24px;
-}
-
-h4 {
-  font-size: 21px;
 }
 
 p {
@@ -155,6 +152,10 @@ a:focus {
 footer a {
   color: #F2F2F2;
   text-decoration: underline;
+}
+
+em {
+  font-style: italic;
 }
 
 strong {
@@ -214,12 +215,20 @@ pre code {
   box-shadow: none;
 }
 
-ul {
+ul,
+ol {
   margin-bottom: 15px;
 }
 
 ul {
-  list-style: inside;
+  list-style-position: inside;
+  list-style: disc;
+  padding-left: 20px;
+}
+
+ol {
+  list-style-position: inside;
+  list-style: decimal;
   padding-left: 20px;
 }
 
@@ -367,10 +376,6 @@ Small Device Styles
 
   h3 {
     font-size: 21px;
-  }
-
-  h4 {
-    font-size: 18px;
   }
 
   code,

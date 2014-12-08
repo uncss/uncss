@@ -2,9 +2,9 @@
 <html>
 
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Uncss : Remove unused styles from CSS" />
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Uncss : Remove unused styles from CSS">
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
@@ -32,104 +32,140 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         <h1>
-<a name="uncss" class="anchor" href="#uncss"><span class="octicon octicon-link"></span></a>UnCSS</h1>
+<a id="uncss" class="anchor" href="#uncss" aria-hidden="true"><span class="octicon octicon-link"></span></a>UnCSS</h1>
 
-<p><a href="https://travis-ci.org/giakki/uncss"><img src="https://travis-ci.org/giakki/uncss.png" alt="Build Status"></a></p>
+<p><a href="https://travis-ci.org/giakki/uncss"><img src="https://travis-ci.org/giakki/uncss.svg" alt="Linux Build Status"></a>
+<a href="https://ci.appveyor.com/project/giakki/uncss/branch/master"><img src="https://ci.appveyor.com/api/projects/status/us2yo9qj5itk9n17/branch/master?svg=true" alt="Windows Build status"></a>
+<a href="https://coveralls.io/r/giakki/uncss?branch=master"><img src="https://img.shields.io/coveralls/giakki/uncss.svg" alt="Coverage Status"></a>
+<a href="https://david-dm.org/giakki/uncss"><img src="https://david-dm.org/giakki/uncss.svg" alt="Dependency Status"></a>
+<a href="https://david-dm.org/giakki/uncss#info=devDependencies"><img src="https://david-dm.org/giakki/uncss/dev-status.svg" alt="devDependency Status"></a></p>
 
-<p>Remove unused styles from CSS</p>
+<p>UnCSS is a tool that removes unused CSS from your stylesheets.
+It works across multiple files and supports Javascript-injected CSS.</p>
 
 <h2>
-<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation:</h2>
+<a id="how" class="anchor" href="#how" aria-hidden="true"><span class="octicon octicon-link"></span></a>How?</h2>
 
-<pre><code>npm install -g uncss
-</code></pre>
+<p>The process by which UnCSS removes the unused rules is as follows:</p>
+
+<ol>
+<li>The HTML files are loaded by <a href="https://github.com/Obvious/phantomjs">PhantomJS</a> and JavaScript is executed.</li>
+<li>Used stylesheets are extracted from the resulting HTML.</li>
+<li>The stylesheets are concatenated and the rules are parsed by <a href="https://github.com/reworkcss/css">css-parse</a>.</li>
+<li>
+<code>document.querySelector</code> filters out selectors that are not found in the HTML files.</li>
+<li>The remaining rules are converted back to CSS.</li>
+</ol>
 
 <h2>
-<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation:</h2>
+
+<div class="highlight highlight-shell"><pre>npm install -g uncss</pre></div>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
 
 <h3>
-<a name="within-node" class="anchor" href="#within-node"><span class="octicon octicon-link"></span></a>Within node:</h3>
+<a id="within-nodejs" class="anchor" href="#within-nodejs" aria-hidden="true"><span class="octicon octicon-link"></span></a>Within Node.js:</h3>
 
-<pre><code>var uncss = require('uncss');
+<div class="highlight highlight-js"><pre><span class="pl-s">var</span> uncss <span class="pl-k">=</span> <span class="pl-s3">require</span>(<span class="pl-s1"><span class="pl-pds">'</span>uncss<span class="pl-pds">'</span></span>);
 
-var files   = ['my', 'array', 'of', 'HTML', 'files'],
-    options = {
-        ignore: ['#added_at_runtime', /test\-[0-9]+/],
-        csspath: "../public/css/",
-        raw: 'h1 { color: green }',
-        stylesheets: ["lib/bootstrap/dist/css/bootstrap.css", "src/public/css/main.css"],
-        urls: ["http://localhost:3000/mypage", "..."] //array of urls
-        timeout: 1000
+<span class="pl-s">var</span> files   <span class="pl-k">=</span> [<span class="pl-s1"><span class="pl-pds">'</span>my<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>array<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>of<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>HTML<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>files<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>or<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>http://urls.com<span class="pl-pds">'</span></span>],
+    options <span class="pl-k">=</span> {
+        ignore       <span class="pl-k">:</span> [<span class="pl-s1"><span class="pl-pds">'</span>#added_at_runtime<span class="pl-pds">'</span></span>,<span class="pl-sr"> <span class="pl-pds">/</span>test<span class="pl-cce">\-</span><span class="pl-c1">[<span class="pl-c1">0-9</span>]</span><span class="pl-k">+</span><span class="pl-pds">/</span></span>],
+        media        <span class="pl-k">:</span> [<span class="pl-s1"><span class="pl-pds">'</span>(min-width: 700px) handheld and (orientation: landscape)<span class="pl-pds">'</span></span>],
+        csspath      <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>../public/css/<span class="pl-pds">'</span></span>,
+        raw          <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>h1 { color: green }<span class="pl-pds">'</span></span>,
+        stylesheets  <span class="pl-k">:</span> [<span class="pl-s1"><span class="pl-pds">'</span>lib/bootstrap/dist/css/bootstrap.css<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>src/public/css/main.css<span class="pl-pds">'</span></span>],
+        ignoreSheets <span class="pl-k">:</span> [<span class="pl-sr"><span class="pl-pds">/</span>fonts<span class="pl-c1">.</span>googleapis<span class="pl-pds">/</span></span>],
+        timeout      <span class="pl-k">:</span> <span class="pl-c1">1000</span>,
+        htmlroot     <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>public<span class="pl-pds">'</span></span>,
+        report       <span class="pl-k">:</span> <span class="pl-c1">false</span>
     };
 
-uncss(files, options, function (output) {
-    console.log(output);
+uncss(files, options, <span class="pl-st">function</span> (<span class="pl-vpf">error</span>, <span class="pl-vpf">output</span>) {
+    <span class="pl-en">console</span><span class="pl-s3">.log</span>(output);
 });
 
-/* Look Ma, no options! */
-uncss(files, function (output) {
-    console.log(output);
+<span class="pl-c">/* Look Ma, no options! */</span>
+uncss(files, <span class="pl-st">function</span> (<span class="pl-vpf">error</span>, <span class="pl-vpf">output</span>) {
+    <span class="pl-en">console</span><span class="pl-s3">.log</span>(output);
 });
 
-/* Specifying raw HTML*/
-var raw_html = '...'
-uncss(raw_html, options, function (output) {
-    console.log(output);
-});
-</code></pre>
+<span class="pl-c">/* Specifying raw HTML */</span>
+<span class="pl-s">var</span> rawHtml <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">'</span>...<span class="pl-pds">'</span></span>;
+uncss(rawHtml, options, <span class="pl-st">function</span> (<span class="pl-vpf">error</span>, <span class="pl-vpf">output</span>) {
+    <span class="pl-en">console</span><span class="pl-s3">.log</span>(output);
+});</pre></div>
 
 <h3>
-<a name="from-the-command-line" class="anchor" href="#from-the-command-line"><span class="octicon octicon-link"></span></a>From the command line:</h3>
+<a id="at-build-time" class="anchor" href="#at-build-time" aria-hidden="true"><span class="octicon octicon-link"></span></a>At build-time</h3>
 
-<p>Usage: uncss [options] </p>
-
-<p>Options:</p>
-
-<pre><code>-h, --help                     output usage information
--V, --version                  output the version number
--i, --ignore &lt;selector, ...&gt;   Do not remove given selectors
--C, --csspath &lt;path&gt;           Relative path where the CSS files are located
--s, --stylesheets &lt;file, ...&gt;  Specify additional stylesheets to process
--r, --raw &lt;string&gt;             Pass in a raw string of CSS
--t, --timeout &lt;milliseconds&gt;   Wait for JS evaluation
-</code></pre>
-
-<h3>
-<a name="at-build-time" class="anchor" href="#at-build-time"><span class="octicon octicon-link"></span></a>At build-time</h3>
-
-<p>UnCSS can also be used in conjunction with other javascript build systems, thanks to <a href="https://github.com/addyosmani" class="user-mention">@addyosmani</a> for creating:</p>
+<p>UnCSS can also be used in conjunction with other javascript build systems, such as <a href="https://github.com/gruntjs/grunt">Grunt</a> or <a href="https://github.com/gulpjs/gulp">Gulp</a>!
+Thanks to <a href="https://github.com/addyosmani" class="user-mention">@addyosmani</a> for creating:</p>
 
 <ul>
 <li><a href="https://github.com/addyosmani/grunt-uncss">grunt-uncss</a></li>
-<li><a href="https://github.com/addyosmani/gulp-uncss-task">gulp-uncss-task</a></li>
-</ul><h4>
-<a name="options-in-depth" class="anchor" href="#options-in-depth"><span class="octicon octicon-link"></span></a>Options in depth:</h4>
+</ul>
+
+<p>and to <a href="https://github.com/ben-eb" class="user-mention">@ben-eb</a> for creating:</p>
 
 <ul>
-<li>
-<strong>ignore</strong> [Array]: provide a list of selectors that should not be removed by UnCSS. For example, styles added by user interaction with the page (hover, click), since those are not detectable by UnCSS yet. Both literal names and regex patterns are recognized.</li>
-<li>
-<strong>csspath</strong> [String]: Path where the CSS files are related to the html files. By default, UnCSS uses the path specified in the </li>
-<li>
-<strong>stylesheets</strong> [Array]: Force the list of stylesheets to optimize using a path relative to the <code>Gruntfile.js</code>. Otherwise, it extracts the stylesheets from the html files.</li>
-<li>
-<strong>raw</strong> [String]: Give the task a raw string of CSS in addition to the existing stylesheet options; useful in scripting when your CSS hasn't yet been written to disk.</li>
-<li>
-<strong>urls</strong> [Array]: Array of URLs to load with Phantom (on top of the files already passed if any).</li>
-<li>
-<strong>timeout</strong> [Number]: Specify how long to wait for the JS to be loaded.</li>
-</ul><h2>
-<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
-
-<p>Copyright (c) 2013 Giacomo Martino. See the LICENSE file for license rights and limitations (MIT).</p>
+<li><a href="https://github.com/ben-eb/gulp-uncss">gulp-uncss</a></li>
+</ul>
 
 <h3>
-<a name="features-planned" class="anchor" href="#features-planned"><span class="octicon octicon-link"></span></a>Features planned:</h3>
+<a id="from-the-command-line" class="anchor" href="#from-the-command-line" aria-hidden="true"><span class="octicon octicon-link"></span></a>From the command line:</h3>
+
+<pre><code>Usage: uncss [options] &lt;file or URL, ...&gt;
+       e.g. uncss http://getbootstrap.com/examples/jumbotron/ &gt; stylesheet.css
+
+Options:
+
+  -h, --help                            output usage information
+  -V, --version                         output the version number
+  -i, --ignore &lt;selector, ...&gt;          Do not remove given selectors
+  -m, --media &lt;media_query, ...&gt;        Process additional media queries
+  -C, --csspath &lt;path&gt;                  Relative path where the CSS files are located
+  -s, --stylesheets &lt;file, ...&gt;         Specify additional stylesheets to process
+  -S, --ignoreSheets &lt;selector, ...&gt;    Do not include specified stylesheets
+  -r, --raw &lt;string&gt;                    Pass in a raw string of CSS
+  -t, --timeout &lt;milliseconds&gt;          Wait for JS evaluation
+  -H, --htmlroot &lt;folder&gt;               Absolute paths' root location
+</code></pre>
+
+<p><strong>Note that you can pass both local file paths and  URLs to the program.</strong></p>
 
 <ul>
-<li>Fully support all CSS selectors</li>
-<li>Support @-rules</li>
+<li>
+<strong>ignore</strong> (Array): provide a list of selectors that should not be removed by UnCSS. For example, styles added by user interaction with the page (hover, click), since those are not detectable by UnCSS yet. Both literal names and regex patterns are recognized. Otherwise, you can add common in CSS file like:</li>
 </ul>
+
+<div class="highlight highlight-css"><pre><span class="pl-c">/* uncss:ignore */</span>
+<span class="pl-e">.selector1</span> {
+    <span class="pl-c">/* this rule will be ignored */</span>
+}
+
+<span class="pl-e">.selector2</span> {
+    <span class="pl-c">/* this will NOT be ignored */</span>
+}
+</pre></div>
+
+<ul>
+<li><p><strong>media</strong> (Array): By default UnCSS processes only stylesheets with media query "<em>all</em>", "<em>screen</em>", and those without one. Specify here which others to include.</p></li>
+<li><p><strong>csspath</strong> (String): path where the CSS files are related to the HTML files. By default, UnCSS uses the path specified in the <code>&lt;link rel="stylesheet" href="path/to/file.css"/&gt;</code></p></li>
+<li><p><strong>stylesheets</strong> (Array): use these stylesheets instead of those extracted from the HTML files.</p></li>
+<li><p><strong>ignoreSheets</strong> (Array): do not process these stylesheets, e.g. Google fonts. Accepts strings or regex patterns</p></li>
+<li><p><strong>raw</strong> (String): give the task a raw string of CSS in addition to the existing stylesheet options; useful in scripting when your CSS hasn't yet been written to disk.</p></li>
+<li><p><strong>timeout</strong> (Number): specify how long to wait for the JS to be loaded.</p></li>
+<li><p><strong>htmlroot</strong> (String): Where the project root is. Useful for example if you are running UnCSS on <em>local</em> files that have absolute href to the stylesheets, i.e. <code>href="/css/style.css"</code></p></li>
+<li><p><strong>report</strong> (Boolean): return the report object in callback</p></li>
+</ul>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>Copyright (c) 2013 Giacomo Martino. See the <a href="/LICENSE.md">LICENSE</a> file for license rights and limitations (MIT).</p>
       </section>
     </div>
 
@@ -141,7 +177,7 @@ uncss(raw_html, options, function (output) {
       </footer>
     </div>
 
-    
+
 
   </body>
 </html>
