@@ -3,16 +3,16 @@
 var expect    = require('chai').expect,
     uncss     = require('./../lib/uncss.js');
 
-var invalid_css = 'We need to create a string longer than 40 characters to ' +
-                  'check if the error string we are creating is helpful';
+var invalidCss = 'We need to create a string longer than 40 characters to ' +
+                 'check if the error string we are creating is helpful';
 
 describe('Error reporting', function () {
 
     it('No callback', function () {
-        var throw_test = function () {
+        var throwTest = function () {
             uncss('<html></html>', { stylesheets: ['nonexistant'] });
         };
-        expect(throw_test).to.throw(TypeError);
+        expect(throwTest).to.throw(TypeError);
     });
 
     it('Invalid options.stylesheets', function (done) {
@@ -58,7 +58,7 @@ describe('Error reporting', function () {
     it('css-parse errors', function (done) {
         uncss(
             ['tests/selectors/index.html'],
-            { raw: invalid_css },
+            { raw: invalidCss },
             function (error, output) {
                 expect(output).to.not.exist;
                 expect(error.message).to.contain('unable to parse');
