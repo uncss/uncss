@@ -16,7 +16,7 @@
 
     program
         .version(data.version)
-        .usage('[options] <file or url, ...>\n\t e.g. uncss http://getbootstrap.com/examples/jumbotron/ > stylesheet.css')
+        .usage('[options] <file or URL, ...>\n\t e.g. uncss http://getbootstrap.com/examples/jumbotron/ > stylesheet.css')
         .option('-i, --ignore <selector, ...>', 'Do not remove given selectors', listArg)
         .option('-m, --media <media_query, ...>', 'Process additional media queries', listArg)
         .option('-C, --csspath <path>', 'Relative path where the CSS files are located')
@@ -39,7 +39,7 @@
     };
 
     if (program.args.length === 0) {
-        /* No files were specified, read html from stdin */
+        /* No files were specified, read HTML from stdin */
         process.stdin.resume();
         process.stdin.setEncoding('utf8');
 

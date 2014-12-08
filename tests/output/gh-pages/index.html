@@ -58,7 +58,7 @@ var files   = ['my', 'array', 'of', 'HTML', 'files'],
         csspath: "../public/css/",
         raw: 'h1 { color: green }',
         stylesheets: ["lib/bootstrap/dist/css/bootstrap.css", "src/public/css/main.css"],
-        urls: ["http://localhost:3000/mypage", "..."] //array of urls
+        URLs: ["http://localhost:3000/mypage", "..."] //array of URLs
         timeout: 1000
     };
 
@@ -72,8 +72,8 @@ uncss(files, function (output) {
 });
 
 /* Specifying raw HTML*/
-var raw_html = '...'
-uncss(raw_html, options, function (output) {
+var rawHtml = '...'
+uncss(rawHtml, options, function (output) {
     console.log(output);
 });
 </code></pre>
@@ -109,13 +109,13 @@ uncss(raw_html, options, function (output) {
 <li>
 <strong>ignore</strong> [Array]: provide a list of selectors that should not be removed by UnCSS. For example, styles added by user interaction with the page (hover, click), since those are not detectable by UnCSS yet. Both literal names and regex patterns are recognized.</li>
 <li>
-<strong>csspath</strong> [String]: Path where the CSS files are related to the html files. By default, UnCSS uses the path specified in the </li>
+<strong>csspath</strong> [String]: Path where the CSS files are related to the HTML files. By default, UnCSS uses the path specified in the </li>
 <li>
 <strong>stylesheets</strong> [Array]: Force the list of stylesheets to optimize using a path relative to the <code>Gruntfile.js</code>. Otherwise, it extracts the stylesheets from the html files.</li>
 <li>
 <strong>raw</strong> [String]: Give the task a raw string of CSS in addition to the existing stylesheet options; useful in scripting when your CSS hasn't yet been written to disk.</li>
 <li>
-<strong>urls</strong> [Array]: Array of URLs to load with Phantom (on top of the files already passed if any).</li>
+<strong>URLs</strong> [Array]: Array of URLs to load with Phantom (on top of the files already passed if any).</li>
 <li>
 <strong>timeout</strong> [Number]: Specify how long to wait for the JS to be loaded.</li>
 </ul><h2>

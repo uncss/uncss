@@ -5,7 +5,7 @@ var expect = require('chai').expect,
     gh_path = __dirname + '/output/gh-pages/stylesheets/stylesheet.css',
     prev_run;
 
-describe('Compile the CSS of an html page passed by url', function () {
+describe('Compile the CSS of an HTML page passed by URL', function () {
     'use strict';
 
     /* Used to check that all the requests to gh-pages generate the same CSS.
@@ -21,7 +21,7 @@ describe('Compile the CSS of an html page passed by url', function () {
         });
     });
 
-    it('Accepts an array of urls', function (done) {
+    it('Accepts an array of URLs', function (done) {
         this.timeout(25000);
         uncss(['http://getbootstrap.com/examples/jumbotron/'], function (err, output) {
             expect(err).to.be.null;
@@ -32,7 +32,7 @@ describe('Compile the CSS of an html page passed by url', function () {
         });
     });
 
-    it('Deals with CSS files linked with absolute url', function (done) {
+    it('Deals with CSS files linked with absolute URL', function (done) {
         this.timeout(25000);
         uncss(['http://giakki.github.io/uncss/'], function (err, output) {
             expect(err).to.be.null;
@@ -42,7 +42,7 @@ describe('Compile the CSS of an html page passed by url', function () {
         });
     });
 
-    it('Deals with relative options.stylesheets when using urls', function (done) {
+    it('Deals with relative options.stylesheets when using URLs', function (done) {
         this.timeout(25000);
         uncss(
             ['http://giakki.github.io/uncss/'],
@@ -57,7 +57,7 @@ describe('Compile the CSS of an html page passed by url', function () {
         );
     });
 
-    it('Deals with absolute options.stylesheets when using urls', function (done) {
+    it('Deals with absolute options.stylesheets when using URLs', function (done) {
         this.timeout(25000);
         uncss(
             ['http://giakki.github.io/uncss/'],
