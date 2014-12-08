@@ -61,6 +61,6 @@ describe('Selectors', function () {
     });
 
     after(function (done) {
-        fs.writeFile(__dirname + '/output/selectors/uncss.css', rawcss, done);
+        fs.writeFile(path.join(__dirname, '/output/selectors/uncss.css'), rawcss, done);
     });
 });
