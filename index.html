@@ -93,8 +93,8 @@ uncss(files, <span class="pl-st">function</span> (<span class="pl-vpf">error</sp
 });
 
 <span class="pl-c">/* Specifying raw HTML */</span>
-<span class="pl-s">var</span> raw_html <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">'</span>...<span class="pl-pds">'</span></span>;
-uncss(raw_html, options, <span class="pl-st">function</span> (<span class="pl-vpf">error</span>, <span class="pl-vpf">output</span>) {
+<span class="pl-s">var</span> rawHtml <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">'</span>...<span class="pl-pds">'</span></span>;
+uncss(rawHtml, options, <span class="pl-st">function</span> (<span class="pl-vpf">error</span>, <span class="pl-vpf">output</span>) {
     <span class="pl-en">console</span><span class="pl-s3">.log</span>(output);
 });</pre></div>
 
@@ -117,7 +117,7 @@ Thanks to <a href="https://github.com/addyosmani" class="user-mention">@addyosma
 <h3>
 <a id="from-the-command-line" class="anchor" href="#from-the-command-line" aria-hidden="true"><span class="octicon octicon-link"></span></a>From the command line:</h3>
 
-<pre><code>Usage: uncss [options] &lt;file or url, ...&gt;
+<pre><code>Usage: uncss [options] &lt;file or URL, ...&gt;
        e.g. uncss http://getbootstrap.com/examples/jumbotron/ &gt; stylesheet.css
 
 Options:
@@ -147,14 +147,14 @@ Options:
 }
 
 <span class="pl-e">.selector2</span> {
-    <span class="pl-c">/* will NOT */</span>
+    <span class="pl-c">/* this will NOT be ignored */</span>
 }
 </pre></div>
 
 <ul>
 <li><p><strong>media</strong> (Array): By default UnCSS processes only stylesheets with media query "<em>all</em>", "<em>screen</em>", and those without one. Specify here which others to include.</p></li>
-<li><p><strong>csspath</strong> (String): path where the CSS files are related to the html files. By default, UnCSS uses the path specified in the <code>&lt;link rel="stylesheet" href="path/to/file.css"/&gt;</code></p></li>
-<li><p><strong>stylesheets</strong> (Array): use these stylesheets instead of those extracted from the html files.</p></li>
+<li><p><strong>csspath</strong> (String): path where the CSS files are related to the HTML files. By default, UnCSS uses the path specified in the <code>&lt;link rel="stylesheet" href="path/to/file.css"/&gt;</code></p></li>
+<li><p><strong>stylesheets</strong> (Array): use these stylesheets instead of those extracted from the HTML files.</p></li>
 <li><p><strong>ignoreSheets</strong> (Array): do not process these stylesheets, e.g. Google fonts. Accepts strings or regex patterns</p></li>
 <li><p><strong>raw</strong> (String): give the task a raw string of CSS in addition to the existing stylesheet options; useful in scripting when your CSS hasn't yet been written to disk.</p></li>
 <li><p><strong>timeout</strong> (Number): specify how long to wait for the JS to be loaded.</p></li>
