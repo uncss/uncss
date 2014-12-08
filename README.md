@@ -54,8 +54,8 @@ uncss(files, function (error, output) {
 });
 
 /* Specifying raw HTML */
-var raw_html = '...';
-uncss(raw_html, options, function (error, output) {
+var rawHtml = '...';
+uncss(rawHtml, options, function (error, output) {
     console.log(output);
 });
 ```
@@ -73,7 +73,7 @@ and to @ben-eb for creating:
 ### From the command line:
 
 ```
-Usage: uncss [options] <file or url, ...>
+Usage: uncss [options] <file or URL, ...>
        e.g. uncss http://getbootstrap.com/examples/jumbotron/ > stylesheet.css
 
 Options:
@@ -92,7 +92,7 @@ Options:
 
 **Note that you can pass both local file paths and  URLs to the program.**
 
-- __ignore__ (Array): provide a list of selectors that should not be removed by UnCSS. For example, styles added by user interaction with the page (hover, click), since those are not detectable by UnCSS yet. Both literal names and regex patterns are recognized. Otherwise, you can add common in CSS file like:
+- **ignore** (Array): provide a list of selectors that should not be removed by UnCSS. For example, styles added by user interaction with the page (hover, click), since those are not detectable by UnCSS yet. Both literal names and regex patterns are recognized. Otherwise, you can add common in CSS file like:
 
 ```css
 /* uncss:ignore */
@@ -101,26 +101,26 @@ Options:
 }
 
 .selector2 {
-    /* will NOT */
+    /* this will NOT be ignored */
 }
 
 ```
 
-- __media__ (Array): By default UnCSS processes only stylesheets with media query "_all_", "_screen_", and those without one. Specify here which others to include.
+- **media** (Array): By default UnCSS processes only stylesheets with media query "_all_", "_screen_", and those without one. Specify here which others to include.
 
-- __csspath__ (String): path where the CSS files are related to the html files. By default, UnCSS uses the path specified in the `<link rel="stylesheet" href="path/to/file.css"/>`
+- **csspath** (String): path where the CSS files are related to the HTML files. By default, UnCSS uses the path specified in the `<link rel="stylesheet" href="path/to/file.css"/>`
 
-- __stylesheets__ (Array): use these stylesheets instead of those extracted from the html files.
+- **stylesheets** (Array): use these stylesheets instead of those extracted from the HTML files.
 
-- __ignoreSheets__ (Array): do not process these stylesheets, e.g. Google fonts. Accepts strings or regex patterns
+- **ignoreSheets** (Array): do not process these stylesheets, e.g. Google fonts. Accepts strings or regex patterns
 
-- __raw__ (String): give the task a raw string of CSS in addition to the existing stylesheet options; useful in scripting when your CSS hasn't yet been written to disk.
+- **raw** (String): give the task a raw string of CSS in addition to the existing stylesheet options; useful in scripting when your CSS hasn't yet been written to disk.
 
-- __timeout__ (Number): specify how long to wait for the JS to be loaded.
+- **timeout** (Number): specify how long to wait for the JS to be loaded.
 
-- __htmlroot__ (String): Where the project root is. Useful for example if you are running UnCSS on _local_ files that have absolute href to the stylesheets, i.e. `href="/css/style.css"`
+- **htmlroot** (String): Where the project root is. Useful for example if you are running UnCSS on _local_ files that have absolute href to the stylesheets, i.e. `href="/css/style.css"`
 
-- __report__ (Boolean): return the report object in callback
+- **report** (Boolean): return the report object in callback
 
 ## License
 Copyright (c) 2013 Giacomo Martino. See the [LICENSE](/LICENSE.md) file for license rights and limitations (MIT).
