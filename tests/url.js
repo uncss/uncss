@@ -2,8 +2,8 @@ var expect = require('chai').expect,
     fs = require('fs'),
     uncss = require('../lib/uncss'),
     /* Local */
-    gh_path = __dirname + '/output/gh-pages/stylesheets/stylesheet.css',
-    prev_run;
+    ghPath = __dirname + '/output/gh-pages/stylesheets/stylesheet.css',
+    prevRun;
 
 describe('Compile the CSS of an HTML page passed by URL', function () {
     'use strict';
@@ -12,11 +12,11 @@ describe('Compile the CSS of an HTML page passed by URL', function () {
      * Expected to fail if the gh-page is updated.
      */
     before(function (done) {
-        fs.readFile(gh_path, 'utf-8', function (err, stylesheet) {
+        fs.readFile(ghPath, 'utf-8', function (err, stylesheet) {
             if (err) {
                 throw err;
             }
-            prev_run = stylesheet;
+            prevRun = stylesheet;
             done();
         });
     });
@@ -36,8 +36,8 @@ describe('Compile the CSS of an HTML page passed by URL', function () {
         this.timeout(25000);
         uncss(['http://giakki.github.io/uncss/'], function (err, output) {
             expect(err).to.be.null;
-            expect(output).to.equal(prev_run);
-            prev_run = output;
+            expect(output).to.equal(prevRun);
+            prevRun = output;
             done();
         });
     });
@@ -50,8 +50,8 @@ describe('Compile the CSS of an HTML page passed by URL', function () {
                             'stylesheets/stylesheet.css'] },
             function (err, output) {
                 expect(err).to.be.null;
-                expect(output).to.equal(prev_run);
-                prev_run = output;
+                expect(output).to.equal(prevRun);
+                prevRun = output;
                 done();
             }
         );
@@ -65,8 +65,8 @@ describe('Compile the CSS of an HTML page passed by URL', function () {
                             '/uncss/stylesheets/stylesheet.css'] },
             function (err, output) {
                 expect(err).to.be.null;
-                expect(output).to.equal(prev_run);
-                prev_run = output;
+                expect(output).to.equal(prevRun);
+                prevRun = output;
                 done();
             }
         );
@@ -74,7 +74,7 @@ describe('Compile the CSS of an HTML page passed by URL', function () {
 
     after(function (done) {
         fs.writeFile(__dirname + '/output/gh-pages/stylesheets/stylesheet.css',
-                     prev_run,
+                     prevRun,
                      done);
     });
 
