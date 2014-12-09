@@ -3,7 +3,6 @@
 var promise = require('bluebird'),
     fs      = promise.promisifyAll(require('fs')),
     isHTML  = require('is-html'),
-    isURL   = require('./isURL'),
     path    = require('path'),
     request = promise.promisify(require('request')),
     url     = require('url');
@@ -25,7 +24,7 @@ function parsePaths(source, stylesheets, options) {
         }
 
         /* Check if we are fetching over http(s) */
-        if (isURL(source)) {
+        if (source.match(/^http/)) {
             _url      = url.parse(source);
             _protocol = _url.protocol;
         }
@@ -70,7 +69,7 @@ function parsePaths(source, stylesheets, options) {
  */
 function readStylesheets(files) {
     return promise.map(files, function (filename) {
-        if (isURL(filename)) {
+        if (filename.match(/^http/)) {
             return request({
                 url: filename,
                 headers: { 'User-Agent': 'UnCSS' }
