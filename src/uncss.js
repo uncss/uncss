@@ -5,7 +5,6 @@ var promise = require('bluebird'),
     fs      = require('fs'),
     glob    = require('glob'),
     isHTML  = require('is-html'),
-    isURL   = require('./isURL'),
     uncss   = require('./lib.js'),
     phantom = require('./phantom.js'),
     utility = require('./utility.js'),
@@ -13,6 +12,15 @@ var promise = require('bluebird'),
 
 // TODO: delete these (maybe use a wrapper {} and reduce)
 var g_files, g_options, g_pages;
+
+/**
+ * Helper for checking whether the file is a URL or not
+ * @param  {String}  url The string to check
+ * @return {Boolean}     Is it a URL?
+ */
+function isURL(url) {
+    return /^https?/.test(url);
+}
 
 /**
  * Get the contents of HTML pages through PhantomJS.
