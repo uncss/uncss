@@ -1,6 +1,6 @@
 # UnCSS
 
-[![Linux Build Status](https://travis-ci.org/giakki/uncss.svg)](https://travis-ci.org/giakki/uncss)
+[![Linux Build Status](https://travis-ci.org/giakki/uncss.svg?branch=master)](https://travis-ci.org/giakki/uncss)
 [![Windows Build status](https://ci.appveyor.com/api/projects/status/us2yo9qj5itk9n17/branch/master?svg=true)](https://ci.appveyor.com/project/giakki/uncss/branch/master)
 [![Coverage Status](https://img.shields.io/coveralls/giakki/uncss.svg)](https://coveralls.io/r/giakki/uncss?branch=master)
 [![Dependency Status](https://david-dm.org/giakki/uncss.svg)](https://david-dm.org/giakki/uncss)
