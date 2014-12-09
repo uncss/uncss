@@ -44,7 +44,7 @@
     "is-html": "~1.0.0",
     "node-phantom-simple": "~1.2.0",
     "phantomjs": "~1.9.12",
-    "request": "~2.49.0",
+    "request": "~2.50.0",
     "underscore": "~1.7.0"
   },
   "devDependencies": {
