@@ -17,16 +17,16 @@ describe('Pages should resemble the reference', function () {
 
     it('Bootstrap', function (done) {
         expect(abs('output/bootstrap/jumbotron.html'))
-            .to.resemble('http://getbootstrap.com/examples/jumbotron/', { tolerance: 0.05 }, done);
+            .to.resemble('http://getbootstrap.com/examples/jumbotron/', done);
     });
 
     it('Github pages', function (done) {
         expect(abs('output/gh-pages/index.html'))
-            .to.resemble('http://giakki.github.io/uncss/', { tolerance: 0.05 }, done);
+            .to.resemble('http://giakki.github.io/uncss/', done);
     });
 
     it('Selectors', function (done) {
         expect(abs('selectors/index.html'))
-            .to.resemble(abs('output/selectors/index.html'), { tolerance: 0.05 }, done);
+            .to.resemble(abs('output/selectors/index.html'), done);
     });
 });
