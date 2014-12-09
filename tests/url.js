@@ -1,8 +1,9 @@
 var expect = require('chai').expect,
-    fs = require('fs'),
-    uncss = require('../lib/uncss'),
+    fs     = require('fs'),
+    path   = require('path'),
+    uncss  = require('../lib/uncss'),
     /* Local */
-    ghPath = __dirname + '/output/gh-pages/stylesheets/stylesheet.css',
+    ghPath = path.join(__dirname, '/output/gh-pages/stylesheets/stylesheet.css'),
     prevRun;
 
 describe('Compile the CSS of an HTML page passed by URL', function () {
@@ -26,9 +27,9 @@ describe('Compile the CSS of an HTML page passed by URL', function () {
         uncss(['http://getbootstrap.com/examples/jumbotron/'], function (err, output) {
             expect(err).to.be.null;
             expect(output).to.have.length.above(2);
-            fs.writeFile(__dirname + '/output/bootstrap/jumbotron.compiled.css',
-                         output,
-                         done);
+            fs.writeFile(path.join(__dirname, '/output/bootstrap/jumbotron.compiled.css'),
+                                   output,
+                                   done);
         });
     });
 
@@ -73,9 +74,9 @@ describe('Compile the CSS of an HTML page passed by URL', function () {
     });
 
     after(function (done) {
-        fs.writeFile(__dirname + '/output/gh-pages/stylesheets/stylesheet.css',
-                     prevRun,
-                     done);
+        fs.writeFile(path.join(__dirname, '/output/gh-pages/stylesheets/stylesheet.css'),
+                               prevRun,
+                               done);
     });
 
 });
