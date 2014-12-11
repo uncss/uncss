@@ -11,39 +11,36 @@ var promise = require('bluebird'),
     utility = require('./utility.js'),
     _       = require('lodash');
 
-// TODO: delete these (maybe use a wrapper {} and reduce)
-var gFiles, gOptions, gPages;
-
 /**
  * Get the contents of HTML pages through PhantomJS.
  * @return {promise}
  */
-function getHTML() {
+function getHTML(files, options) {
 
-    if (_.isString(gFiles)) {
-        return phantom.fromRaw(gFiles, gOptions.timeout).then(function (pages) {
-            gPages = [pages];
+    if (_.isString(files)) {
+        return phantom.fromRaw(files, options.timeout).then(function (pages) {
+            return [files, options, [pages]];
         });
     }
 
-    gFiles = _.flatten(gFiles.map(function(file) {
+    files = _.flatten(files.map(function(file) {
         if (!isURL(file) && !isHTML(file)) {
             return glob.sync(file);
         }
         return file;
     }));
 
-    return promise.map(gFiles, function (filename) {
+    return promise.map(files, function (filename) {
         if (isURL(filename)) {
-            return phantom.fromRemote(filename, gOptions.timeout);
+            return phantom.fromRemote(filename, options.timeout);
         }
         if (fs.existsSync(filename)) {
-            return phantom.fromLocal(filename, gOptions.timeout);
+            return phantom.fromLocal(filename, options.timeout);
         }
         //raw html
-        return phantom.fromRaw(filename, gOptions.timeout);
+        return phantom.fromRaw(filename, options.timeout);
     }).then(function (pages) {
-        gPages = pages;
+        return [files, options, pages];
     });
 }
 
@@ -51,14 +48,16 @@ function getHTML() {
  * Get the contents of CSS files.
  * @return {promise}
  */
-function getStylesheets() {
-    if (gOptions.stylesheets && gOptions.stylesheets.length > 0) {
+function getStylesheets(files, options, pages) {
+    if (options.stylesheets && options.stylesheets.length > 0) {
         /* Simulate the behavior below */
-        return [gOptions.stylesheets];
+        return [files, options, pages, [options.stylesheets]];
     }
     /* Extract the stylesheets from the HTML */
-    return promise.map(gPages, function (page) {
-        return phantom.getStylesheets(page, gOptions);
+    return promise.map(pages, function (page) {
+        return phantom.getStylesheets(page, options);
+    }).then(function (stylesheets) {
+        return [files, options, pages, stylesheets];
     });
 }
 
@@ -67,12 +66,12 @@ function getStylesheets() {
  * @param  {Array}   stylesheets list of stylesheet paths
  * @return {promise}
  */
-function getCSS(stylesheets) {
+function getCSS(files, options, pages, stylesheets) {
     /* Ignore specified stylesheets */
-    if (gOptions.ignoreSheets.length > 0) {
+    if (options.ignoreSheets.length > 0) {
         stylesheets = stylesheets.map(function (arr) {
             return arr.filter(function (sheet) {
-                return _.every(gOptions.ignoreSheets, function (ignore) {
+                return _.every(options.ignoreSheets, function (ignore) {
                     if (_.isRegExp(ignore)) {
                         return !ignore.test(sheet);
                     }
@@ -94,7 +93,7 @@ function getCSS(stylesheets) {
         stylesheets =
             _.chain(stylesheets)
             .map(function (sheets, i) {
-                return utility.parsePaths(gFiles[i], sheets, gOptions);
+                return utility.parsePaths(files[i], sheets, options);
             })
             .flatten()
             .uniq()
@@ -103,7 +102,7 @@ function getCSS(stylesheets) {
         /* Reset the array if we didn't find any link tags */
         stylesheets = [];
     }
-    return utility.readStylesheets(stylesheets);
+    return [files, options, pages, utility.readStylesheets(stylesheets)];
 }
 
 /**
@@ -111,11 +110,11 @@ function getCSS(stylesheets) {
  * @param  {Array}   stylesheets list of CSS files
  * @return {promise}
  */
-function process(stylesheets) {
+function process(files, options, pages, stylesheets) {
     /* If we specified a raw string of CSS, add it to the stylesheets array */
-    if (gOptions.raw) {
-        if (_.isString(gOptions.raw)) {
-            stylesheets.push(gOptions.raw);
+    if (options.raw) {
+        if (_.isString(options.raw)) {
+            stylesheets.push(options.raw);
         } else {
             throw new Error('UnCSS: options.raw - expected a string');
         }
@@ -146,9 +145,9 @@ function process(stylesheets) {
         /* Try and construct an helpful error message */
         throw utility.parseErrorMessage(err, cssStr);
     }
-    return uncss(gPages, parsed.stylesheet, gOptions.ignore).then(function (res) {
+    return uncss(pages, parsed.stylesheet, options.ignore).then(function (res) {
         var usedCss = css.stringify(res[0]);
-        if (gOptions.report) {
+        if (options.report) {
             report = {
                 original: cssStr,
                 selectors: res[1]
@@ -187,15 +186,12 @@ function init(files, options, callback) {
         ignoreSheets : []
     });
 
-    gFiles = files;
-    gOptions = options;
-
     return promise
         .using(phantom.init(options.phantom), function () {
-            return getHTML()
-                .then(getStylesheets)
-                .then(getCSS)
-                .then(process);
+            return getHTML(files, options)
+                .spread(getStylesheets)
+                .spread(getCSS)
+                .spread(process);
         })
         .nodeify(callback, { spread: true });
 }
