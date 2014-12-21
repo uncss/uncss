@@ -88,7 +88,7 @@ function readStylesheets(files) {
         }
     }).then(function (res) {
         // res is an array of the content of each file in files (in the same order)
-        for(var i = 0; i < files.length; i++) {
+        for (var i = 0; i < files.length; i++) {
             // We append a small banner to keep track of which file we are currently processing
             // super helpful for debugging
             var banner = '/*** uncss> filename: ' + files[i].replace(/\\/g, '/') + ' ***/\n';
@@ -108,7 +108,7 @@ function parseErrorMessage(error, cssStr) {
             /* We get the filename of the css file that contains the error */
             var i = error.line - 1;
             while (i >= 0 && !error.filename) {
-                if (lines[i].substr(0,21) === '/*** uncss> filename:') {
+                if (lines[i].substr(0, 21) === '/*** uncss> filename:') {
                     error.filename = lines[i].substring(22, lines[i].length - 4);
                     zeroLine = i;
                 }
@@ -129,7 +129,7 @@ function parseErrorMessage(error, cssStr) {
           }
         }
     }
-    if(zeroLine > 0) {
+    if (zeroLine > 0) {
         error.message = error.message.replace(/[0-9]+:/, (error.line - zeroLine) + ':');
     }
     error.message = 'uncss/node_modules/css: unable to parse ' + error.filename + ':\n' + error.message + '\n';
