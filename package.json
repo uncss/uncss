@@ -37,10 +37,10 @@
     "README.md"
   ],
   "dependencies": {
-    "bluebird": "~2.3.11",
-    "commander": "~2.5.0",
+    "bluebird": "~2.4.1",
+    "commander": "~2.5.1",
     "css": "~2.1.0",
-    "glob": "~4.3.1",
+    "glob": "~4.3.2",
     "is-html": "~1.0.0",
     "lodash": "~2.4.1",
     "phridge": "~1.0.7",
