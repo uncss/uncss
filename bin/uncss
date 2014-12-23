@@ -25,6 +25,7 @@
         .option('-r, --raw <string>', 'Pass in a raw string of CSS')
         .option('-t, --timeout <milliseconds>', 'Wait for JS evaluation')
         .option('-H, --htmlroot <folder>', 'Absolute paths\' root location')
+        .option('-u, --uncssrc <file>', 'Load these options from <file>')
         .parse(process.argv);
 
     options = {
@@ -35,7 +36,8 @@
         stylesheets  : program.stylesheets,
         raw          : program.raw,
         timeout      : program.timeout,
-        htmlroot     : program.htmlroot
+        htmlroot     : program.htmlroot,
+        uncssrc      : program.uncssrc
     };
 
     if (program.args.length === 0) {

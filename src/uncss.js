@@ -6,8 +6,8 @@ var promise = require('bluebird'),
     glob    = require('glob'),
     isHTML  = require('is-html'),
     isURL   = require('is-absolute-url'),
-    uncss   = require('./lib.js'),
     phantom = require('./phantom.js'),
+    uncss   = require('./lib.js'),
     utility = require('./utility.js'),
     _       = require('lodash');
 
@@ -174,6 +174,19 @@ function init(files, options, callback) {
         options = {};
     } else if (!_.isFunction(callback)) {
         throw new TypeError('UnCSS: expected a callback');
+    }
+
+    /* Try and read options from the specified uncssrc file */
+    if (options.uncssrc) {
+        try {
+            options = utility.parseUncssrc(options.uncssrc);
+        } catch (err) {
+            if (err instanceof SyntaxError) {
+                return callback(new SyntaxError('UnCSS: uncssrc file is invalid JSON.'));
+            } else {
+                return callback(err);
+            }
+        }
     }
 
     /* Assign default values to options, unless specified */

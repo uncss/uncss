@@ -9,6 +9,35 @@ var promise = require('bluebird'),
     url     = require('url');
 
 /**
+ * Check if the supplied string might be a RegExp and, if so, return the corresponding RegExp.
+ * @param  {String} str    The regex to transform.
+ * @return {RegExp|String}
+ */
+function strToRegExp(str) {
+    if (str[0] === '/') {
+        return new RegExp(str.replace(/^\/|\/$/g, ''));
+    }
+    return str;
+}
+
+/**
+ * Parse a given uncssrc file.
+ * @param  {String} filename The location of the uncssrc file
+ * @return {Object}
+ */
+function parseUncssrc(filename) {
+    var options = JSON.parse(fs.readFileSync(filename, 'utf-8'));
+
+    /* RegExps can't be stored as JSON, therefore we need to parse them manually.
+     * A string is a RegExp if it starts with '/', since that wouldn't be a valid CSS selector.
+     */
+    options.ignore = options.ignore ? options.ignore.map(strToRegExp) : undefined;
+    options.ignoreSheets = options.ignoreSheets ? options.ignoreSheets.map(strToRegExp) : undefined;
+
+    return options;
+}
+
+/**
  * Parse paths relatives to a source.
  * @param  {String} source      Where the paths originate from
  * @param  {Array}  stylesheets List of paths
@@ -137,6 +166,7 @@ function parseErrorMessage(error, cssStr) {
 }
 
 module.exports = {
+    parseUncssrc      : parseUncssrc,
     parseErrorMessage : parseErrorMessage,
     parsePaths        : parsePaths,
     readStylesheets   : readStylesheets

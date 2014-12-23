@@ -118,4 +118,13 @@ describe('Options', function () {
             }
         );
     });
+
+    it('options.uncssrc should be read', function (done) {
+        uncss(rfs('selectors/index.html'), { uncssrc: 'tests/coverage/.uncssrc'}, function (err, res) {
+            expect(err).to.be.null;
+            expect(res).to.equal(output);
+
+            done();
+        });
+    });
 });
