@@ -22,6 +22,16 @@ describe('Compile the CSS of an HTML page passed by URL', function () {
         });
     });
 
+    it('Accepts protocol-less URLs', function (done) {
+        this.timeout(25000);
+        uncss(['//giakki.github.io/uncss/'], function (err, output) {
+            expect(err).to.be.null;
+            expect(output).to.have.length.above(2);
+            done();
+        });
+    });
+
+
     it('Accepts an array of URLs', function (done) {
         this.timeout(25000);
         uncss(['http://getbootstrap.com/examples/jumbotron/'], function (err, output) {

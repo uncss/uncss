@@ -3,7 +3,7 @@
 var promise = require('bluebird'),
     fs      = promise.promisifyAll(require('fs')),
     isHTML  = require('is-html'),
-    isURL   = require('./isURL'),
+    isURL   = require('is-absolute-url'),
     path    = require('path'),
     request = promise.promisify(require('request')),
     url     = require('url');

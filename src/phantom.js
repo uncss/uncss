@@ -77,6 +77,11 @@ function fromLocal(filename, timeout) {
  * @return {promise}
  */
 function fromRemote(url, timeout) {
+    /* If the protocol is unspecified, default to HTTP */
+    if (!/^http/.test(url)) {
+        url = 'http:' + url;
+    }
+
     return phantom.openPage(url).then(function (page) {
         return new promise(function (resolve) {
             setTimeout(function () {
