@@ -85,4 +85,21 @@ describe('Error reporting', function () {
             done();
         });
     });
+
+    it('Reports when the uncssrc file does not exist', function (done) {
+        uncss(['selectors/index.html'], { uncssrc: 'nonexistent'}, function (err) {
+            expect(err.code).to.equal('ENOENT');
+
+            done();
+        });
+    });
+
+    it('Reports errors in the uncssrc file', function (done) {
+        uncss(['selectors/index.html'], { uncssrc: 'tests/coverage/.invaliduncssrc' }, function (err) {
+            expect(err).to.be.an.instanceOf(SyntaxError);
+            expect(err.message).to.equal('UnCSS: uncssrc file is invalid JSON.');
+
+            done();
+        });
+    });
 });

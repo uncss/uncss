@@ -1,0 +1,14 @@
+{
+    "csspath": "tests",
+    "ignore": [
+        ".unused_test",
+        "/^#test/"
+    ],
+    "stylesheets": [
+        "coverage/override.css",
+        "coverage/ignore.css",
+        "coverage/ignore_comment.css"
+    ],
+
+    INVALIDJSON
+}
