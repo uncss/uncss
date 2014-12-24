@@ -1,7 +1,7 @@
 'use strict';
 
-var expect    = require('chai').expect,
-    uncss     = require('./../src/uncss.js');
+var expect = require('chai').expect,
+    uncss  = require('./../src/uncss.js');
 
 var invalidCss = 'We need to create a string longer than 40 characters to ' +
                  'check if the error string we are creating is helpful';
@@ -87,7 +87,7 @@ describe('Error reporting', function () {
     });
 
     it('Reports when the uncssrc file does not exist', function (done) {
-        uncss(['selectors/index.html'], { uncssrc: 'nonexistent'}, function (err) {
+        uncss(['selectors/index.html'], { uncssrc: 'nonexistent' }, function (err) {
             expect(err.code).to.equal('ENOENT');
 
             done();

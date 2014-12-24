@@ -1,9 +1,9 @@
 'use strict';
 
-var expect    = require('chai').expect,
-    fs        = require('fs'),
-    path      = require('path'),
-    uncss     = require('./../src/uncss.js');
+var fs     = require('fs'),
+    path   = require('path'),
+    expect = require('chai').expect,
+    uncss  = require('./../src/uncss.js');
 
 /* Read file sync sugar. */
 var rfs = function (file) {

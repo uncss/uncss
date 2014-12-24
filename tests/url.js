@@ -1,14 +1,14 @@
-var expect = require('chai').expect,
-    fs     = require('fs'),
+'use strict';
+
+var fs     = require('fs'),
     path   = require('path'),
-    uncss  = require('../src/uncss'),
-    /* Local */
-    ghPath = path.join(__dirname, '/output/gh-pages/stylesheets/stylesheet.css'),
+    expect = require('chai').expect,
+    uncss  = require('../src/uncss');
+
+var ghPath = path.join(__dirname, '/output/gh-pages/stylesheets/stylesheet.css'),
     prevRun;
 
 describe('Compile the CSS of an HTML page passed by URL', function () {
-    'use strict';
-
     /* Used to check that all the requests to gh-pages generate the same CSS.
      * Expected to fail if the gh-page is updated.
      */

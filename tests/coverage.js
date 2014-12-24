@@ -1,12 +1,9 @@
 'use strict';
 
-var expect = require('chai').expect,
-    fs     = require('fs'),
+var fs     = require('fs'),
     path   = require('path'),
+    expect = require('chai').expect,
     uncss  = require('./../src/uncss.js');
-
-/* node-phantom-simple seems to leak */
-process.setMaxListeners(0);
 
 /* Read file sync sugar. */
 var rfs = function (file) {
@@ -32,7 +29,7 @@ describe('Options', function () {
                 throw err;
             }
             output = res;
-            report  = rep;
+            report = rep;
             done();
         });
     });
@@ -120,7 +117,7 @@ describe('Options', function () {
     });
 
     it('options.uncssrc should be read', function (done) {
-        uncss(rfs('selectors/index.html'), { uncssrc: 'tests/coverage/.uncssrc'}, function (err, res) {
+        uncss(rfs('selectors/index.html'), { uncssrc: 'tests/coverage/.uncssrc' }, function (err, res) {
             expect(err).to.be.null;
             expect(res).to.equal(output);
 

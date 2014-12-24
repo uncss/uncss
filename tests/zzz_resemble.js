@@ -15,7 +15,7 @@ describe('Pages should resemble the reference', function () {
             .to.resemble('http://getbootstrap.com/examples/jumbotron/', done);
     });
 
-    it('Github pages', function (done) {
+    it('GitHub pages', function (done) {
         expect('tests/output/gh-pages/index.html')
             .to.resemble('http://giakki.github.io/uncss/', done);
     });

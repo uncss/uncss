@@ -37,7 +37,7 @@ function getHTML(files, options) {
         if (fs.existsSync(filename)) {
             return phantom.fromLocal(filename, options.timeout);
         }
-        //raw html
+        // raw html
         return phantom.fromRaw(filename, options.timeout);
     }).then(function (pages) {
         return [files, options, pages];

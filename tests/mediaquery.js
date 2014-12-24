@@ -1,8 +1,8 @@
 'use strict';
 
-var expect = require('chai').expect,
-    fs     = require('fs'),
+var fs     = require('fs'),
     path   = require('path'),
+    expect = require('chai').expect,
     uncss  = require('../src/uncss');
 
 describe('Compile the CSS of an HTML page passed by path', function () {
