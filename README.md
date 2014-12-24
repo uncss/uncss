@@ -41,7 +41,8 @@ var files   = ['my', 'array', 'of', 'HTML', 'files', 'or', 'http://urls.com'],
         ignoreSheets : [/fonts.googleapis/],
         timeout      : 1000,
         htmlroot     : 'public',
-        report       : false
+        report       : false,
+        uncssrc      : '.uncssrc'
     };
 
 uncss(files, options, function (error, output) {
@@ -55,6 +56,7 @@ uncss(files, function (error, output) {
 
 /* Specifying raw HTML */
 var rawHtml = '...';
+
 uncss(rawHtml, options, function (error, output) {
     console.log(output);
 });
@@ -74,7 +76,7 @@ and to @ben-eb for creating:
 
 ```
 Usage: uncss [options] <file or URL, ...>
-       e.g. uncss http://getbootstrap.com/examples/jumbotron/ > stylesheet.css
+    e.g. uncss http://getbootstrap.com/examples/jumbotron/ > stylesheet.css
 
 Options:
 
@@ -88,6 +90,7 @@ Options:
   -r, --raw <string>                    Pass in a raw string of CSS
   -t, --timeout <milliseconds>          Wait for JS evaluation
   -H, --htmlroot <folder>               Absolute paths' root location
+  -u, --uncssrc <file>                  Load these options from <file>
 ```
 
 **Note that you can pass both local file paths and  URLs to the program.**
@@ -108,19 +111,37 @@ Options:
 
 - **media** (Array): By default UnCSS processes only stylesheets with media query "_all_", "_screen_", and those without one. Specify here which others to include.
 
-- **csspath** (String): path where the CSS files are related to the HTML files. By default, UnCSS uses the path specified in the `<link rel="stylesheet" href="path/to/file.css"/>`
+- **csspath** (String): Path where the CSS files are related to the HTML files. By default, UnCSS uses the path specified in the `<link rel="stylesheet" href="path/to/file.css"/>`
 
-- **stylesheets** (Array): use these stylesheets instead of those extracted from the HTML files.
+- **stylesheets** (Array): Use these stylesheets instead of those extracted from the HTML files.
 
-- **ignoreSheets** (Array): do not process these stylesheets, e.g. Google fonts. Accepts strings or regex patterns
+- **ignoreSheets** (Array): Do not process these stylesheets, e.g. Google fonts. Accepts strings or regex patterns
 
-- **raw** (String): give the task a raw string of CSS in addition to the existing stylesheet options; useful in scripting when your CSS hasn't yet been written to disk.
+- **raw** (String): Give the task a raw string of CSS in addition to the existing stylesheet options; useful in scripting when your CSS hasn't yet been written to disk.
 
-- **timeout** (Number): specify how long to wait for the JS to be loaded.
+- **timeout** (Number): Specify how long to wait for the JS to be loaded.
 
 - **htmlroot** (String): Where the project root is. Useful for example if you are running UnCSS on _local_ files that have absolute href to the stylesheets, i.e. `href="/css/style.css"`
 
-- **report** (Boolean): return the report object in callback
+- **report** (Boolean): Return the report object in callback
+
+- **uncssrc** (String): Load all options from a JSON file. Regular expressions for the "ignore" and "ignoreSheets" options should be wrapped in quotation marks.
+
+Example uncssrc file:
+
+```json
+{
+    "ignore": [
+        ".unused",
+        "/^#js/"
+    ],
+    "stylesheets": [
+        "css/override.css"
+    ]
+}
+
+```
+
 
 ## License
 Copyright (c) 2013 Giacomo Martino. See the [LICENSE](/LICENSE.md) file for license rights and limitations (MIT).
