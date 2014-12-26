@@ -6,13 +6,23 @@ module.exports = function(grunt) {
     grunt.initConfig({
 
         jshint: {
-            all: ['{src,tests,.}/*.js', 'bin/uncss'],
             options: {
                 jshintrc: '.jshintrc'
+            },
+            src: {
+                src: ['src/*.js', 'bin/uncss']
+            },
+            tests: {
+                src: 'tests/*.js'
             }
         },
 
         mochacov: {
+            options: {
+                files: 'tests/*.js',
+                slow: 7500,
+                timeout: 20000
+            },
             unit: {
                 options: {
                     reporter: 'spec'
@@ -29,11 +39,6 @@ module.exports = function(grunt) {
                         serviceName: 'travis-ci'
                     }
                 }
-            },
-            options: {
-                files: 'tests/*.js',
-                slow: 7500,
-                timeout: 20000
             }
         }
     });
