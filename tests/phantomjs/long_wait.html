@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <link rel="stylesheet" href="phantomjs.css">
-</head>
-<body>
-<script type="text/javascript">
-    /* Simulate long computation */
-    var i;
-    for (i = 0; i < 2000000000; ++i) {
-        i++;
-    }
-    /* Append an element */
-    var div = document.createElement('div');
-    div.className = 'long-wait';
-    document.body.appendChild(div);
-</script>
-</body>
+    <head>
+        <meta charset="utf-8">
+        <title>PhantomJS long wait test</title>
+        <link rel="stylesheet" href="phantomjs.css">
+    </head>
+    <body>
+        <script>
+            /* Simulate long computation */
+            for (var i = 0; i < 2000000000; ++i) {
+                i++;
+            }
+            /* Append an element */
+            var div = document.createElement('div');
+            div.className = 'long-wait';
+            document.body.appendChild(div);
+        </script>
+    </body>
 </html>

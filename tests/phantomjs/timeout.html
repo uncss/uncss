@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <link rel="stylesheet" href="phantomjs.css">
-</head>
-<body>
-<script type="text/javascript">
+    <head>
+        <meta charset="utf-8">
+        <title>PhantomJS timeout test</title>
+        <link rel="stylesheet" href="phantomjs.css">
+    </head>
+    <body>
+        <script>
 
-    setTimeout(function () {
-        var div = document.createElement('div');
-        div.className = 'timeout';
-        document.body.appendChild(div);
-    }, 2500);
+            setTimeout(function () {
+                var div = document.createElement('div');
+                div.className = 'timeout';
+                document.body.appendChild(div);
+            }, 2500);
 
-</script>
-</body>
+        </script>
+    </body>
 </html>
