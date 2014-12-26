@@ -271,7 +271,7 @@ module.exports = function uncss(pages, stylesheet, ignore) {
             processed,
             /* Get the selectors for the report */
             {
-                all:  getAllSelectors(stylesheet),
+                all: getAllSelectors(stylesheet),
                 used: usedSelectors
             }];
     });

@@ -109,9 +109,8 @@ function readStylesheets(files) {
             return fs.readFileAsync(filename, 'utf-8').then(function (contents) {
                 return contents;
             });
-        } else {
-            throw new Error('UnCSS: could not open ' + path.join(process.cwd(), filename));
         }
+        throw new Error('UnCSS: could not open ' + path.join(process.cwd(), filename));
     }).then(function (res) {
         // res is an array of the content of each file in files (in the same order)
         for (var i = 0; i < files.length; i++) {
@@ -163,8 +162,8 @@ function parseErrorMessage(error, cssStr) {
 }
 
 module.exports = {
-    parseUncssrc      : parseUncssrc,
-    parseErrorMessage : parseErrorMessage,
-    parsePaths        : parsePaths,
-    readStylesheets   : readStylesheets
+    parseUncssrc: parseUncssrc,
+    parseErrorMessage: parseErrorMessage,
+    parsePaths: parsePaths,
+    readStylesheets: readStylesheets
 };

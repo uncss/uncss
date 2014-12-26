@@ -168,10 +168,10 @@ function findAll(page, selectors) {
 }
 
 module.exports = {
-    init       : init,
-    fromLocal  : fromLocal,
-    fromRaw    : fromRaw,
-    fromRemote : fromRemote,
-    findAll    : findAll,
+    init: init,
+    fromLocal: fromLocal,
+    fromRaw: fromRaw,
+    fromRemote: fromRemote,
+    findAll: findAll,
     getStylesheets: getStylesheets
 };

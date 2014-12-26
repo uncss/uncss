@@ -183,20 +183,20 @@ function init(files, options, callback) {
         } catch (err) {
             if (err instanceof SyntaxError) {
                 return callback(new SyntaxError('UnCSS: uncssrc file is invalid JSON.'));
-            } else {
-                return callback(err);
             }
+            return callback(err);
+
         }
     }
 
     /* Assign default values to options, unless specified */
     options = _.defaults(options, {
-        csspath      : '',
-        ignore       : [],
-        media        : [],
-        timeout      : 0,
-        report       : false,
-        ignoreSheets : []
+        csspath: '',
+        ignore: [],
+        media: [],
+        timeout: 0,
+        report: false,
+        ignoreSheets: []
     });
 
     return promise
