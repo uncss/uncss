@@ -23,7 +23,7 @@ function getHTML(files, options) {
         });
     }
 
-    files = _.flatten(files.map(function(file) {
+    files = _.flatten(files.map(function (file) {
         if (!isURL(file) && !isHTML(file)) {
             return glob.sync(file);
         }

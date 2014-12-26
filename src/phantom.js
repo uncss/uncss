@@ -22,7 +22,7 @@ function exit() {
 function init(instance) {
     if (instance) {
         phantom = instance;
-        return;
+        return null;
     }
 
     // Convert to bluebird promise

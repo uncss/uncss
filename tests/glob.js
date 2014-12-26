@@ -11,8 +11,8 @@ describe('Using globbing patterns', function () {
         this.timeout(25000);
 
         uncss(['tests/glob/**/*.html'], function (err, output) {
-            expect(err).to.be.null;
-            expect(output).to.exist;
+            expect(err).to.equal(null);
+            expect(output).to.not.equal(undefined);
             expect(output).to.contain('h1');
             expect(output).to.contain('h2');
             expect(output).not.to.contain('h3');

@@ -5,7 +5,7 @@
 
     "rules": {
         "block-scoped-var": 2,
-        "brace-style": [2, "stroustrup"],
+        "brace-style": [2, "1tbs"],
         "camelcase": 2,
         "comma-spacing": [2, {"before": false, "after": true}],
         "comma-style": [2, "last"],
@@ -15,7 +15,7 @@
         "eqeqeq": 2,
         //"key-spacing": [2, {"beforeColon": false, "afterColon": true}],
         "key-spacing": 0,
-        "new-cap": 2,
+        "new-cap": 0,
         "new-parens": 2,
         "no-array-constructor": 2,
         "no-bitwise": 2,

@@ -13,8 +13,8 @@ describe('Compile the CSS of an HTML page passed by path', function () {
         this.timeout(25000);
 
         uncss(['tests/input/testpage.html'], function (err, output) {
-            expect(err).to.be.null;
-            expect(output).to.exist;
+            expect(err).to.equal(null);
+            expect(output).to.not.equal(undefined);
             fs.writeFile(path.join(__dirname, '/output/mediaquery/testpage.compiled.css'), output, done);
             expect(output).to.not.match(/\},@media/);
         });

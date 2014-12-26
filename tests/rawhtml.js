@@ -11,7 +11,7 @@ describe('Raw HTML', function () {
         var html = fs.readFileSync('tests/phantomjs/basic.html', { encoding: 'utf8' });
 
         uncss([html], { csspath: 'tests/phantomjs' }, function (err, output) {
-            expect(err).to.be.null;
+            expect(err).to.equal(null);
             expect(output).to.include('.evaluated');
             done();
         });
