@@ -28,4 +28,5 @@ matrix:
 
 cache:
   - C:\Users\appveyor\AppData\Roaming\npm\node_modules  # global npm modules
+  - C:\Users\appveyor\AppData\Local\Temp\phantomjs      # phantomjs download location
   - node_modules                                        # local npm modules
