@@ -3,7 +3,7 @@
 /* eslint-env mocha */
 
 var expect = require('chai').expect,
-    uncss  = require('./../src/uncss.js');
+    uncss = require('./../src/uncss.js');
 
 var invalidCss = 'We need to create a string longer than 40 characters to ' +
                  'check if the error string we are creating is helpful';

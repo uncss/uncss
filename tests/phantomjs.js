@@ -3,7 +3,7 @@
 /* eslint-env mocha */
 
 var expect = require('chai').expect,
-    uncss  = require('./../src/uncss.js');
+    uncss = require('./../src/uncss.js');
 
 describe('PhantomJS', function () {
 

@@ -3,7 +3,7 @@
 /* eslint-env mocha */
 
 var expect = require('chai').expect,
-    uncss  = require('../src/uncss');
+    uncss = require('../src/uncss');
 
 describe('Using globbing patterns', function () {
 

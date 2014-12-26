@@ -4,10 +4,11 @@
 
     process.title = 'uncss';
 
-    var uncss   = require('../src/uncss.js'),
-        data    = require('../package.json'),
-        program = require('commander'),
-        buffer  = '',
+    var uncss = require('../src/uncss.js'),
+        data = require('../package.json'),
+        program = require('commander');
+
+    var buffer = '',
         options;
 
     function listArg(val) {

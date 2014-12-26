@@ -1,12 +1,13 @@
 'use strict';
 
 var promise = require('bluebird'),
-    fs      = promise.promisifyAll(require('fs')),
-    isHTML  = require('is-html'),
-    isURL   = require('is-absolute-url'),
-    path    = require('path'),
-    request = promise.promisify(require('request')),
-    url     = require('url');
+    isHTML = require('is-html'),
+    isURL = require('is-absolute-url'),
+    path = require('path'),
+    url = require('url');
+
+var fs = promise.promisifyAll(require('fs')),
+    request = promise.promisify(require('request'));
 
 /**
  * Check if the supplied string might be a RegExp and, if so, return the corresponding RegExp.
@@ -55,7 +56,7 @@ function parsePaths(source, stylesheets, options) {
 
         /* Check if we are fetching over http(s) */
         if (isURL(source)) {
-            _url      = url.parse(source);
+            _url = url.parse(source);
             _protocol = _url.protocol;
         }
 
@@ -79,12 +80,10 @@ function parsePaths(source, stylesheets, options) {
             sheet = sheet.split('?')[0].split('#')[0];
             if (sheet[0] === '/' && options.htmlroot) {
                 _path = path.join(options.htmlroot, sheet);
+            } else if (isHTML(source)) {
+                _path = path.join(options.csspath, sheet);
             } else {
-                if (isHTML(source)) {
-                    _path = path.join(options.csspath, sheet);
-                } else {
-                    _path = path.join(path.dirname(source), options.csspath, sheet);
-                }
+                _path = path.join(path.dirname(source), options.csspath, sheet);
             }
         }
         return _path;
@@ -106,14 +105,12 @@ function readStylesheets(files) {
             }).spread(function (response, body) {
                 return body;
             });
+        } else if (fs.existsSync(filename)) {
+            return fs.readFileAsync(filename, 'utf-8').then(function (contents) {
+                return contents;
+            });
         } else {
-            if (fs.existsSync(filename)) {
-                return fs.readFileAsync(filename, 'utf-8').then(function (contents) {
-                    return contents;
-                });
-            } else {
-                throw new Error('UnCSS: could not open ' + path.join(process.cwd(), filename));
-            }
+            throw new Error('UnCSS: could not open ' + path.join(process.cwd(), filename));
         }
     }).then(function (res) {
         // res is an array of the content of each file in files (in the same order)

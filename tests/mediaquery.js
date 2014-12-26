@@ -2,10 +2,10 @@
 
 /* eslint-env mocha */
 
-var fs     = require('fs'),
-    path   = require('path'),
+var fs = require('fs'),
+    path = require('path'),
     expect = require('chai').expect,
-    uncss  = require('../src/uncss');
+    uncss = require('../src/uncss');
 
 describe('Compile the CSS of an HTML page passed by path', function () {
 

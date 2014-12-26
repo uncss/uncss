@@ -1,15 +1,15 @@
 'use strict';
 
 var promise = require('bluebird'),
-    css     = require('css'),
-    fs      = require('fs'),
-    glob    = require('glob'),
-    isHTML  = require('is-html'),
-    isURL   = require('is-absolute-url'),
+    css = require('css'),
+    fs = require('fs'),
+    glob = require('glob'),
+    isHTML = require('is-html'),
+    isURL = require('is-absolute-url'),
     phantom = require('./phantom.js'),
-    uncss   = require('./lib.js'),
+    uncss = require('./lib.js'),
     utility = require('./utility.js'),
-    _       = require('lodash');
+    _ = require('lodash');
 
 /**
  * Get the contents of HTML pages through PhantomJS.

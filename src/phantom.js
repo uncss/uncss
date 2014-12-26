@@ -1,9 +1,9 @@
 'use strict';
 
-var fs      = require('fs'),
+var fs = require('fs'),
     phridge = require('phridge'),
     promise = require('bluebird'),
-    _       = require('lodash');
+    _ = require('lodash');
 
 var phantom;
 

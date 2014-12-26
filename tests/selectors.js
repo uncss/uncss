@@ -2,20 +2,20 @@
 
 /* eslint-env mocha */
 
-var fs     = require('fs'),
-    path   = require('path'),
+var fs = require('fs'),
+    path = require('path'),
     expect = require('chai').expect,
-    uncss  = require('./../src/uncss.js');
+    uncss = require('./../src/uncss.js');
 
 /* Read file sync sugar. */
 var rfs = function (file) {
     return fs.readFileSync(path.join(__dirname, file), 'utf-8').replace(/\r\n/g, '\n');
 };
 
-var rawcss   = false,
+var rawcss = false,
     fixtures = fs.readdirSync(path.join(__dirname, 'selectors/fixtures')),
     expected = fs.readdirSync(path.join(__dirname, 'selectors/expected')),
-    unused   = fs.readdirSync(path.join(__dirname, 'selectors/unused')),
+    unused = fs.readdirSync(path.join(__dirname, 'selectors/unused')),
     tests;
 
 /* Build test object in the form:

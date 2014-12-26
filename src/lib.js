@@ -2,7 +2,7 @@
 
 var promise = require('bluebird'),
     phantom = require('./phantom.js'),
-    _       = require('lodash');
+    _ = require('lodash');
 
 /* Some styles are applied only with user interaction, and therefore its
  *   selectors cannot be used with querySelectorAll.

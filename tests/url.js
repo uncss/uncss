@@ -2,10 +2,10 @@
 
 /* eslint-env mocha */
 
-var fs     = require('fs'),
-    path   = require('path'),
+var fs = require('fs'),
+    path = require('path'),
     expect = require('chai').expect,
-    uncss  = require('../src/uncss');
+    uncss = require('../src/uncss');
 
 var ghPath = path.join(__dirname, '/output/gh-pages/stylesheets/stylesheet.css'),
     prevRun;

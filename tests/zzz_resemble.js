@@ -3,9 +3,10 @@
 
 /* eslint-env mocha */
 
-var chai     = require('chai'),
-    expect   = chai.expect,
+var chai = require('chai'),
     resemble = require('chai-resemble');
+
+var expect = chai.expect;
 
 chai.use(resemble);
 

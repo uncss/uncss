@@ -2,9 +2,9 @@
 
 /* eslint-env mocha */
 
-var fs     = require('fs'),
+var fs = require('fs'),
     expect = require('chai').expect,
-    uncss  = require('./../src/uncss.js');
+    uncss = require('./../src/uncss.js');
 
 describe('Raw HTML', function () {
     it('Should process an array containing HTML', function (done) {
