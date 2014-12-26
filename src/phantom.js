@@ -104,6 +104,7 @@ function getStylesheets(page, options) {
     var media = _.union(['', 'all', 'screen'], options.media);
     return page.run(function () {
         /* jshint browser: true */
+        /* eslint-env browser */
         return this.evaluate(function () {
             return Array.prototype.map.call(document.querySelectorAll('link[rel="stylesheet"]'), function (link) {
                 return { href: link.href, media: link.media };

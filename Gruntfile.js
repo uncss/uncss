@@ -17,6 +17,18 @@ module.exports = function(grunt) {
             }
         },
 
+        eslint: {
+            options: {
+                config: '.eslintrc'
+            },
+            src: {
+                src: '<%= jshint.src.src %>'
+            },
+            tests: {
+                src: '<%= jshint.tests.src %>'
+            }
+        },
+
         mochacov: {
             options: {
                 files: 'tests/*.js',
@@ -44,12 +56,13 @@ module.exports = function(grunt) {
     });
 
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-eslint');
     grunt.loadNpmTasks('grunt-mocha-cov');
 
     require('time-grunt')(grunt);
 
     grunt.registerTask('cover', ['mochacov:coverage']);
-    grunt.registerTask('test', ['jshint', 'mochacov:unit']);
-    grunt.registerTask('travis', ['jshint', 'mochacov:unit', 'mochacov:coveralls']);
+    grunt.registerTask('test', ['jshint', 'eslint','mochacov:unit']);
+    grunt.registerTask('travis', ['test', 'mochacov:coveralls']);
     grunt.registerTask('default', 'test');
 };

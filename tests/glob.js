@@ -1,5 +1,7 @@
 'use strict';
 
+/* eslint-env mocha */
+
 var expect = require('chai').expect,
     uncss  = require('../src/uncss');
 
