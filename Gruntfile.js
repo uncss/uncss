@@ -61,8 +61,8 @@ module.exports = function(grunt) {
 
     require('time-grunt')(grunt);
 
-    grunt.registerTask('cover', ['mochacov:coverage']);
-    grunt.registerTask('test', ['jshint', 'eslint','mochacov:unit']);
+    grunt.registerTask('lint', ['jshint', 'eslint']);
+    grunt.registerTask('test', ['lint','mochacov:unit']);
     grunt.registerTask('travis', ['test', 'mochacov:coveralls']);
     grunt.registerTask('default', 'test');
 };
