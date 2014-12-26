@@ -54,7 +54,7 @@ span + span {
 
 /*** uncss> filename: tests/selectors/fixtures/complex.css ***/
 
-[data-section=''] > section > [data-section-title] h4 {
+[data-section=''] > section > h4 [data-section-title] {
   color: cyan;
 }
 
