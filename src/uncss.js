@@ -142,7 +142,7 @@ function process(files, options, pages, stylesheets) {
     try {
         parsed = css.parse(cssStr);
     } catch (err) {
-        /* Try and construct an helpful error message */
+        /* Try and construct a helpful error message */
         throw utility.parseErrorMessage(err, cssStr);
     }
     return uncss(pages, parsed.stylesheet, options.ignore).then(function (res) {

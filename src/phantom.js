@@ -71,7 +71,7 @@ function fromLocal(filename, timeout) {
 }
 
 /**
- * Open a page given an URL.
+ * Open a page given a URL.
  * @param  {String}  url
  * @param  {Number}  timeout
  * @return {promise}
