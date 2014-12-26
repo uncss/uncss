@@ -65,13 +65,9 @@ uncss(rawHtml, options, function (error, output) {
 
 ### At build-time
 UnCSS can also be used in conjunction with other javascript build systems, such as [Grunt](https://github.com/gruntjs/grunt) or [Gulp](https://github.com/gulpjs/gulp)!
-Thanks to @addyosmani for creating:
 
-- [grunt-uncss](https://github.com/addyosmani/grunt-uncss)
-
-and to @ben-eb for creating:
-
-- [gulp-uncss](https://github.com/ben-eb/gulp-uncss)
+- [grunt-uncss](https://github.com/addyosmani/grunt-uncss) – Thanks to [@addyosmani](https://github.com/addyosmani)
+- [gulp-uncss](https://github.com/ben-eb/gulp-uncss) – Thanks to [@ben-eb](https://github.com/ben-eb)
 
 ### From the command line:
 
@@ -112,19 +108,19 @@ Options:
 
 - **media** (Array): By default UnCSS processes only stylesheets with media query "_all_", "_screen_", and those without one. Specify here which others to include.
 
-- **csspath** (String): Path where the CSS files are related to the HTML files. By default, UnCSS uses the path specified in the `<link rel="stylesheet" href="path/to/file.css"/>`
+- **csspath** (String): Path where the CSS files are related to the HTML files. By default, UnCSS uses the path specified in the `<link rel="stylesheet" href="path/to/file.css"/>`.
 
 - **stylesheets** (Array): Use these stylesheets instead of those extracted from the HTML files.
 
-- **ignoreSheets** (Array): Do not process these stylesheets, e.g. Google fonts. Accepts strings or regex patterns
+- **ignoreSheets** (Array): Do not process these stylesheets, e.g. Google fonts. Accepts strings or regex patterns.
 
 - **raw** (String): Give the task a raw string of CSS in addition to the existing stylesheet options; useful in scripting when your CSS hasn't yet been written to disk.
 
 - **timeout** (Number): Specify how long to wait for the JS to be loaded.
 
-- **htmlroot** (String): Where the project root is. Useful for example if you are running UnCSS on _local_ files that have absolute href to the stylesheets, i.e. `href="/css/style.css"`
+- **htmlroot** (String): Where the project root is. Useful for example if you are running UnCSS on _local_ files that have absolute href to the stylesheets, i.e. `href="/css/style.css"`.
 
-- **report** (Boolean): Return the report object in callback
+- **report** (Boolean): Return the report object in callback.
 
 - **uncssrc** (String): Load all options from a JSON file. Regular expressions for the "ignore" and "ignoreSheets" options should be wrapped in quotation marks.
 
