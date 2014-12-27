@@ -1,9 +1,11 @@
 'use strict';
 
-var fs     = require('fs'),
-    path   = require('path'),
+/* eslint-env mocha */
+
+var fs = require('fs'),
+    path = require('path'),
     expect = require('chai').expect,
-    uncss  = require('./../src/uncss.js');
+    uncss = require('./../src/uncss.js');
 
 /* Read file sync sugar. */
 var rfs = function (file) {
@@ -21,15 +23,14 @@ var stylesheets = ['coverage/override.css', 'coverage/ignore.css', 'coverage/ign
 
 describe('Options', function () {
 
-    var output, report;
+    var output;
 
     before(function (done) {
-        uncss(rfs('selectors/index.html'), options, function (err, res, rep) {
+        uncss(rfs('selectors/index.html'), options, function (err, res) {
             if (err) {
                 throw err;
             }
             output = res;
-            report = rep;
             done();
         });
     });
@@ -49,7 +50,7 @@ describe('Options', function () {
                 csspath: 'tests/selectors'
             },
             function (err, output) {
-                expect(err).to.be.null;
+                expect(err).to.equal(null);
                 expect(output).to.not.include('@font-face');
                 done();
             }
@@ -70,7 +71,7 @@ describe('Options', function () {
 
     it('options.htmlroot should be respected', function (done) {
         uncss(rfs('coverage/htmlroot.html'), { htmlroot: 'tests/coverage' }, function (err, output) {
-            expect(err).to.be.null;
+            expect(err).to.equal(null);
             expect(output).to.include(rfs('coverage/override.css'));
             done();
         });
@@ -78,7 +79,7 @@ describe('Options', function () {
 
     it('options.media should default to screen, all', function (done) {
         uncss(rfs('coverage/media.html'), { csspath: 'tests/selectors' }, function (err, output) {
-            expect(err).to.be.null;
+            expect(err).to.equal(null);
             expect(output).to.include(rfs('selectors/expected/adjacent.css'));
             expect(output).to.include(rfs('selectors/expected/child.css'));
             expect(output).to.include(rfs('selectors/expected/complex.css'));
@@ -89,7 +90,7 @@ describe('Options', function () {
 
     it('options.media should be configurable', function (done) {
         uncss(rfs('coverage/media.html'), { csspath: 'tests/selectors', media: 'print' }, function (err, output) {
-            expect(err).to.be.null;
+            expect(err).to.equal(null);
             expect(output).to.include(rfs('selectors/expected/adjacent.css'));
             expect(output).to.include(rfs('selectors/expected/child.css'));
             expect(output).to.include(rfs('selectors/expected/complex.css'));
@@ -103,7 +104,7 @@ describe('Options', function () {
             rfs('selectors/index.html'),
             { csspath: 'tests/selectors', report: true },
             function (err, res, rep) {
-                expect(err).to.be.null;
+                expect(err).to.equal(null);
 
                 expect(rep).to.have.ownProperty('original');
                 expect(rep.original).to.have.length.above(res.length);
@@ -118,7 +119,7 @@ describe('Options', function () {
 
     it('options.uncssrc should be read', function (done) {
         uncss(rfs('selectors/index.html'), { uncssrc: 'tests/coverage/.uncssrc' }, function (err, res) {
-            expect(err).to.be.null;
+            expect(err).to.equal(null);
             expect(res).to.equal(output);
 
             done();

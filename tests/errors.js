@@ -1,7 +1,9 @@
 'use strict';
 
+/* eslint-env mocha */
+
 var expect = require('chai').expect,
-    uncss  = require('./../src/uncss.js');
+    uncss = require('./../src/uncss.js');
 
 var invalidCss = 'We need to create a string longer than 40 characters to ' +
                  'check if the error string we are creating is helpful';
@@ -17,40 +19,40 @@ describe('Error reporting', function () {
 
     it('Invalid options.stylesheets', function (done) {
         uncss('<html></html>', { stylesheets: ['nonexistent'] }, function (error, output) {
-            expect(output).to.not.exist;
-            expect(error).to.exist;
+            expect(output).to.equal(undefined);
+            expect(error.message).to.contain('UnCSS: could not open');
             done();
         });
     });
 
     it('Invalid options.stylesheets with URL', function (done) {
         uncss('<html></html>', { stylesheets: ['http://invalid'] }, function (error, output) {
-            expect(output).to.not.exist;
-            expect(error).to.exist;
+            expect(output).to.equal(undefined);
+            expect(error.message).to.contain('ENOTFOUND');
             done();
         });
     });
 
     it('Invalid options.raw', function (done) {
         uncss('<html></html>', { raw: ['.test { margin: 0 }'] }, function (error, output) {
-            expect(output).to.not.exist;
-            expect(error).to.exist;
+            expect(output).to.equal(undefined);
+            expect(error.message).to.equal('UnCSS: options.raw - expected a string');
             done();
         });
     });
 
     it('No stylesheet found', function (done) {
         uncss('<html><body></body></html>', function (error, output) {
-            expect(output).to.not.exist;
-            expect(error).to.exist;
+            expect(output).to.equal(undefined);
+            expect(error.message).to.equal('UnCSS: no stylesheets found');
             done();
         });
     });
 
     it('PhantomJS errors', function (done) {
         uncss(['nonexistent.html'], function (error, output) {
-            expect(output).to.not.exist;
-            expect(error).to.exist;
+            expect(output).to.equal(undefined);
+            expect(error.message).to.equal('UnCSS: no stylesheets found');
             done();
         });
     });
@@ -60,7 +62,7 @@ describe('Error reporting', function () {
             ['tests/selectors/index.html'],
             { raw: invalidCss },
             function (error, output) {
-                expect(output).to.not.exist;
+                expect(output).to.equal(undefined);
                 expect(error.message).to.contain('unable to parse');
                 done();
             }
@@ -72,7 +74,7 @@ describe('Error reporting', function () {
             ['tests/selectors/index.html'],
             { stylesheets: ['../coverage/minified.css'] },
             function (error, output) {
-                expect(output).to.not.exist;
+                expect(output).to.equal(undefined);
                 expect(error.message).to.contain('unable to parse');
                 done();
             }
@@ -81,7 +83,7 @@ describe('Error reporting', function () {
 
     it('Report should be generated only if specified', function (done) {
         uncss(['tests/selectors/index.html'], function (error, output, report) {
-            expect(report).to.be.undefined;
+            expect(report).to.equal(undefined);
             done();
         });
     });
@@ -89,7 +91,6 @@ describe('Error reporting', function () {
     it('Reports when the uncssrc file does not exist', function (done) {
         uncss(['selectors/index.html'], { uncssrc: 'nonexistent' }, function (err) {
             expect(err.code).to.equal('ENOENT');
-
             done();
         });
     });
@@ -98,7 +99,6 @@ describe('Error reporting', function () {
         uncss(['selectors/index.html'], { uncssrc: 'tests/coverage/.invaliduncssrc' }, function (err) {
             expect(err).to.be.an.instanceOf(SyntaxError);
             expect(err.message).to.equal('UnCSS: uncssrc file is invalid JSON.');
-
             done();
         });
     });

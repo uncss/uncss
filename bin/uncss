@@ -4,10 +4,11 @@
 
     process.title = 'uncss';
 
-    var uncss   = require('../src/uncss.js'),
-        data    = require('../package.json'),
-        program = require('commander'),
-        buffer  = '',
+    var uncss = require('../src/uncss.js'),
+        data = require('../package.json'),
+        program = require('commander');
+
+    var buffer = '',
         options;
 
     function listArg(val) {
@@ -29,15 +30,15 @@
         .parse(process.argv);
 
     options = {
-        ignore       : program.ignore,
-        ignoreSheets : program.ignoreSheets,
-        media        : program.media,
-        csspath      : program.csspath,
-        stylesheets  : program.stylesheets,
-        raw          : program.raw,
-        timeout      : program.timeout,
-        htmlroot     : program.htmlroot,
-        uncssrc      : program.uncssrc
+        ignore: program.ignore,
+        ignoreSheets: program.ignoreSheets,
+        media: program.media,
+        csspath: program.csspath,
+        stylesheets: program.stylesheets,
+        raw: program.raw,
+        timeout: program.timeout,
+        htmlroot: program.htmlroot,
+        uncssrc: program.uncssrc
     };
 
     if (program.args.length === 0) {

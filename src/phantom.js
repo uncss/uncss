@@ -1,9 +1,9 @@
 'use strict';
 
-var fs      = require('fs'),
+var fs = require('fs'),
     phridge = require('phridge'),
     promise = require('bluebird'),
-    _       = require('lodash');
+    _ = require('lodash');
 
 var phantom;
 
@@ -22,7 +22,7 @@ function exit() {
 function init(instance) {
     if (instance) {
         phantom = instance;
-        return;
+        return null;
     }
 
     // Convert to bluebird promise
@@ -104,6 +104,7 @@ function getStylesheets(page, options) {
     var media = _.union(['', 'all', 'screen'], options.media);
     return page.run(function () {
         /* jshint browser: true */
+        /* eslint-env browser */
         return this.evaluate(function () {
             return Array.prototype.map.call(document.querySelectorAll('link[rel="stylesheet"]'), function (link) {
                 return { href: link.href, media: link.media };
@@ -167,10 +168,10 @@ function findAll(page, selectors) {
 }
 
 module.exports = {
-    init       : init,
-    fromLocal  : fromLocal,
-    fromRaw    : fromRaw,
-    fromRemote : fromRemote,
-    findAll    : findAll,
+    init: init,
+    fromLocal: fromLocal,
+    fromRaw: fromRaw,
+    fromRemote: fromRemote,
+    findAll: findAll,
     getStylesheets: getStylesheets
 };

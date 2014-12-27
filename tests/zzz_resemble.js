@@ -1,9 +1,12 @@
 /* The filename is a workaround to make this test run last */
 'use strict';
 
-var chai     = require('chai'),
-    expect   = chai.expect,
+/* eslint-env mocha */
+
+var chai = require('chai'),
     resemble = require('chai-resemble');
+
+var expect = chai.expect;
 
 chai.use(resemble);
 

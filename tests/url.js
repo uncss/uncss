@@ -1,9 +1,11 @@
 'use strict';
 
-var fs     = require('fs'),
-    path   = require('path'),
+/* eslint-env mocha */
+
+var fs = require('fs'),
+    path = require('path'),
     expect = require('chai').expect,
-    uncss  = require('../src/uncss');
+    uncss = require('../src/uncss');
 
 var ghPath = path.join(__dirname, '/output/gh-pages/stylesheets/stylesheet.css'),
     prevRun;
@@ -25,7 +27,7 @@ describe('Compile the CSS of an HTML page passed by URL', function () {
     it('Accepts protocol-less URLs', function (done) {
         this.timeout(25000);
         uncss(['//giakki.github.io/uncss/'], function (err, output) {
-            expect(err).to.be.null;
+            expect(err).to.equal(null);
             expect(output).to.have.length.above(2);
             done();
         });
@@ -35,7 +37,7 @@ describe('Compile the CSS of an HTML page passed by URL', function () {
     it('Accepts an array of URLs', function (done) {
         this.timeout(25000);
         uncss(['http://getbootstrap.com/examples/jumbotron/'], function (err, output) {
-            expect(err).to.be.null;
+            expect(err).to.equal(null);
             expect(output).to.have.length.above(2);
             fs.writeFile(path.join(__dirname, '/output/bootstrap/jumbotron.compiled.css'),
                                    output,
@@ -46,7 +48,7 @@ describe('Compile the CSS of an HTML page passed by URL', function () {
     it('Deals with CSS files linked with absolute URL', function (done) {
         this.timeout(25000);
         uncss(['http://giakki.github.io/uncss/'], function (err, output) {
-            expect(err).to.be.null;
+            expect(err).to.equal(null);
             expect(output).to.equal(prevRun);
             prevRun = output;
             done();
@@ -60,7 +62,7 @@ describe('Compile the CSS of an HTML page passed by URL', function () {
             { stylesheets: ['//cdnjs.cloudflare.com/ajax/libs/colors/1.0/colors.min.css',
                             'stylesheets/stylesheet.css'] },
             function (err, output) {
-                expect(err).to.be.null;
+                expect(err).to.equal(null);
                 expect(output).to.equal(prevRun);
                 prevRun = output;
                 done();
@@ -75,7 +77,7 @@ describe('Compile the CSS of an HTML page passed by URL', function () {
             { stylesheets: ['//cdnjs.cloudflare.com/ajax/libs/colors/1.0/colors.min.css',
                             '/uncss/stylesheets/stylesheet.css'] },
             function (err, output) {
-                expect(err).to.be.null;
+                expect(err).to.equal(null);
                 expect(output).to.equal(prevRun);
                 prevRun = output;
                 done();

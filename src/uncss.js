@@ -1,15 +1,15 @@
 'use strict';
 
 var promise = require('bluebird'),
-    css     = require('css'),
-    fs      = require('fs'),
-    glob    = require('glob'),
-    isHTML  = require('is-html'),
-    isURL   = require('is-absolute-url'),
+    css = require('css'),
+    fs = require('fs'),
+    glob = require('glob'),
+    isHTML = require('is-html'),
+    isURL = require('is-absolute-url'),
     phantom = require('./phantom.js'),
-    uncss   = require('./lib.js'),
+    uncss = require('./lib.js'),
     utility = require('./utility.js'),
-    _       = require('lodash');
+    _ = require('lodash');
 
 /**
  * Get the contents of HTML pages through PhantomJS.
@@ -23,7 +23,7 @@ function getHTML(files, options) {
         });
     }
 
-    files = _.flatten(files.map(function(file) {
+    files = _.flatten(files.map(function (file) {
         if (!isURL(file) && !isHTML(file)) {
             return glob.sync(file);
         }
@@ -183,20 +183,20 @@ function init(files, options, callback) {
         } catch (err) {
             if (err instanceof SyntaxError) {
                 return callback(new SyntaxError('UnCSS: uncssrc file is invalid JSON.'));
-            } else {
-                return callback(err);
             }
+            return callback(err);
+
         }
     }
 
     /* Assign default values to options, unless specified */
     options = _.defaults(options, {
-        csspath      : '',
-        ignore       : [],
-        media        : [],
-        timeout      : 0,
-        report       : false,
-        ignoreSheets : []
+        csspath: '',
+        ignore: [],
+        media: [],
+        timeout: 0,
+        report: false,
+        ignoreSheets: []
     });
 
     return promise
