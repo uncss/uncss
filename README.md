@@ -1,11 +1,9 @@
 # UnCSS
 
-[![NPM version](https://img.shields.io/npm/v/uncss.svg?style=flat)](https://www.npmjs.com/package/uncss)
-
+[![NPM version](https://img.shields.io/npm/v/uncss.svg?style=flat)](https://www.npmjs.com/package/uncss)  
 [![Linux Build Status](https://img.shields.io/travis/giakki/uncss/master.svg?style=flat&label=Linux%20build)](https://travis-ci.org/giakki/uncss)
 [![Windows Build status](https://img.shields.io/appveyor/ci/giakki/uncss/master.svg?style=flat&label=Windows%20build)](https://ci.appveyor.com/project/giakki/uncss/branch/master)
-[![Coverage Status](https://img.shields.io/coveralls/giakki/uncss.svg?style=flat)](https://coveralls.io/r/giakki/uncss?branch=master)
-
+[![Coverage Status](https://img.shields.io/coveralls/giakki/uncss.svg?style=flat)](https://coveralls.io/r/giakki/uncss?branch=master)  
 [![Dependency Status](https://img.shields.io/david/giakki/uncss.svg?style=flat)](https://david-dm.org/giakki/uncss)
 [![devDependency Status](https://img.shields.io/david/dev/giakki/uncss.svg?style=flat)](https://david-dm.org/giakki/uncss#info=devDependencies)
 
@@ -96,17 +94,16 @@ Options:
 
 - **ignore** (Array): provide a list of selectors that should not be removed by UnCSS. For example, styles added by user interaction with the page (hover, click), since those are not detectable by UnCSS yet. Both literal names and regex patterns are recognized. Otherwise, you can add a comment before specific selectors:
 
-```css
-/* uncss:ignore */
-.selector1 {
-    /* this rule will be ignored */
-}
+  ```css
+  /* uncss:ignore */
+  .selector1 {
+      /* this rule will be ignored */
+  }
 
-.selector2 {
-    /* this will NOT be ignored */
-}
-
-```
+  .selector2 {
+      /* this will NOT be ignored */
+  }
+  ```
 
 - **media** (Array): By default UnCSS processes only stylesheets with media query "_all_", "_screen_", and those without one. Specify here which others to include.
 
@@ -124,22 +121,21 @@ Options:
 
 - **report** (Boolean): Return the report object in callback.
 
-- **uncssrc** (String): Load all options from a JSON file. Regular expressions for the "ignore" and "ignoreSheets" options should be wrapped in quotation marks.
+- **uncssrc** (String): Load all options from a JSON file. Regular expressions for the `ignore` and `ignoreSheets` options should be wrapped in quotation marks.
 
-Example uncssrc file:
+  Example uncssrc file:
 
-```json
-{
-    "ignore": [
-        ".unused",
-        "/^#js/"
-    ],
-    "stylesheets": [
-        "css/override.css"
-    ]
-}
-
-```
+  ```json
+  {
+      "ignore": [
+          ".unused",
+          "/^#js/"
+      ],
+      "stylesheets": [
+          "css/override.css"
+      ]
+  }
+  ```
 
 
 ## License
