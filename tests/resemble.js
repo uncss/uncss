@@ -1,4 +1,3 @@
-/* The filename is a workaround to make this test run last */
 'use strict';
 
 /* eslint-env mocha */

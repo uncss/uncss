@@ -31,7 +31,7 @@ module.exports = function(grunt) {
 
         mochacov: {
             options: {
-                files: 'tests/*.js',
+                files: ['tests/*.js', '!tests/resemble.js', 'tests/resemble.js'],
                 slow: 7500,
                 timeout: 20000
             },
