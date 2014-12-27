@@ -30,6 +30,10 @@ function getHTML(files, options) {
         return file;
     }));
 
+    if (files.length === 0) {
+        throw new Error('UnCSS: no HTML files found');
+    }
+
     return promise.map(files, function (filename) {
         if (isURL(filename)) {
             return phantom.fromRemote(filename, options.timeout);

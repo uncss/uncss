@@ -12,9 +12,17 @@ describe('Error reporting', function () {
 
     it('No callback', function () {
         var throwTest = function () {
-            uncss('<html></html>', { stylesheets: ['nonexistant'] });
+            uncss('<html></html>', { stylesheets: ['nonexistent'] });
         };
         expect(throwTest).to.throw(TypeError);
+    });
+
+    it('No valid HTML files', function (done) {
+        uncss(['nonexistent.html'], function (error, output) {
+            expect(output).to.equal(undefined);
+            expect(error.message).to.equal('UnCSS: no HTML files found');
+            done();
+        });
     });
 
     it('Invalid options.stylesheets', function (done) {
@@ -50,9 +58,9 @@ describe('Error reporting', function () {
     });
 
     it('PhantomJS errors', function (done) {
-        uncss(['nonexistent.html'], function (error, output) {
+        uncss(['http://invalid'], function (error, output) {
             expect(output).to.equal(undefined);
-            expect(error.message).to.equal('UnCSS: no stylesheets found');
+            expect(error.message).to.contain('Cannot load http://invalid');
             done();
         });
     });
