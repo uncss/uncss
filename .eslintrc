@@ -42,10 +42,9 @@
         "no-space-before-semi": 2,
         "no-spaced-func": 2,
         "no-trailing-spaces": 2,
-        "no-underscore-dangle": 0,
+        "no-underscore-dangle": 2,
         "no-void": 2,
         "operator-assignment": [2, "always"],
-        "padded-blocks": 0,
         "quotes": [2, "single"],
         "radix": 2,
         "semi": [2, "always"],
@@ -58,7 +57,6 @@
         "space-unary-ops": [2, {"words": true, "nonwords": false}],
         //"valid-jsdoc": 1,
         "valid-typeof": 2,
-        "vars-on-top": 0,
         "wrap-iife": [2, "outside"],
         "yoda": [2, "never"]
     }
