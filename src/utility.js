@@ -71,9 +71,21 @@ function parsePaths(source, stylesheets, options) {
          * Should probably report an error if we find an absolute path and
          *   have no htmlroot specified.
          */
-
         /* Fix the case when there is a query string or hash */
         sheet = sheet.split('?')[0].split('#')[0];
+
+        /* Path already parsed by PhantomJS */
+        if (sheet.substr(0, 5) === 'file:') {
+            sheet = url.parse(sheet).path.replace('%20', ' ');
+            if (/^\/[a-zA-Z]:/.test(sheet)) {
+                sheet = sheet.substring(1);
+            }
+            if (options.htmlroot) {
+                return path.join(options.htmlroot, sheet);
+            }
+            sheet = path.relative(path.join(path.dirname(source)), sheet);
+        }
+
         if (sheet[0] === '/' && options.htmlroot) {
             return path.join(options.htmlroot, sheet);
         } else if (isHTML(source)) {

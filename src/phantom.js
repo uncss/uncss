@@ -1,7 +1,6 @@
 'use strict';
 
-var fs = require('fs'),
-    phridge = require('phridge'),
+var phridge = require('phridge'),
     promise = require('bluebird'),
     _ = require('lodash');
 
@@ -65,8 +64,12 @@ function fromRaw(html, timeout) {
  * @return {promise}
  */
 function fromLocal(filename, timeout) {
-    return promise.promisify(fs.readFile)(filename, 'utf-8').then(function (html) {
-        return fromRaw(html, timeout);
+    return phantom.openPage(filename).then(function (page) {
+        return new promise(function (resolve) {
+            setTimeout(function () {
+                return resolve(page);
+            }, timeout);
+        });
     });
 }
 
