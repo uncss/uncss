@@ -36,8 +36,8 @@
     "LICENSE.md"
   ],
   "dependencies": {
-    "bluebird": "~2.4.1",
-    "commander": "~2.5.1",
+    "bluebird": "~2.5.3",
+    "commander": "~2.6.0",
     "css": "~2.1.0",
     "glob": "~4.3.2",
     "is-absolute-url": "~1.0.0",
@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "chai": "~1.10.0",
-    "chai-resemble": "~0.4.0",
+    "chai-resemble": "~0.4.1",
     "grunt": "~0.4.5",
     "grunt-contrib-jshint": "~0.10.0",
     "grunt-eslint": "~2.1.0",
