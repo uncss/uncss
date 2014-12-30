@@ -3,11 +3,16 @@
 var promise = require('bluebird'),
     isHTML = require('is-html'),
     isURL = require('is-absolute-url'),
+    os = require('os'),
     path = require('path'),
     url = require('url');
 
 var fs = promise.promisifyAll(require('fs')),
     request = promise.promisify(require('request'));
+
+function isWindows() {
+    return os.platform() === 'win32';
+}
 
 /**
  * Check if the supplied string might be a RegExp and, if so, return the corresponding RegExp.
@@ -77,9 +82,9 @@ function parsePaths(source, stylesheets, options) {
         /* Path already parsed by PhantomJS */
         if (sheet.substr(0, 5) === 'file:') {
             sheet = url.parse(sheet).path.replace('%20', ' ');
-            if (/^\/[a-zA-Z]:/.test(sheet)) {
-                sheet = sheet.substring(1);
-            }
+            /* If on windows, remove first '/' */
+            sheet = isWindows() ? sheet.substring(1) : sheet;
+
             if (options.htmlroot) {
                 return path.join(options.htmlroot, sheet);
             }
@@ -167,6 +172,7 @@ function parseErrorMessage(error, cssStr) {
 }
 
 module.exports = {
+    isWindows: isWindows,
     parseUncssrc: parseUncssrc,
     parseErrorMessage: parseErrorMessage,
     parsePaths: parsePaths,
