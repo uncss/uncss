@@ -49,9 +49,9 @@ describe('Options', function () {
                 ],
                 csspath: 'tests/selectors'
             },
-            function (err, output) {
+            function (err, out) {
                 expect(err).to.equal(null);
-                expect(output).to.not.include('@font-face');
+                expect(out).to.not.include('@font-face');
                 done();
             }
         );
@@ -70,9 +70,9 @@ describe('Options', function () {
     });
 
     it('options.htmlroot should be respected', function (done) {
-        uncss(rfs('coverage/htmlroot.html'), { htmlroot: 'tests/coverage' }, function (err, output) {
+        uncss(rfs('coverage/htmlroot.html'), { htmlroot: 'tests/coverage' }, function (err, out) {
             expect(err).to.equal(null);
-            expect(output).to.include(rfs('coverage/override.css'));
+            expect(out).to.include(rfs('coverage/override.css'));
             done();
         });
     });
@@ -86,23 +86,23 @@ describe('Options', function () {
     });
 
     it('options.media should default to screen, all', function (done) {
-        uncss(rfs('coverage/media.html'), { csspath: 'tests/selectors' }, function (err, output) {
+        uncss(rfs('coverage/media.html'), { csspath: 'tests/selectors' }, function (err, out) {
             expect(err).to.equal(null);
-            expect(output).to.include(rfs('selectors/expected/adjacent.css'));
-            expect(output).to.include(rfs('selectors/expected/child.css'));
-            expect(output).to.include(rfs('selectors/expected/complex.css'));
-            expect(output).to.not.include(rfs('selectors/expected/classes.css'));
+            expect(out).to.include(rfs('selectors/expected/adjacent.css'));
+            expect(out).to.include(rfs('selectors/expected/child.css'));
+            expect(out).to.include(rfs('selectors/expected/complex.css'));
+            expect(out).to.not.include(rfs('selectors/expected/classes.css'));
             done();
         });
     });
 
     it('options.media should be configurable', function (done) {
-        uncss(rfs('coverage/media.html'), { csspath: 'tests/selectors', media: 'print' }, function (err, output) {
+        uncss(rfs('coverage/media.html'), { csspath: 'tests/selectors', media: 'print' }, function (err, out) {
             expect(err).to.equal(null);
-            expect(output).to.include(rfs('selectors/expected/adjacent.css'));
-            expect(output).to.include(rfs('selectors/expected/child.css'));
-            expect(output).to.include(rfs('selectors/expected/complex.css'));
-            expect(output).to.include(rfs('selectors/expected/classes.css'));
+            expect(out).to.include(rfs('selectors/expected/adjacent.css'));
+            expect(out).to.include(rfs('selectors/expected/child.css'));
+            expect(out).to.include(rfs('selectors/expected/complex.css'));
+            expect(out).to.include(rfs('selectors/expected/classes.css'));
             done();
         });
     });
