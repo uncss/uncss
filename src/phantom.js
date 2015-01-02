@@ -51,8 +51,15 @@ function init(instance) {
  *                 redirect the request to the correct location.
  */
 function ResourceHandler(htmlroot, isWindows, resolve) {
+    var ignoredExtensions = ['\\.css', '\\.png', '\\.gif', '\\.jpg', '\\.jpeg', ''],
+        ignoredEndpoints = ['fonts\\.googleapis'];
+
+    var ignoreRequests = new RegExp(ignoredExtensions.join('$|') + ignoredEndpoints.join('|'));
+
     this.onResourceRequested = function (requestData, networkRequest) {
-        var url = requestData.url;
+        var originalUrl = requestData.url,
+            url = originalUrl.split('?')[0].split('#')[0];
+
         if (url.substr(-3) === '.js' && url.substr(0, 7) === 'file://') {
             /* Try and match protocol-less URLs and absolute ones.
              * Relative URLs will still not load.
@@ -63,16 +70,16 @@ function ResourceHandler(htmlroot, isWindows, resolve) {
                  */
                 if (isWindows) {
                     /* Do not strip leading '/' */
-                    url = url.substr(0, 8) + htmlroot + url.substr(7);
+                    url = originalUrl.substr(0, 8) + htmlroot + originalUrl.substr(7);
                 } else {
-                    url = url.substr(0, 7) + htmlroot + url.substr(7);
+                    url = originalUrl.substr(0, 7) + htmlroot + originalUrl.substr(7);
                 }
             } else {
                 /* Protocol-less URL */
-                url = 'http://' + url.substr(7);
+                url = 'http://' + originalUrl.substr(7);
             }
             networkRequest.changeUrl(url);
-        } else if (/\.css$|\.png$|\.gif$|fonts.googleapis/.test(url.split('?')[0])) {
+        } else if (ignoreRequests.test(url)) {
             networkRequest.abort();
         }
     };
