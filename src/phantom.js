@@ -1,11 +1,13 @@
 'use strict';
 
-var fs = require('fs'),
+var path = require('path'),
     phridge = require('phridge'),
     promise = require('bluebird'),
+    utility = require('./utility'),
     _ = require('lodash');
 
 var phantom;
+
 
 /**
  * Close the open PhantomJS instances.
@@ -39,21 +41,63 @@ function init(instance) {
 }
 
 /**
+ * This function is called whenever a resource is requested by PhantomJS.
+ * If we are loading either raw HTML or a local page, PhantomJS needs to be able to find the
+ *   resource with an absolute path.
+ * There are two possible cases:
+ *   - 'file://': This might be either a protocol-less URL or a relative path. Since we
+ *                can't handle both, we choose to handle the former.
+ *   - 'file:///': This is an absolute path. If options.htmlroot is specified, we have a chance to
+ *                 redirect the request to the correct location.
+ */
+function ResourceHandler(htmlroot, isWindows, resolve) {
+    this.onResourceRequested = function (requestData, networkRequest) {
+        var url = requestData.url;
+        if (url.substr(-3) === '.js' && url.substr(0, 7) === 'file://') {
+            /* Try and match protocol-less URLs and absolute ones.
+             * Relative URLs will still not load.
+             */
+            if (url.substr(5, 3) === '///') {
+                /* Absolute URL
+                 * Retry loading the resource appending the htmlroot option
+                 */
+                if (isWindows) {
+                    /* Do not strip leading '/' */
+                    url = url.substr(0, 8) + htmlroot + url.substr(7);
+                } else {
+                    url = url.substr(0, 7) + htmlroot + url.substr(7);
+                }
+            } else {
+                /* Protocol-less URL */
+                url = 'http://' + url.substr(7);
+            }
+            networkRequest.changeUrl(url);
+        } else if (/\.css$|\.png$|\.gif$|fonts.googleapis/.test(url.split('?')[0])) {
+            networkRequest.abort();
+        }
+    };
+    resolve();
+}
+
+/**
  * Load a page given an HTML string.
  * @param  {String}  html
- * @param  {Number}  timeout
+ * @param  {Object}  options
  * @return {promise}
  */
-function fromRaw(html, timeout) {
-    var page = phantom.createPage();
+function fromRaw(html, options) {
+    var page = phantom.createPage(),
+        htmlroot = path.join(process.cwd(), options.htmlroot || '');
 
-    return page.run(html, function (html) {
-        this.setContent(html, 'local');
+    return page.run(htmlroot, utility.isWindows(), ResourceHandler).then(function () {
+        return page.run(html, function (html) {
+            this.setContent(html, 'local');
+        });
     }).then(function () {
         return new promise(function (resolve) {
             setTimeout(function () {
                 return resolve(page);
-            }, timeout);
+            }, options.timeout);
         });
     });
 }
@@ -61,22 +105,38 @@ function fromRaw(html, timeout) {
 /**
  * Open a page given a filename.
  * @param  {String}  filename
- * @param  {Number}  timeout
+ * @param  {Object}  options
  * @return {promise}
  */
-function fromLocal(filename, timeout) {
-    return promise.promisify(fs.readFile)(filename, 'utf-8').then(function (html) {
-        return fromRaw(html, timeout);
+function fromLocal(filename, options) {
+    var page = phantom.createPage(),
+        htmlroot = path.join(process.cwd(), options.htmlroot || '');
+
+    return page.run(htmlroot, utility.isWindows(), ResourceHandler).then(function () {
+        return page.run(filename, function (filename, resolve, reject) {
+            this.open(filename, function (status) {
+                if (status !== 'success') {
+                    return reject(new Error('PhantomJS: Cannot open ' + this.url));
+                }
+                resolve();
+            });
+        });
+    }).then(function () {
+        return new promise(function (resolve) {
+            setTimeout(function () {
+                return resolve(page);
+            }, options.timeout);
+        });
     });
 }
 
 /**
  * Open a page given a URL.
  * @param  {String}  url
- * @param  {Number}  timeout
+ * @param  {Object}  options
  * @return {promise}
  */
-function fromRemote(url, timeout) {
+function fromRemote(url, options) {
     /* If the protocol is unspecified, default to HTTP */
     if (!/^http/.test(url)) {
         url = 'http:' + url;
@@ -86,7 +146,7 @@ function fromRemote(url, timeout) {
         return new promise(function (resolve) {
             setTimeout(function () {
                 return resolve(page);
-            }, timeout);
+            }, options.timeout);
         });
     });
 }

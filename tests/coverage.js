@@ -77,6 +77,14 @@ describe('Options', function () {
         });
     });
 
+    it('options.htmlroot with local files', function (done) {
+        uncss(['tests/coverage/htmlroot.html'], { htmlroot: 'tests/coverage' }, function (err, output) {
+            expect(err).to.equal(null);
+            expect(output).to.include(rfs('coverage/override.css'));
+            done();
+        });
+    });
+
     it('options.media should default to screen, all', function (done) {
         uncss(rfs('coverage/media.html'), { csspath: 'tests/selectors' }, function (err, output) {
             expect(err).to.equal(null);

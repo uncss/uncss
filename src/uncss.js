@@ -36,13 +36,13 @@ function getHTML(files, options) {
 
     return promise.map(files, function (filename) {
         if (isURL(filename)) {
-            return phantom.fromRemote(filename, options.timeout);
+            return phantom.fromRemote(filename, options);
         }
         if (fs.existsSync(filename)) {
-            return phantom.fromLocal(filename, options.timeout);
+            return phantom.fromLocal(filename, options);
         }
         // raw html
-        return phantom.fromRaw(filename, options.timeout);
+        return phantom.fromRaw(filename, options);
     }).then(function (pages) {
         return [files, options, pages];
     });

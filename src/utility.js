@@ -3,11 +3,16 @@
 var promise = require('bluebird'),
     isHTML = require('is-html'),
     isURL = require('is-absolute-url'),
+    os = require('os'),
     path = require('path'),
     url = require('url');
 
 var fs = promise.promisifyAll(require('fs')),
     request = promise.promisify(require('request'));
+
+function isWindows() {
+    return os.platform() === 'win32';
+}
 
 /**
  * Check if the supplied string might be a RegExp and, if so, return the corresponding RegExp.
@@ -47,7 +52,7 @@ function parseUncssrc(filename) {
  */
 function parsePaths(source, stylesheets, options) {
     return stylesheets.map(function (sheet) {
-        var _url, _path, _protocol;
+        var sourceProtocol;
 
         if (sheet.substr(0, 4) === 'http') {
             /* No need to parse, it's already a valid path */
@@ -56,37 +61,42 @@ function parsePaths(source, stylesheets, options) {
 
         /* Check if we are fetching over http(s) */
         if (isURL(source)) {
-            _url = url.parse(source);
-            _protocol = _url.protocol;
-        }
+            sourceProtocol = url.parse(source).protocol;
 
-        if (sheet.substr(0, 2) === '//') {
-            /* Use the same protocol we used for fetching this page.
-             * Default to http.
-             */
-            return (_protocol ? _protocol + sheet : 'http:' + sheet);
-        }
-
-        if (_url) {
-            /* Let the url module handle the parsing */
-            _path = url.resolve(source, sheet);
-        } else {
-            /* We are fetching local files
-             * Should probably report an error if we find an absolute path and
-             *   have no htmlroot specified.
-             */
-
-            /* Fix the case when there is a query string or hash */
-            sheet = sheet.split('?')[0].split('#')[0];
-            if (sheet[0] === '/' && options.htmlroot) {
-                _path = path.join(options.htmlroot, sheet);
-            } else if (isHTML(source)) {
-                _path = path.join(options.csspath, sheet);
-            } else {
-                _path = path.join(path.dirname(source), options.csspath, sheet);
+            if (sheet.substr(0, 2) === '//') {
+                /* Use the same protocol we used for fetching this page.
+                 * Default to http.
+                 */
+                return (sourceProtocol ? sourceProtocol + sheet : 'http:' + sheet);
             }
+            return url.resolve(source, sheet);
         }
-        return _path;
+
+        /* We are fetching local files
+         * Should probably report an error if we find an absolute path and
+         *   have no htmlroot specified.
+         */
+        /* Fix the case when there is a query string or hash */
+        sheet = sheet.split('?')[0].split('#')[0];
+
+        /* Path already parsed by PhantomJS */
+        if (sheet.substr(0, 5) === 'file:') {
+            sheet = url.parse(sheet).path.replace('%20', ' ');
+            /* If on windows, remove first '/' */
+            sheet = isWindows() ? sheet.substring(1) : sheet;
+
+            if (options.htmlroot) {
+                return path.join(options.htmlroot, sheet);
+            }
+            sheet = path.relative(path.join(path.dirname(source)), sheet);
+        }
+
+        if (sheet[0] === '/' && options.htmlroot) {
+            return path.join(options.htmlroot, sheet);
+        } else if (isHTML(source)) {
+            return path.join(options.csspath, sheet);
+        }
+        return path.join(path.dirname(source), options.csspath, sheet);
     });
 }
 
@@ -162,6 +172,7 @@ function parseErrorMessage(error, cssStr) {
 }
 
 module.exports = {
+    isWindows: isWindows,
     parseUncssrc: parseUncssrc,
     parseErrorMessage: parseErrorMessage,
     parsePaths: parsePaths,

@@ -38,7 +38,7 @@
   "dependencies": {
     "bluebird": "~2.5.3",
     "commander": "~2.6.0",
-    "css": "~2.1.0",
+    "css": "1.6.0",
     "glob": "~4.3.2",
     "is-absolute-url": "~1.0.0",
     "is-html": "~1.0.0",
