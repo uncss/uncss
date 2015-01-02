@@ -78,9 +78,9 @@ describe('Options', function () {
     });
 
     it('options.htmlroot with local files', function (done) {
-        uncss(['tests/coverage/htmlroot.html'], { htmlroot: 'tests/coverage' }, function (err, output) {
+        uncss(['tests/coverage/htmlroot.html'], { htmlroot: 'tests/coverage' }, function (err, out) {
             expect(err).to.equal(null);
-            expect(output).to.include(rfs('coverage/override.css'));
+            expect(out).to.include(rfs('coverage/override.css'));
             done();
         });
     });

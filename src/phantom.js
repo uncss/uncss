@@ -97,8 +97,8 @@ function fromRaw(html, options) {
         htmlroot = path.join(process.cwd(), options.htmlroot || '');
 
     return page.run(htmlroot, utility.isWindows(), ResourceHandler).then(function () {
-        return page.run(html, function (html) {
-            this.setContent(html, 'local');
+        return page.run(html, function (raw) {
+            this.setContent(raw, 'local');
         });
     }).then(function () {
         return new promise(function (resolve) {
@@ -120,8 +120,8 @@ function fromLocal(filename, options) {
         htmlroot = path.join(process.cwd(), options.htmlroot || '');
 
     return page.run(htmlroot, utility.isWindows(), ResourceHandler).then(function () {
-        return page.run(filename, function (filename, resolve, reject) {
-            this.open(filename, function (status) {
+        return page.run(filename, function (source, resolve, reject) {
+            this.open(source, function (status) {
                 if (status !== 'success') {
                     return reject(new Error('PhantomJS: Cannot open ' + this.url));
                 }
@@ -194,12 +194,12 @@ function getStylesheets(page, options) {
 
 /**
  * Filter unused selectors.
- * @param  {Object}  page      A PhantomJS page
- * @param  {Array}   selectors List of selectors to be filtered
+ * @param  {Object}  page A PhantomJS page
+ * @param  {Array}   sels List of selectors to be filtered
  * @return {promise}
  */
-function findAll(page, selectors) {
-    return page.run(selectors, function (selectors) {
+function findAll(page, sels) {
+    return page.run(sels, function (args) {
         return this.evaluate(function (selectors) {
             /* jshint browser: true */
             // Unwrap noscript elements
@@ -225,7 +225,7 @@ function findAll(page, selectors) {
                 selectors: selectors
             };
             /* jshint browser: false */
-        }, selectors);
+        }, args);
     }).then(function (res) {
         if (res === null) {
             return [];
