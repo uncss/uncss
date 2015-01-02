@@ -13,6 +13,8 @@ var promise = require('bluebird'),
 
 /**
  * Get the contents of HTML pages through PhantomJS.
+ * @param  {Array}   files   list of HTML files
+ * @param  {Object}  options uncss options
  * @return {promise}
  */
 function getHTML(files, options) {
@@ -50,6 +52,9 @@ function getHTML(files, options) {
 
 /**
  * Get the contents of CSS files.
+ * @param  {Array}   files   list of HTML files
+ * @param  {Object}  options uncss options
+ * @param  {Array}   pages   pages opened by phridge
  * @return {promise}
  */
 function getStylesheets(files, options, pages) {
@@ -67,7 +72,10 @@ function getStylesheets(files, options, pages) {
 
 /**
  * Get the contents of CSS files.
- * @param  {Array}   stylesheets list of stylesheet paths
+ * @param  {Array}   files       list of HTML files
+ * @param  {Object}  options     uncss options
+ * @param  {Array}   pages       pages opened by phridge
+ * @param  {Array}   stylesheets list of CSS files
  * @return {promise}
  */
 function getCSS(files, options, pages, stylesheets) {
@@ -111,6 +119,9 @@ function getCSS(files, options, pages, stylesheets) {
 
 /**
  * Do the actual work
+ * @param  {Array}   files       list of HTML files
+ * @param  {Object}  options     uncss options
+ * @param  {Array}   pages       pages opened by phridge
  * @param  {Array}   stylesheets list of CSS files
  * @return {promise}
  */
@@ -149,12 +160,12 @@ function process(files, options, pages, stylesheets) {
         /* Try and construct a helpful error message */
         throw utility.parseErrorMessage(err, cssStr);
     }
-    return uncss(pages, parsed.stylesheet, options.ignore).then(function (res) {
-        var usedCss = css.stringify(res[0]);
+    return uncss(pages, parsed.stylesheet, options.ignore).spread(function (used, rep) {
+        var usedCss = css.stringify(used);
         if (options.report) {
             report = {
                 original: cssStr,
-                selectors: res[1]
+                selectors: rep
             };
         }
         return new promise(function (resolve) {
@@ -166,8 +177,8 @@ function process(files, options, pages, stylesheets) {
 /**
  * Main exposed function.
  * Here we check the options and callback, then run the files through PhantomJS.
- * @param {Array}    files array of filenames
- * @param {Object}   [options]   options
+ * @param {Array}    files     array of filenames
+ * @param {Object}   [options] options
  * @param {Function} callback(Error, String, Object)
  */
 function init(files, options, callback) {
