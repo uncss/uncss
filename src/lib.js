@@ -82,7 +82,7 @@ function getUsedAnimations(rules, memo) {
             /* Find animation declarations */
             rule.declarations
                 .filter(function (decl) {
-                    return (decl.property === 'animation' || decl.property === 'animation-name');
+                    return decl.property === 'animation' || decl.property === 'animation-name';
                 })
                 /* Keep loopin' */
                 .forEach(function (property) {

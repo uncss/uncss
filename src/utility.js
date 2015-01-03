@@ -67,7 +67,7 @@ function parsePaths(source, stylesheets, options) {
                 /* Use the same protocol we used for fetching this page.
                  * Default to http.
                  */
-                return (sourceProtocol ? sourceProtocol + sheet : 'http:' + sheet);
+                return sourceProtocol ? sourceProtocol + sheet : 'http:' + sheet;
             }
             return url.resolve(source, sheet);
         }
@@ -159,13 +159,13 @@ function parseErrorMessage(error, cssStr) {
                 line = line.substring(error.column - 40, error.column);
             }
             error.message += '\n\t' + (j + 1 - zeroLine) + ':    ';
-            error.message += (j === error.line - 1) ? ' -> ' : '    ';
+            error.message += j === error.line - 1 ? ' -> ' : '    ';
             error.message += line;
           }
         }
     }
     if (zeroLine > 0) {
-        error.message = error.message.replace(/[0-9]+:/, (error.line - zeroLine) + ':');
+        error.message = error.message.replace(/[0-9]+:/, error.line - zeroLine + ':');
     }
     error.message = 'uncss/node_modules/css: unable to parse ' + error.filename + ':\n' + error.message + '\n';
     return error;
