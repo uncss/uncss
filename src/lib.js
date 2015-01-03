@@ -135,10 +135,9 @@ function filterEmptyRules(rules) {
 
 /**
  * Find which selectors are used in {pages}
- * @param  {Array}    pages          List of PhantomJS pages
- * @param  {Object}   stylesheet     The output of css.parse().stylesheet
- * @param  {Function} callback(Error, Array)
- * @param  {Boolean}  isRec          Used internally
+ * @param  {Array}    pages         List of PhantomJS pages
+ * @param  {Object}   stylesheet    The output of css.parse().stylesheet
+ * @param  {Boolean}  isRec         Used internally
  * @return {promise}
  */
 function getUsedSelectors(page, stylesheet, isRec) {
@@ -160,7 +159,7 @@ function getUsedSelectors(page, stylesheet, isRec) {
 
 /**
  * Get all the selectors mentioned in {stylesheet}
- * @param  {Object} stylesheet The output of css.parse().stylesheet
+ * @param  {Object} stylesheet  The output of css.parse().stylesheet
  * @return {Array}
  */
 function getAllSelectors(stylesheet) {
@@ -181,11 +180,11 @@ function getAllSelectors(stylesheet) {
 
 /**
  * Remove css rules not used in the dom
- * @param  {Array}  pages          List of PhantomJS pages
- * @param  {Object} stylesheet     The output of css.parse().stylesheet
- * @param  {Array}  ignore         List of selectors to be ignored
- * @param  {Array}  usedSelectors  List of selectors that are found in {pages}
- * @return {Object}                A css_parse-compatible stylesheet
+ * @param  {Array}  pages           List of PhantomJS pages
+ * @param  {Object} stylesheet      The output of css.parse().stylesheet
+ * @param  {Array}  ignore          List of selectors to be ignored
+ * @param  {Array}  usedSelectors   List of selectors that are found in {pages}
+ * @return {Object}                 A css_parse-compatible stylesheet
  */
 function filterUnusedRules(pages, stylesheet, ignore, usedSelectors) {
     var rules = stylesheet.rules,
@@ -255,7 +254,7 @@ function filterUnusedRules(pages, stylesheet, ignore, usedSelectors) {
 
 /**
  * Main exposed function
- * @param  {Array}   pages      list of PhantomJS pages
+ * @param  {Array}   pages      List of PhantomJS pages
  * @param  {Object}  stylesheet The output of css.parse().stylesheet
  * @param  {Array}   ignore     List of selectors to be ignored
  * @return {promise}

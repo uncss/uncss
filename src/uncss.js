@@ -13,8 +13,8 @@ var promise = require('bluebird'),
 
 /**
  * Get the contents of HTML pages through PhantomJS.
- * @param  {Array}   files   list of HTML files
- * @param  {Object}  options uncss options
+ * @param  {Array}   files   List of HTML files
+ * @param  {Object}  options UnCSS options
  * @return {promise}
  */
 function getHTML(files, options) {
@@ -52,9 +52,9 @@ function getHTML(files, options) {
 
 /**
  * Get the contents of CSS files.
- * @param  {Array}   files   list of HTML files
- * @param  {Object}  options uncss options
- * @param  {Array}   pages   pages opened by phridge
+ * @param  {Array}   files   List of HTML files
+ * @param  {Object}  options UnCSS options
+ * @param  {Array}   pages   Pages opened by phridge
  * @return {promise}
  */
 function getStylesheets(files, options, pages) {
@@ -72,10 +72,10 @@ function getStylesheets(files, options, pages) {
 
 /**
  * Get the contents of CSS files.
- * @param  {Array}   files       list of HTML files
- * @param  {Object}  options     uncss options
- * @param  {Array}   pages       pages opened by phridge
- * @param  {Array}   stylesheets list of CSS files
+ * @param  {Array}   files       List of HTML files
+ * @param  {Object}  options     UnCSS options
+ * @param  {Array}   pages       Pages opened by phridge
+ * @param  {Array}   stylesheets List of CSS files
  * @return {promise}
  */
 function getCSS(files, options, pages, stylesheets) {
@@ -119,10 +119,10 @@ function getCSS(files, options, pages, stylesheets) {
 
 /**
  * Do the actual work
- * @param  {Array}   files       list of HTML files
- * @param  {Object}  options     uncss options
- * @param  {Array}   pages       pages opened by phridge
- * @param  {Array}   stylesheets list of CSS files
+ * @param  {Array}   files       List of HTML files
+ * @param  {Object}  options     UnCSS options
+ * @param  {Array}   pages       Pages opened by phridge
+ * @param  {Array}   stylesheets List of CSS files
  * @return {promise}
  */
 function process(files, options, pages, stylesheets) {
@@ -177,9 +177,10 @@ function process(files, options, pages, stylesheets) {
 /**
  * Main exposed function.
  * Here we check the options and callback, then run the files through PhantomJS.
- * @param {Array}    files     array of filenames
- * @param {Object}   [options] options
- * @param {Function} callback(Error, String, Object)
+ * @param  {Array}    files     Array of filenames
+ * @param  {Object}   [options] options
+ * @param  {Function} callback(Error, String, Object)
+ * @return {promise}
  */
 function init(files, options, callback) {
 

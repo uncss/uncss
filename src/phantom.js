@@ -18,7 +18,7 @@ function exit() {
 
 /**
  * Create the PhantomJS instances, or use the given one.
- * @param  {Object}  instance The instance to use, if there is one
+ * @param  {Object}  instance   The instance to use, if there is one
  * @return {promise}
  */
 function init(instance) {
@@ -160,8 +160,8 @@ function fromRemote(url, options) {
 
 /**
  * Extract stylesheets' hrefs from dom
- * @param  {Object}  page    A PhantomJS page
- * @param  {Object}  options Options, as passed to UnCSS
+ * @param  {Object}  page       A PhantomJS page
+ * @param  {Object}  options    Options, as passed to UnCSS
  * @return {promise}
  */
 function getStylesheets(page, options) {
@@ -194,8 +194,8 @@ function getStylesheets(page, options) {
 
 /**
  * Filter unused selectors.
- * @param  {Object}  page A PhantomJS page
- * @param  {Array}   sels List of selectors to be filtered
+ * @param  {Object}  page   A PhantomJS page
+ * @param  {Array}   sels   List of selectors to be filtered
  * @return {promise}
  */
 function findAll(page, sels) {

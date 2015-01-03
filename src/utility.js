@@ -16,8 +16,8 @@ function isWindows() {
 
 /**
  * Check if the supplied string might be a RegExp and, if so, return the corresponding RegExp.
- * @param  {String} str    The regex to transform.
- * @return {RegExp|String}
+ * @param  {String} str     The regex to transform.
+ * @return {RegExp|String}  The final RegExp
  */
 function strToRegExp(str) {
     if (str[0] === '/') {
@@ -29,7 +29,7 @@ function strToRegExp(str) {
 /**
  * Parse a given uncssrc file.
  * @param  {String} filename The location of the uncssrc file
- * @return {Object}
+ * @return {Object}          The options object
  */
 function parseUncssrc(filename) {
     var options = JSON.parse(fs.readFileSync(filename, 'utf-8'));
@@ -103,7 +103,7 @@ function parsePaths(source, stylesheets, options) {
 /**
  * Given an array of filenames, return an array of the files' contents,
  *   only if the filename matches a regex
- * @param  {Array}   files an array of the filenames to read
+ * @param  {Array}   files  An array of the filenames to read
  * @return {promise}
  */
 function readStylesheets(files) {
