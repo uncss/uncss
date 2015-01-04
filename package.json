@@ -53,6 +53,7 @@
     "grunt-contrib-jshint": "~0.10.0",
     "grunt-eslint": "~3.0.0",
     "grunt-mocha-cov": "~0.3.0",
+    "load-grunt-tasks": "~2.0.0",
     "time-grunt": "~1.0.0"
   },
   "engines": {

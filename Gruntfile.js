@@ -1,13 +1,17 @@
 'use strict';
 
-module.exports = function(grunt) {
+module.exports = function (grunt) {
+    require('load-grunt-tasks')(grunt, {scope: 'devDependencies'});
+    require('time-grunt')(grunt);
 
-    // Project configuration.
     grunt.initConfig({
 
         jshint: {
             options: {
                 jshintrc: '.jshintrc'
+            },
+            gruntfile: {
+                src: 'Gruntfile.js'
             },
             src: {
                 src: ['src/*.js', 'bin/uncss']
@@ -20,6 +24,9 @@ module.exports = function(grunt) {
         eslint: {
             options: {
                 config: '.eslintrc'
+            },
+            gruntfile: {
+                src: '<%= jshint.gruntfile.src %>'
             },
             src: {
                 src: '<%= jshint.src.src %>'
@@ -55,14 +62,8 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-eslint');
-    grunt.loadNpmTasks('grunt-mocha-cov');
-
-    require('time-grunt')(grunt);
-
     grunt.registerTask('lint', ['jshint', 'eslint']);
-    grunt.registerTask('test', ['lint','mochacov:unit']);
+    grunt.registerTask('test', ['lint', 'mochacov:unit']);
     grunt.registerTask('travis', ['test', 'mochacov:coveralls']);
     grunt.registerTask('default', 'test');
 };
