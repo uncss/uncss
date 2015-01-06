@@ -6,7 +6,6 @@
     "indent": 4,
     "latedef": true,
     "noarg": true,
-    "mocha": true,
     "node": true,
     "noempty": true,
     "quotmark": "single",
