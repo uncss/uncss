@@ -2,6 +2,8 @@
 
 version: "{build}"
 
+clone_depth: 10
+
 init:
   - git config --global core.autocrlf true
 
@@ -27,6 +29,7 @@ matrix:
     - nodejs_version: 0.11
 
 cache:
-  - C:\Users\appveyor\AppData\Roaming\npm\node_modules  # global npm modules
   - C:\Users\appveyor\AppData\Local\Temp\phantomjs      # phantomjs download location
+  - C:\Users\appveyor\AppData\Roaming\npm\node_modules  # global npm modules
+  - C:\Users\appveyor\AppData\Roaming\npm-cache         # npm cache
   - node_modules                                        # local npm modules
