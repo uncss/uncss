@@ -1,8 +1,8 @@
 /*** uncss> filename: http://getbootstrap.com/dist/css/bootstrap.min.css ***/
 
 /*!
- * Bootstrap v3.3.1 (http://getbootstrap.com)
- * Copyright 2011-2014 Twitter, Inc.
+ * Bootstrap v3.3.2 (http://getbootstrap.com)
+ * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 
@@ -78,11 +78,11 @@ input {
 
 @media print {
   *,
-  :before,
-  :after {
+  :after,
+  :before {
     color: #000!important;
     text-shadow: none!important;
-    background: transparent!important;
+    background: 0 0!important;
     -webkit-box-shadow: none!important;
     box-shadow: none!important;
   }
@@ -100,8 +100,8 @@ input {
     content: "";
   }
 
-  p,
-  h2 {
+  h2,
+  p {
     orphans: 3;
     widows: 3;
   }
@@ -118,7 +118,7 @@ input {
 @font-face {
   font-family: 'Glyphicons Halflings';
   src: url(../fonts/glyphicons-halflings-regular.eot);
-  src: url(../fonts/glyphicons-halflings-regular.eot?#iefix) format('embedded-opentype'),url(../fonts/glyphicons-halflings-regular.woff) format('woff'),url(../fonts/glyphicons-halflings-regular.ttf) format('truetype'),url(../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular) format('svg');
+  src: url(../fonts/glyphicons-halflings-regular.eot?#iefix) format('embedded-opentype'),url(../fonts/glyphicons-halflings-regular.woff2) format('woff2'),url(../fonts/glyphicons-halflings-regular.woff) format('woff'),url(../fonts/glyphicons-halflings-regular.ttf) format('truetype'),url(../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular) format('svg');
 }
 
 * {
@@ -127,8 +127,8 @@ input {
   box-sizing: border-box;
 }
 
-:before,
-:after {
+:after,
+:before {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -147,8 +147,8 @@ body {
   background-color: #fff;
 }
 
-input,
-button {
+button,
+input {
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
@@ -159,8 +159,8 @@ a {
   text-decoration: none;
 }
 
-a:hover,
-a:focus {
+a:focus,
+a:hover {
   color: #23527c;
   text-decoration: underline;
 }
@@ -323,15 +323,15 @@ p {
   border-radius: 4px;
 }
 
-.btn:focus,
-.btn:active:focus {
+.btn:active:focus,
+.btn:focus {
   outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
 
-.btn:hover,
-.btn:focus {
+.btn:focus,
+.btn:hover {
   color: #333;
   text-decoration: none;
 }
@@ -349,9 +349,9 @@ p {
   border-color: #ccc;
 }
 
-.btn-default:hover,
+.btn-default:active,
 .btn-default:focus,
-.btn-default:active {
+.btn-default:hover {
   color: #333;
   background-color: #e6e6e6;
   border-color: #adadad;
@@ -367,9 +367,9 @@ p {
   border-color: #2e6da4;
 }
 
-.btn-primary:hover,
+.btn-primary:active,
 .btn-primary:focus,
-.btn-primary:active {
+.btn-primary:hover {
   color: #fff;
   background-color: #286090;
   border-color: #204d74;
@@ -385,9 +385,9 @@ p {
   border-color: #4cae4c;
 }
 
-.btn-success:hover,
+.btn-success:active,
 .btn-success:focus,
-.btn-success:active {
+.btn-success:hover {
   color: #fff;
   background-color: #449d44;
   border-color: #398439;
@@ -400,7 +400,7 @@ p {
 .btn-lg {
   padding: 10px 16px;
   font-size: 18px;
-  line-height: 1.33;
+  line-height: 1.3333333;
   border-radius: 6px;
 }
 
@@ -470,15 +470,15 @@ p {
   }
 }
 
-.container>.navbar-header,
-.container>.navbar-collapse {
+.container>.navbar-collapse,
+.container>.navbar-header {
   margin-right: -15px;
   margin-left: -15px;
 }
 
 @media (min-width:768px) {
-  .container>.navbar-header,
-  .container>.navbar-collapse {
+  .container>.navbar-collapse,
+  .container>.navbar-header {
     margin-right: 0;
     margin-left: 0;
   }
@@ -510,8 +510,8 @@ p {
   line-height: 20px;
 }
 
-.navbar-brand:hover,
-.navbar-brand:focus {
+.navbar-brand:focus,
+.navbar-brand:hover {
   text-decoration: none;
 }
 
@@ -616,8 +616,8 @@ p {
   color: #9d9d9d;
 }
 
-.navbar-inverse .navbar-brand:hover,
-.navbar-inverse .navbar-brand:focus {
+.navbar-inverse .navbar-brand:focus,
+.navbar-inverse .navbar-brand:hover {
   color: #fff;
   background-color: transparent;
 }
@@ -626,8 +626,8 @@ p {
   border-color: #333;
 }
 
-.navbar-inverse .navbar-toggle:hover,
-.navbar-inverse .navbar-toggle:focus {
+.navbar-inverse .navbar-toggle:focus,
+.navbar-inverse .navbar-toggle:hover {
   background-color: #333;
 }
 
@@ -671,25 +671,25 @@ p {
   }
 }
 
-.container:before,
 .container:after,
-.row:before,
-.row:after,
-.navbar:before,
-.navbar:after,
-.navbar-header:before,
-.navbar-header:after,
+.container:before,
+.navbar-collapse:after,
 .navbar-collapse:before,
-.navbar-collapse:after {
+.navbar-header:after,
+.navbar-header:before,
+.navbar:after,
+.navbar:before,
+.row:after,
+.row:before {
   display: table;
   content: " ";
 }
 
 .container:after,
-.row:after,
-.navbar:after,
+.navbar-collapse:after,
 .navbar-header:after,
-.navbar-collapse:after {
+.navbar:after,
+.row:after {
   clear: both;
 }
 
