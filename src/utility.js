@@ -139,7 +139,7 @@ function parseErrorMessage(error, cssStr) {
 
     if (error.line) {
         var lines = cssStr.split('\n');
-        if (lines.length > 0) {
+        if (lines.length) {
             /* We get the filename of the css file that contains the error */
             var i = error.line - 1;
             while (i >= 0 && !error.filename) {
