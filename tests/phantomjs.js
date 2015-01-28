@@ -16,6 +16,15 @@ describe('PhantomJS', function () {
         });
     });
 
+    it('should fetch local scripts', function (done) {
+        uncss(['tests/phantomjs/local_script.html'], {}, function (err, output) {
+            expect(err).to.equal(null);
+            expect(output).to.include('.append_absolute');
+            expect(output).to.include('.append_relative');
+            done();
+        });
+    });
+
     it('Should exit only when JS evaluation has finished', function (done) {
         this.timeout(25000);
         uncss(['tests/phantomjs/long_wait.html'], function (err, output) {
