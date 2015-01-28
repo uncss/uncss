@@ -40,7 +40,7 @@ function init(instance) {
  *   - 'file:///': This is an absolute path. If options.htmlroot is specified, we have a chance to
  *                 redirect the request to the correct location.
  */
-function ResourceHandler(htmlroot, resolve) {
+function ResourceHandler(htmlroot, isWindows, resolve) {
     var ignoredExtensions = ['\\.css', '\\.png', '\\.gif', '\\.jpg', '\\.jpeg', ''],
         ignoredEndpoints = ['fonts\\.googleapis'];
 
@@ -58,7 +58,7 @@ function ResourceHandler(htmlroot, resolve) {
                 /* Absolute URL
                  * Retry loading the resource appending the htmlroot option
                  */
-                if (utility.isWindows()) {
+                if (isWindows) {
                     /* Do not strip leading '/' */
                     url = originalUrl.substr(0, 8) + htmlroot + originalUrl.substr(7);
                 } else {
@@ -104,7 +104,7 @@ function fromRaw(html, options) {
     var page = phantom.createPage(),
         htmlroot = path.join(process.cwd(), options.htmlroot || '');
 
-    return page.run(htmlroot, ResourceHandler).then(function () {
+    return page.run(htmlroot, utility.isWindows(), ResourceHandler).then(function () {
         return page.run(html, function (raw) {
             this.setContent(raw, 'local');
         });
@@ -121,7 +121,7 @@ function fromLocal(filename, options) {
     var page = phantom.createPage(),
         htmlroot = path.join(process.cwd(), options.htmlroot || '');
 
-    return page.run(htmlroot, ResourceHandler).then(function () {
+    return page.run(htmlroot, utility.isWindows(), ResourceHandler).then(function () {
         return page.run(filename, function (source, resolve, reject) {
             this.open(source, function (status) {
                 if (status !== 'success') {
