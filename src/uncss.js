@@ -32,7 +32,7 @@ function getHTML(files, options) {
         return file;
     }));
 
-    if (files.length === 0) {
+    if (!files.length) {
         throw new Error('UnCSS: no HTML files found');
     }
 
@@ -58,7 +58,7 @@ function getHTML(files, options) {
  * @return {promise}
  */
 function getStylesheets(files, options, pages) {
-    if (options.stylesheets && options.stylesheets.length > 0) {
+    if (options.stylesheets && options.stylesheets.length) {
         /* Simulate the behavior below */
         return [files, options, pages, [options.stylesheets]];
     }
@@ -80,7 +80,7 @@ function getStylesheets(files, options, pages) {
  */
 function getCSS(files, options, pages, stylesheets) {
     /* Ignore specified stylesheets */
-    if (options.ignoreSheets.length > 0) {
+    if (options.ignoreSheets.length) {
         stylesheets = stylesheets.map(function (arr) {
             return arr.filter(function (sheet) {
                 return _.every(options.ignoreSheets, function (ignore) {
@@ -93,7 +93,7 @@ function getCSS(files, options, pages, stylesheets) {
         });
     }
 
-    if (_.flatten(stylesheets).length !== 0) {
+    if (_.flatten(stylesheets).length) {
         /* Only run this if we found links to stylesheets (there may be none...)
          *  files       = ['some_file.html', 'some_other_file.html']
          *  stylesheets = [['relative_css_path.css', ...],
@@ -141,7 +141,7 @@ function process(files, options, pages, stylesheets) {
      * - We weren't passed a string of raw CSS in addition to, or to replace
      *     either of the above
      */
-    if (_.flatten(stylesheets).length === 0) {
+    if (!_.flatten(stylesheets).length) {
         throw new Error('UnCSS: no stylesheets found');
     }
 

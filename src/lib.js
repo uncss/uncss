@@ -122,12 +122,12 @@ function filterKeyframes(rules, animations, unusedRules) {
 function filterEmptyRules(rules) {
     return rules.filter(function (rule) {
         if (rule.type === 'rule') {
-            return rule.selectors.length > 0;
+            return rule.selectors.length;
         }
         /* Filter media queries with no remaining rules */
         if (rule.type === 'media') {
             rule.rules = filterEmptyRules(rule.rules);
-            return rule.rules.length > 0;
+            return rule.rules.length;
         }
         return true;
     });

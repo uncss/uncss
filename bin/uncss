@@ -41,7 +41,7 @@
         uncssrc: program.uncssrc
     };
 
-    if (program.args.length === 0) {
+    if (!program.args.length) {
         /* No files were specified, read HTML from stdin */
         process.stdin.resume();
         process.stdin.setEncoding('utf8');
