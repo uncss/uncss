@@ -8,14 +8,6 @@ var path = require('path'),
 
 var phantom;
 
-
-/**
- * Close the open PhantomJS instances.
- */
-function exit() {
-    return phridge.disposeAll();
-}
-
 /**
  * Create the PhantomJS instances, or use the given one.
  * @param  {Object}  instance   The instance to use, if there is one
@@ -35,9 +27,7 @@ function init(instance) {
         }));
     }).then(function (ph) {
         phantom = ph;
-    }).disposer(function () {
-        return exit();
-    });
+    }).disposer(phridge.disposeAll);
 }
 
 /**
@@ -50,7 +40,7 @@ function init(instance) {
  *   - 'file:///': This is an absolute path. If options.htmlroot is specified, we have a chance to
  *                 redirect the request to the correct location.
  */
-function ResourceHandler(htmlroot, isWindows, resolve) {
+function ResourceHandler(htmlroot, resolve) {
     var ignoredExtensions = ['\\.css', '\\.png', '\\.gif', '\\.jpg', '\\.jpeg', ''],
         ignoredEndpoints = ['fonts\\.googleapis'];
 
@@ -68,7 +58,7 @@ function ResourceHandler(htmlroot, isWindows, resolve) {
                 /* Absolute URL
                  * Retry loading the resource appending the htmlroot option
                  */
-                if (isWindows) {
+                if (utility.isWindows()) {
                     /* Do not strip leading '/' */
                     url = originalUrl.substr(0, 8) + htmlroot + originalUrl.substr(7);
                 } else {
@@ -87,6 +77,24 @@ function ResourceHandler(htmlroot, isWindows, resolve) {
 }
 
 /**
+ * Helper for fromRaw, fromLocal, fromRemote;
+ * return the phantom page after the timeout
+ * has elapsed
+ * @param  {phantom} page    Page created by phantom
+ * @param  {Object} options
+ * @return {promise}
+ */
+function resolveWithPage(page, options) {
+    return function () {
+        return new promise(function (resolve) {
+            setTimeout(function () {
+                return resolve(page);
+            }, options.timeout);
+        });
+    };
+}
+
+/**
  * Load a page given an HTML string.
  * @param  {String}  html
  * @param  {Object}  options
@@ -96,17 +104,11 @@ function fromRaw(html, options) {
     var page = phantom.createPage(),
         htmlroot = path.join(process.cwd(), options.htmlroot || '');
 
-    return page.run(htmlroot, utility.isWindows(), ResourceHandler).then(function () {
+    return page.run(htmlroot, ResourceHandler).then(function () {
         return page.run(html, function (raw) {
             this.setContent(raw, 'local');
         });
-    }).then(function () {
-        return new promise(function (resolve) {
-            setTimeout(function () {
-                return resolve(page);
-            }, options.timeout);
-        });
-    });
+    }).then(resolveWithPage(page, options));
 }
 
 /**
@@ -119,7 +121,7 @@ function fromLocal(filename, options) {
     var page = phantom.createPage(),
         htmlroot = path.join(process.cwd(), options.htmlroot || '');
 
-    return page.run(htmlroot, utility.isWindows(), ResourceHandler).then(function () {
+    return page.run(htmlroot, ResourceHandler).then(function () {
         return page.run(filename, function (source, resolve, reject) {
             this.open(source, function (status) {
                 if (status !== 'success') {
@@ -128,13 +130,7 @@ function fromLocal(filename, options) {
                 resolve();
             });
         });
-    }).then(function () {
-        return new promise(function (resolve) {
-            setTimeout(function () {
-                return resolve(page);
-            }, options.timeout);
-        });
-    });
+    }).then(resolveWithPage(page, options));
 }
 
 /**
@@ -150,11 +146,7 @@ function fromRemote(url, options) {
     }
 
     return phantom.openPage(url).then(function (page) {
-        return new promise(function (resolve) {
-            setTimeout(function () {
-                return resolve(page);
-            }, options.timeout);
-        });
+        return resolveWithPage(page, options)();
     });
 }
 
