@@ -2,14 +2,14 @@ language: node_js
 
 node_js:
     - "0.10"
-    - "0.11"
+    - "0.12"
+    - "iojs"
 
 install:
     - npm install -g grunt-cli
     - npm install
 
-script: 'grunt travis'
+script: "grunt travis"
 
 matrix:
-  allow_failures:
-    - node_js: "0.11"
+  fast_finish: true
