@@ -202,7 +202,7 @@ function filterUnusedRules(pages, stylesheet, ignore, usedSelectors) {
     rules.forEach(function (rule, idx) {
         if (rule.type === 'comment') {
             // ignore next rule while using comment `/* uncss:ignore */`
-            if (/^\s?uncss:ignore\s?$/.test(rule.comment)) {
+            if (/^!?\s?uncss:ignore\s?$/.test(rule.comment)) {
                 nextRule = rules[idx + 1];
                 if (nextRule && nextRule.type === 'rule') {
                     ignore = ignore.concat(nextRule.selectors);
