@@ -134,4 +134,22 @@ describe('Options', function () {
             done();
         });
     });
+
+    it('options.uncssrc with options.report should generate a valid report', function (done) {
+        uncss(
+            rfs('selectors/index.html'),
+            { uncssrc: 'tests/coverage/.uncssrc', report: true },
+            function (err, res, rep) {
+                expect(err).to.equal(null);
+                expect(res).to.equal(output);
+
+                expect(rep).to.have.ownProperty('original');
+                expect(rep.original).to.have.length.above(res.length);
+
+                expect(rep.selectors.all).to.be.instanceof(Array);
+                expect(rep.selectors.used).to.be.instanceof(Array);
+
+                done();
+        });
+    });
 });
