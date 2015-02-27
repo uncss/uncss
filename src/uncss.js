@@ -195,7 +195,8 @@ function init(files, options, callback) {
     /* Try and read options from the specified uncssrc file */
     if (options.uncssrc) {
         try {
-            options = utility.parseUncssrc(options.uncssrc);
+            /* Manually-specified options take precedence over uncssrc options */
+            options = _.merge(utility.parseUncssrc(options.uncssrc), options);
         } catch (err) {
             if (err instanceof SyntaxError) {
                 return callback(new SyntaxError('UnCSS: uncssrc file is invalid JSON.'));
