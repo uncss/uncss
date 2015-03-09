@@ -134,8 +134,8 @@ function filterEmptyRules(rules) {
 }
 
 /**
- * Find which selectors are used in {pages}
- * @param  {Array}    pages         List of PhantomJS pages
+ * Find which selectors are used in {page}
+ * @param  {Array}    page          List of PhantomJS pages
  * @param  {Object}   stylesheet    The output of css.parse().stylesheet
  * @param  {Boolean}  isRec         Used internally
  * @return {promise}
