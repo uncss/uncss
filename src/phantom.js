@@ -26,6 +26,9 @@ function init(instance) {
             sslProtocol: 'any'
         }));
     }).then(function (ph) {
+        /* Phridge outputs everything to stdout by default */
+        ph.childProcess.cleanStdout.unpipe();
+        ph.childProcess.cleanStdout.pipe(process.stderr);
         phantom = ph;
     }).disposer(phridge.disposeAll);
 }

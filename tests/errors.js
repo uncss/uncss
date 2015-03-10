@@ -66,6 +66,24 @@ describe('Error reporting', function () {
         });
     });
 
+    it('PhantomJS errors to stderr', function (done) {
+        var stderrBuffer = '';
+        var oldWrite = process.stderr.write;
+        process.stderr.write = function (data) {
+            stderrBuffer += data;
+        };
+
+        uncss(
+            ['tests/phantomjs/throw.html'],
+            { raw: '' },
+            function (error) {
+                expect(error).to.equal(null);
+                expect(stderrBuffer).to.contain('Exception');
+                process.stderr.write = oldWrite;
+                done();
+            });
+    });
+
     it('css-parse errors', function (done) {
         uncss(
             ['tests/selectors/index.html'],
