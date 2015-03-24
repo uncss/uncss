@@ -1,7 +1,7 @@
 /*** uncss> filename: http://getbootstrap.com/dist/css/bootstrap.min.css ***/
 
 /*!
- * Bootstrap v3.3.2 (http://getbootstrap.com)
+ * Bootstrap v3.3.4 (http://getbootstrap.com)
  * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
@@ -187,6 +187,10 @@ hr {
   overflow: hidden;
   clip: rect(0,0,0,0);
   border: 0;
+}
+
+[role=button] {
+  cursor: pointer;
 }
 
 h1,
@@ -406,7 +410,6 @@ p {
 
 .collapse {
   display: none;
-  visibility: hidden;
 }
 
 .navbar {
@@ -451,7 +454,6 @@ p {
     height: auto!important;
     padding-bottom: 0;
     overflow: visible!important;
-    visibility: visible!important;
   }
 
   .navbar-fixed-top .navbar-collapse {
@@ -464,7 +466,7 @@ p {
   max-height: 340px;
 }
 
-@media (max-device-width:480px) and (orientation:landscape) {
+@media (max-device-width:480px)and (orientation:landscape) {
   .navbar-fixed-top .navbar-collapse {
     max-height: 200px;
   }
