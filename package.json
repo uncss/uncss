@@ -36,22 +36,22 @@
     "LICENSE.md"
   ],
   "dependencies": {
-    "bluebird": "~2.9.14",
+    "bluebird": "~2.9.21",
     "commander": "~2.7.1",
     "css": "1.6.0",
     "glob": "~5.0.3",
     "is-absolute-url": "~1.0.0",
     "is-html": "~1.0.0",
-    "lodash": "~3.5.0",
+    "lodash": "~3.6.0",
     "phridge": "~1.0.8",
-    "request": "~2.53.0"
+    "request": "~2.54.0"
   },
   "devDependencies": {
-    "chai": "~2.1.2",
+    "chai": "~2.2.0",
     "chai-resemble": "~0.4.1",
     "grunt": "~0.4.5",
     "grunt-contrib-jshint": "~0.11.1",
-    "grunt-eslint": "~9.0.0",
+    "grunt-eslint": "~10.0.0",
     "grunt-mocha-cov": "~0.4.0",
     "load-grunt-tasks": "~3.1.0",
     "time-grunt": "~1.1.0"
