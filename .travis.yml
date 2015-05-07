@@ -1,5 +1,7 @@
 language: node_js
 
+sudo: false
+
 node_js:
     - "0.10"
     - "0.12"
@@ -12,4 +14,4 @@ install:
 script: "grunt travis"
 
 matrix:
-  fast_finish: true
+    fast_finish: true
