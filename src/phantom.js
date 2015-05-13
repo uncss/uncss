@@ -1,5 +1,10 @@
 'use strict';
 
+/* jshint phantom: true */
+/* eslint-env phantomjs */
+
+/* globals document: true */
+
 var path = require('path'),
     phridge = require('phridge'),
     promise = require('bluebird'),
@@ -165,14 +170,11 @@ function getStylesheets(page, options) {
     }
     var media = _.union(['', 'all', 'screen'], options.media);
     return page.run(function () {
-        /* jshint browser: true */
-        /* eslint-env browser */
         return this.evaluate(function () {
             return Array.prototype.map.call(document.querySelectorAll('link[rel="stylesheet"]'), function (link) {
                 return { href: link.href, media: link.media };
             });
         });
-        /* jshint browser: false */
     }).then(function (stylesheets) {
         stylesheets = _
             .toArray(stylesheets)
@@ -196,7 +198,6 @@ function getStylesheets(page, options) {
 function findAll(page, sels) {
     return page.run(sels, function (args) {
         return this.evaluate(function (selectors) {
-            /* jshint browser: true */
             // Unwrap noscript elements
             Array.prototype.forEach.call(document.getElementsByTagName('noscript'), function (ns) {
                 var wrapper = document.createElement('div');
@@ -219,7 +220,6 @@ function findAll(page, sels) {
             return {
                 selectors: selectors
             };
-            /* jshint browser: false */
         }, args);
     }).then(function (res) {
         if (res === null) {

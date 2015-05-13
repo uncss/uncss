@@ -51,7 +51,7 @@
     "chai-resemble": "~0.4.1",
     "grunt": "~0.4.5",
     "grunt-contrib-jshint": "~0.11.2",
-    "grunt-eslint": "~12.0.0",
+    "grunt-eslint": "~13.0.0",
     "grunt-mocha-cov": "~0.4.0",
     "load-grunt-tasks": "~3.1.0",
     "time-grunt": "~1.2.0"
