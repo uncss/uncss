@@ -1,12 +1,12 @@
 /*** uncss> filename: http://getbootstrap.com/dist/css/bootstrap.min.css ***/
 
 /*!
- * Bootstrap v3.3.4 (http://getbootstrap.com)
+ * Bootstrap v3.3.5 (http://getbootstrap.com)
  * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 
-/*! normalize.css v3.0.2 | MIT License | git.io/normalize */
+/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 
 html {
   font-family: sans-serif;
@@ -353,12 +353,29 @@ p {
   border-color: #ccc;
 }
 
-.btn-default:active,
-.btn-default:focus,
+.btn-default:focus {
+  color: #333;
+  background-color: #e6e6e6;
+  border-color: #8c8c8c;
+}
+
 .btn-default:hover {
   color: #333;
   background-color: #e6e6e6;
   border-color: #adadad;
+}
+
+.btn-default:active {
+  color: #333;
+  background-color: #e6e6e6;
+  border-color: #adadad;
+}
+
+.btn-default:active:focus,
+.btn-default:active:hover {
+  color: #333;
+  background-color: #d4d4d4;
+  border-color: #8c8c8c;
 }
 
 .btn-default:active {
@@ -371,12 +388,29 @@ p {
   border-color: #2e6da4;
 }
 
-.btn-primary:active,
-.btn-primary:focus,
+.btn-primary:focus {
+  color: #fff;
+  background-color: #286090;
+  border-color: #122b40;
+}
+
 .btn-primary:hover {
   color: #fff;
   background-color: #286090;
   border-color: #204d74;
+}
+
+.btn-primary:active {
+  color: #fff;
+  background-color: #286090;
+  border-color: #204d74;
+}
+
+.btn-primary:active:focus,
+.btn-primary:active:hover {
+  color: #fff;
+  background-color: #204d74;
+  border-color: #122b40;
 }
 
 .btn-primary:active {
@@ -389,12 +423,29 @@ p {
   border-color: #4cae4c;
 }
 
-.btn-success:active,
-.btn-success:focus,
+.btn-success:focus {
+  color: #fff;
+  background-color: #449d44;
+  border-color: #255625;
+}
+
 .btn-success:hover {
   color: #fff;
   background-color: #449d44;
   border-color: #398439;
+}
+
+.btn-success:active {
+  color: #fff;
+  background-color: #449d44;
+  border-color: #398439;
+}
+
+.btn-success:active:focus,
+.btn-success:active:hover {
+  color: #fff;
+  background-color: #398439;
+  border-color: #255625;
 }
 
 .btn-success:active {
@@ -466,7 +517,7 @@ p {
   max-height: 340px;
 }
 
-@media (max-device-width:480px)and (orientation:landscape) {
+@media (max-device-width:480px) and (orientation:landscape) {
   .navbar-fixed-top .navbar-collapse {
     max-height: 200px;
   }
@@ -643,7 +694,8 @@ p {
 }
 
 .jumbotron {
-  padding: 30px 15px;
+  padding-top: 30px;
+  padding-bottom: 30px;
   margin-bottom: 30px;
   color: inherit;
   background-color: #eee;
@@ -665,7 +717,8 @@ p {
 
 @media screen and (min-width:768px) {
   .jumbotron {
-    padding: 48px 0;
+    padding-top: 48px;
+    padding-bottom: 48px;
   }
 
   .jumbotron h1 {
