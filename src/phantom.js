@@ -18,7 +18,7 @@ var phantom;
  * @param  {Object}  instance   The instance to use, if there is one
  * @return {promise}
  */
-function init(instance) {
+function init(instance, options) {
     if (instance) {
         phantom = instance;
         return null;
@@ -26,10 +26,7 @@ function init(instance) {
 
     // Convert to bluebird promise
     return new promise(function (resolve) {
-        resolve(phridge.spawn({
-            ignoreSslErrors: 'yes',
-            sslProtocol: 'any'
-        }));
+        resolve(phridge.spawn(options));
     }).then(function (ph) {
         /* Phridge outputs everything to stdout by default */
         ph.childProcess.cleanStdout.unpipe();
