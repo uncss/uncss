@@ -149,6 +149,6 @@ describe('Options', function () {
                 expect(rep.selectors.used).to.be.instanceof(Array);
 
                 done();
-        });
+            });
     });
 });

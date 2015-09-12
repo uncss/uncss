@@ -151,17 +151,17 @@ function parseErrorMessage(error, cssStr) {
             }
             for (var j = error.line - 6; j < error.line + 5; j++) {
                 if (j - zeroLine < 0 || j >= lines.length) {
-                continue;
+                    continue;
+                }
+                var line = lines[j];
+                /* It could be minified CSS */
+                if (line.length > 120 && error.column) {
+                    line = line.substring(error.column - 40, error.column);
+                }
+                error.message += '\n\t' + (j + 1 - zeroLine) + ':    ';
+                error.message += j === error.line - 1 ? ' -> ' : '    ';
+                error.message += line;
             }
-            var line = lines[j];
-            /* It could be minified CSS */
-            if (line.length > 120 && error.column) {
-                line = line.substring(error.column - 40, error.column);
-            }
-            error.message += '\n\t' + (j + 1 - zeroLine) + ':    ';
-            error.message += j === error.line - 1 ? ' -> ' : '    ';
-            error.message += line;
-          }
         }
     }
     if (zeroLine > 0) {

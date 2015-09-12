@@ -1,7 +1,8 @@
 #!/usr/bin/env node
-(function () {
-    'use strict';
 
+'use strict';
+
+(function () {
     process.title = 'uncss';
 
     var uncss = require('../src/uncss.js'),
