@@ -1,6 +1,5 @@
 'use strict';
 
-/* jshint mocha: true */
 /* eslint-env mocha */
 
 var fs = require('fs'),

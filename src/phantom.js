@@ -1,6 +1,5 @@
 'use strict';
 
-/* jshint phantom: true */
 /* eslint-env phantomjs */
 
 /* globals document: true */

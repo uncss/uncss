@@ -6,9 +6,9 @@ module.exports = function (grunt) {
 
     grunt.initConfig({
 
-        jshint: {
+        eslint: {
             options: {
-                jshintrc: '.jshintrc'
+                config: '.eslintrc'
             },
             gruntfile: {
                 src: 'Gruntfile.js'
@@ -18,21 +18,6 @@ module.exports = function (grunt) {
             },
             tests: {
                 src: 'tests/*.js'
-            }
-        },
-
-        eslint: {
-            options: {
-                config: '.eslintrc'
-            },
-            gruntfile: {
-                src: '<%= jshint.gruntfile.src %>'
-            },
-            src: {
-                src: '<%= jshint.src.src %>'
-            },
-            tests: {
-                src: '<%= jshint.tests.src %>'
             }
         },
 
@@ -62,7 +47,7 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('lint', ['jshint', 'eslint']);
+    grunt.registerTask('lint', 'eslint');
     grunt.registerTask('test', ['lint', 'mochacov:unit']);
     grunt.registerTask('travis', ['test', 'mochacov:coveralls']);
     grunt.registerTask('default', 'test');
