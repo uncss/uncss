@@ -44,15 +44,15 @@
     "is-html": "~1.0.0",
     "lodash": "~3.10.1",
     "phridge": "~1.1.0",
-    "request": "~2.61.0"
+    "request": "~2.63.0"
   },
   "devDependencies": {
-    "chai": "~3.2.0",
+    "chai": "~3.3.0",
     "chai-resemble": "~0.4.1",
     "grunt": "~0.4.5",
-    "grunt-eslint": "~17.1.0",
+    "grunt-eslint": "~17.2.0",
     "grunt-mocha-cov": "~0.4.0",
-    "load-grunt-tasks": "~3.2.0",
+    "load-grunt-tasks": "~3.3.0",
     "time-grunt": "~1.2.1"
   },
   "engines": {
