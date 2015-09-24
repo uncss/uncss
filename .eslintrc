@@ -73,6 +73,7 @@
         "no-sparse-arrays": 2,
         "no-throw-literal": 2,
         "no-trailing-spaces": 2,
+        "no-undef": 2,
         "no-underscore-dangle": 2,
         "no-unexpected-multiline": 2,
         "no-unreachable": 2,
@@ -97,7 +98,7 @@
         "space-unary-ops": [2, { "words": true, "nonwords": false }],
         "strict": [2, "global"],
         "use-isnan": 2,
-        //"valid-jsdoc": 1,
+        "valid-jsdoc": 0,
         "valid-typeof": 2,
         "wrap-iife": [2, "outside"],
         "yoda": [2, "never"]
