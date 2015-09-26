@@ -128,8 +128,8 @@ function fromLocal(filename, options) {
     var page = phantom.createPage(),
         htmlroot = path.join(process.cwd(), options.htmlroot || '');
 
-    return page.run(htmlroot, utility.isWindows(), ResourceHandler).then(function () {
-        return page.run(filename, function (source, resolve, reject) {
+    return page.run(htmlroot, utility.isWindows(), ResourceHandler).then(function (data) {
+        return page.run(htmlroot+"\\"+filename, function (source, resolve, reject) {
             this.open(source, function (status) {
                 if (status !== 'success') {
                     return reject(new Error('PhantomJS: Cannot open ' + this.url));
