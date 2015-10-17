@@ -34,16 +34,17 @@ var uncss = require('uncss');
 
 var files   = ['my', 'array', 'of', 'HTML', 'files', 'or', 'http://urls.com'],
     options = {
-        ignore       : ['#added_at_runtime', /test\-[0-9]+/],
-        media        : ['(min-width: 700px) handheld and (orientation: landscape)'],
-        csspath      : '../public/css/',
-        raw          : 'h1 { color: green }',
-        stylesheets  : ['lib/bootstrap/dist/css/bootstrap.css', 'src/public/css/main.css'],
-        ignoreSheets : [/fonts.googleapis/],
-        timeout      : 1000,
-        htmlroot     : 'public',
-        report       : false,
-        uncssrc      : '.uncssrc'
+        ignore          : ['#element_added_at_runtime', /test\-[0-9]+/],
+        ignoreModifiers : ['.class_added_at_runtime', '.visible', '[disabled]'],
+        media           : ['(min-width: 700px) handheld and (orientation: landscape)'],
+        csspath         : '../public/css/',
+        raw             : 'h1 { color: green }',
+        stylesheets     : ['lib/bootstrap/dist/css/bootstrap.css', 'src/public/css/main.css'],
+        ignoreSheets    : [/fonts.googleapis/],
+        timeout         : 1000,
+        htmlroot        : 'public',
+        report          : false,
+        uncssrc         : '.uncssrc'
     };
 
 uncss(files, options, function (error, output) {
@@ -106,6 +107,8 @@ Options:
   }
   ```
 
+- **ignoreModifiers** (Array): Ignore a list of classes or other modifiers. Unlike **ignore**, this will only ignore a selector if the rest of the selector *does* match.
+
 - **media** (Array): By default UnCSS processes only stylesheets with media query "_all_", "_screen_", and those without one. Specify here which others to include.
 
 - **csspath** (String): Path where the CSS files are related to the HTML files. By default, UnCSS uses the path specified in the `<link rel="stylesheet" href="path/to/file.css"/>`.
@@ -122,7 +125,7 @@ Options:
 
 - **report** (Boolean): Return the report object in callback.
 
-- **uncssrc** (String): Load all options from a JSON file. Regular expressions for the `ignore` and `ignoreSheets` options should be wrapped in quotation marks.
+- **uncssrc** (String): Load all options from a JSON file. Regular expressions for the `ignore`, `ignoreModifiers` and `ignoreSheets` options should be wrapped in quotation marks.
 
   Example uncssrc file:
 

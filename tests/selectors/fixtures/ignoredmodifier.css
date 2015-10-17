@@ -1,0 +1,7 @@
+h3.ignored-class {
+  color: green;
+}
+
+.unused.ignored-class {
+  color: gray;
+}

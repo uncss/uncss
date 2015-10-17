@@ -38,6 +38,7 @@ function parseUncssrc(filename) {
      * A string is a RegExp if it starts with '/', since that wouldn't be a valid CSS selector.
      */
     options.ignore = options.ignore ? options.ignore.map(strToRegExp) : undefined;
+    options.ignoreModifiers = options.ignoreModifiers ? options.ignoreModifiers.map(strToRegExp) : undefined;
     options.ignoreSheets = options.ignoreSheets ? options.ignoreSheets.map(strToRegExp) : undefined;
 
     return options;
@@ -173,6 +174,7 @@ function parseErrorMessage(error, cssStr) {
 
 module.exports = {
     isWindows: isWindows,
+    strToRegExp: strToRegExp,
     parseUncssrc: parseUncssrc,
     parseErrorMessage: parseErrorMessage,
     parsePaths: parsePaths,

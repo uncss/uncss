@@ -160,7 +160,7 @@ function process(files, options, pages, stylesheets) {
         /* Try and construct a helpful error message */
         throw utility.parseErrorMessage(err, cssStr);
     }
-    return uncss(pages, parsed.stylesheet, options.ignore).spread(function (used, rep) {
+    return uncss(pages, parsed.stylesheet, options.ignore, options.ignoreModifiers).spread(function (used, rep) {
         var usedCss = css.stringify(used);
         if (options.report) {
             report = {
