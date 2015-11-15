@@ -4,14 +4,11 @@ version: "{build}"
 
 clone_depth: 10
 
-init:
-  - git config --global core.autocrlf true
-
 environment:
   matrix:
     - nodejs_version: "0.10"
-    - nodejs_version: "0.12"
     - nodejs_version: "4"
+    - nodejs_version: "5"
 
 install:
   - ps: Install-Product node $env:nodejs_version
@@ -28,7 +25,5 @@ matrix:
   fast_finish: true
 
 cache:
-  - '%LOCALAPPDATA%\Temp\phantomjs -> package.json' # phantomjs download location
   - '%APPDATA%\npm\node_modules -> package.json'    # global npm modules
-  - '%APPDATA%\npm-cache -> package.json'           # npm cache
   - 'node_modules -> package.json'                  # local npm modules
