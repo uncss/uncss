@@ -71,6 +71,17 @@
             });
         }
 
+	if (options.ignoreSheets) {
+            options.ignoreSheets = options.ignoreSheets.map(function (ign) {
+                /* Create RegExes */
+                if (ign[0] === '/') {
+                    /* Remove starting and trailing '/' */
+                    return new RegExp(ign.slice(1, -1));
+                }
+                return ign;
+            });
+        }
+
         /* If used from the command line, concatenate the output */
         uncss(program.args, options, function (err, css) {
             if (err) {
