@@ -86,8 +86,13 @@ function getUsedAnimations(rules, memo) {
                 })
                 /* Keep loopin' */
                 .forEach(function (property) {
-                    /* If declared as animation, it should be in the form 'name Xs etc..' */
-                    accumulator.push(property.value.split(' ')[0]);
+                    if (property.property === 'animation-name' && property.value.indexOf(',')) {
+                        /* Multiple animations, separated by comma */
+                        accumulator.push.apply(accumulator, property.value.replace(' ', '').split(','));
+                    } else {
+                        /* If declared as animation, it should be in the form 'name Xs etc..' */
+                        accumulator.push(property.value.split(' ')[0]);
+                    }
                 });
         }
         if (rule.type === 'media') {
