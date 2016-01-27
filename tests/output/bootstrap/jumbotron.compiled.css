@@ -1,7 +1,7 @@
 /*** uncss> filename: http://getbootstrap.com/dist/css/bootstrap.min.css ***/
 
 /*!
- * Bootstrap v3.3.5 (http://getbootstrap.com)
+ * Bootstrap v3.3.6 (http://getbootstrap.com)
  * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
@@ -299,6 +299,11 @@ p {
 
 .form-control:-ms-input-placeholder {
   color: #999;
+}
+
+.form-control::-ms-expand {
+  background-color: transparent;
+  border: 0;
 }
 
 .form-group {
@@ -749,6 +754,41 @@ p {
 }
 
 @-ms-viewport {
+  width: device-width;
+}
+
+/*# sourceMappingURL=bootstrap.min.css.map */
+
+/*** uncss> filename: http://getbootstrap.com/assets/css/ie10-viewport-bug-workaround.css ***/
+
+/*!
+ * IE10 viewport hack for Surface/desktop Windows 8 bug
+ * Copyright 2014-2015 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+
+/*
+ * See the Getting Started docs for more information:
+ * http://getbootstrap.com/getting-started/#support-ie10-width
+ */
+
+@-webkit-viewport {
+  width: device-width;
+}
+
+@-moz-viewport {
+  width: device-width;
+}
+
+@-ms-viewport {
+  width: device-width;
+}
+
+@-o-viewport {
+  width: device-width;
+}
+
+@viewport {
   width: device-width;
 }
 
