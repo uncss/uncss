@@ -33,7 +33,7 @@
     "LICENSE.md"
   ],
   "dependencies": {
-    "bluebird": "~2.10.0",
+    "bluebird": "~3.1.5",
     "commander": "~2.9.0",
     "css": "1.6.0",
     "glob": "~6.0.1",
@@ -41,7 +41,7 @@
     "is-html": "~1.0.0",
     "lodash": "~4.0.1",
     "phridge": "~1.2.2",
-    "request": "~2.67.0"
+    "request": "~2.69.0"
   },
   "devDependencies": {
     "chai": "~3.4.1",

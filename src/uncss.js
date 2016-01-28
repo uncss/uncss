@@ -223,7 +223,7 @@ function init(files, options, callback) {
                 .spread(getCSS)
                 .spread(process);
         })
-        .nodeify(callback, { spread: true });
+        .asCallback(callback, { spread: true });
 }
 
 module.exports = init;

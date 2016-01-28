@@ -7,8 +7,8 @@ var promise = require('bluebird'),
     path = require('path'),
     url = require('url');
 
-var fs = promise.promisifyAll(require('fs')),
-    request = promise.promisify(require('request'));
+var fs = promise.promisifyAll(require('fs'), { multiArgs: true }),
+    request = promise.promisify(require('request'), { multiArgs: true });
 
 function isWindows() {
     return os.platform() === 'win32';
