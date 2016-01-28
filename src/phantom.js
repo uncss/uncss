@@ -8,6 +8,7 @@ var path = require('path'),
     phridge = require('phridge'),
     promise = require('bluebird'),
     utility = require('./utility'),
+    fs = require('fs'),
     _ = require('lodash');
 
 var phantom;
@@ -125,19 +126,9 @@ function fromRaw(html, options) {
  * @return {promise}
  */
 function fromLocal(filename, options) {
-    var page = phantom.createPage(),
-        htmlroot = path.join(process.cwd(), options.htmlroot || '');
-
-    return page.run(htmlroot, utility.isWindows(), ResourceHandler).then(function () {
-        return page.run(filename, function (source, resolve, reject) {
-            this.open(source, function (status) {
-                if (status !== 'success') {
-                    return reject(new Error('PhantomJS: Cannot open ' + this.url));
-                }
-                resolve();
-            });
-        });
-    }).then(resolveWithPage(page, options));
+    return promise.promisify(fs.readFile)(filename, 'utf-8').then(function (html) {
+        return fromRaw(html, options);
+    });
 }
 
 /**
