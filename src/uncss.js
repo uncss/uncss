@@ -20,7 +20,7 @@ var promise = require('bluebird'),
 function getHTML(files, options) {
 
     if (_.isString(files)) {
-        return phantom.fromRaw(files, options.timeout).then(function (pages) {
+        return phantom.fromRaw(files, options).then(function (pages) {
             return [files, options, [pages]];
         });
     }
