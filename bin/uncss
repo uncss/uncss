@@ -71,7 +71,7 @@
             });
         }
 
-	if (options.ignoreSheets) {
+        if (options.ignoreSheets) {
             options.ignoreSheets = options.ignoreSheets.map(function (ign) {
                 /* Create RegExes */
                 if (ign[0] === '/') {
