@@ -1,12 +1,12 @@
 'use strict';
 
 var promise = require('bluebird'),
-    css = require('css'),
     fs = require('fs'),
     glob = require('glob'),
     isHTML = require('is-html'),
     isURL = require('is-absolute-url'),
     phantom = require('./phantom.js'),
+    postcss = require('postcss'),
     uncss = require('./lib.js'),
     utility = require('./utility.js'),
     _ = require('lodash');
@@ -152,16 +152,15 @@ function process(files, options, pages, stylesheets) {
      * - Return the optimized CSS as a string
      */
     var cssStr = stylesheets.join(' \n'),
-        parsed, report;
+        pcss, report;
 
     try {
-        parsed = css.parse(cssStr);
+        pcss = postcss.parse(cssStr);
     } catch (err) {
         /* Try and construct a helpful error message */
         throw utility.parseErrorMessage(err, cssStr);
     }
-    return uncss(pages, parsed.stylesheet, options.ignore).spread(function (used, rep) {
-        var usedCss = css.stringify(used);
+    return uncss(pages, pcss, options.ignore).spread(function (used, rep) {
         if (options.report) {
             report = {
                 original: cssStr,
@@ -169,7 +168,7 @@ function process(files, options, pages, stylesheets) {
             };
         }
         return new promise(function (resolve) {
-            resolve([usedCss + '\n', report]);
+            resolve([used + '\n', report]);
         });
     });
 }
