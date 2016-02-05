@@ -6,11 +6,6 @@ var promise = require('bluebird'),
 
 /* Some styles are applied only with user interaction, and therefore its
  *   selectors cannot be used with querySelectorAll.
- * Additionally, we should check for vendor-specific selectors, but that
- *   would slow down the regex replacing too much.
- *   (there are > 300 vendor-specific properties according to
- *    http://peter.sh/experiments/vendor-prefixed-css-property-overview/).
- *   We just simply skip over them.
  * http://www.w3.org/TR/2001/CR-css3-selectors-20011113/
  */
 var dePseudify = (function () {
@@ -26,7 +21,11 @@ var dePseudify = (function () {
             /* pseudo classes */
             ':target',
             /* CSS2 pseudo elements */
-            ':before', ':after'
+            ':before', ':after',
+            /* Vendor-specific pseudo-elements:
+             * https://developer.mozilla.org/ja/docs/Glossary/Vendor_Prefix
+             */
+            '::?-(?:moz|ms|webkit|o)-[a-z0-9-]+'
         ],
         pseudosRegex = new RegExp(ignoredPseudos.join('|'), 'g');
 
