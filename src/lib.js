@@ -2,7 +2,6 @@
 
 var promise = require('bluebird'),
     phantom = require('./phantom.js'),
-    postcss = require('postcss'),
     _ = require('lodash');
 /* Some styles are applied only with user interaction, and therefore its
  *   selectors cannot be used with querySelectorAll.
@@ -158,8 +157,7 @@ function getAllSelectors(css) {
  * @return {Object}                 A css_parse-compatible stylesheet
  */
 function filterUnusedRules(pages, css, ignore, usedSelectors) {
-    var cssStr,
-        ignoreNextRule = false,
+    var ignoreNextRule = false,
         unusedRules = [],
         unusedRuleSelectors,
         usedRuleSelectors;
@@ -216,11 +214,7 @@ function filterUnusedRules(pages, css, ignore, usedSelectors) {
     /* Filter unused @keyframes */
     filterKeyframes(css, getUsedAnimations(css), unusedRules);
 
-    cssStr = '';
-    postcss.stringify(css, function(result) {
-        cssStr += result;
-    });
-    return cssStr;
+    return css;
 }
 
 /**
@@ -235,10 +229,9 @@ module.exports = function uncss(pages, css, ignore) {
         return getUsedSelectors(page, css);
     }).then(function (usedSelectors) {
         usedSelectors = _.flatten(usedSelectors);
-        var processed = filterUnusedRules(pages, css, ignore, usedSelectors);
-
+        var filteredCss = filterUnusedRules(pages, css, ignore, usedSelectors);
         return [
-            processed,
+            filteredCss,
             /* Get the selectors for the report */
             {
                 all: getAllSelectors(css),

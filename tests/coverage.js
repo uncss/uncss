@@ -115,7 +115,7 @@ describe('Options', function () {
                 expect(err).to.equal(null);
 
                 expect(rep).to.have.ownProperty('original');
-                expect(rep.original).to.have.length.above(res.length);
+                expect(rep.original).to.have.length.least(res.length);
 
                 expect(rep.selectors.all).to.be.instanceof(Array);
                 expect(rep.selectors.used).to.be.instanceof(Array);
