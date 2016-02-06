@@ -38,6 +38,10 @@ function init(instance) {
     }).disposer(phridge.disposeAll);
 }
 
+function cleanupAll() {
+    phridge.disposeAll();
+}
+
 /**
  * This function is called whenever a resource is requested by PhantomJS.
  * If we are loading either raw HTML or a local page, PhantomJS needs to be able to find the
@@ -221,6 +225,7 @@ function findAll(page, sels) {
 
 module.exports = {
     init: init,
+    cleanupAll: cleanupAll,
     fromLocal: fromLocal,
     fromRaw: fromRaw,
     fromRemote: fromRemote,

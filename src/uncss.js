@@ -6,6 +6,7 @@ if (semver.satisfies(process.versions.node, '<0.11.0')) {
     require('es6-promise').polyfill();
 }
 var promise = require('bluebird'),
+    async = require('async'),
     assign = require('object-assign'),
     fs = require('fs'),
     glob = require('glob'),
@@ -24,7 +25,6 @@ var promise = require('bluebird'),
  * @return {promise}
  */
 function getHTML(files, options) {
-
     if (_.isString(files)) {
         return phantom.fromRaw(files, options).then(function (pages) {
             return [files, options, [pages]];
@@ -238,13 +238,23 @@ function init(files, options, callback) {
 }
 
 function processAsPostCss(files, options, pages) {
-    // TODO: can we eliminate this spread() call?
-    return uncss(pages, options.rawPostCss, options.ignore).spread(function (css, rep) { // eslint-disable-line no-unused-vars
-        return new promise(function (resolve) {
-            resolve(css);
-        });
-    });
+    return uncss(pages, options.rawPostCss, options.ignore);
 }
+
+// There always seem to be problems trying to run more than one phantom at a time,
+// so let's serialize all their accesses here
+var serializedQueue = async.queue(function (opts, callback) {
+    return promise
+        .using(phantom.init(phantom.phantom), function () {
+            return getHTML(opts.html, opts)
+                .spread(processAsPostCss);
+        })
+        .asCallback(callback);
+}, 1);
+
+serializedQueue.drain = function() {
+    phantom.cleanupAll();
+};
 
 var postcssPlugin = postcss.plugin('uncss', function (opts) {
     opts = _.defaults(opts, {
@@ -261,19 +271,13 @@ var postcssPlugin = postcss.plugin('uncss', function (opts) {
         });
 
         return new promise(function (resolve, reject) {
-            return promise
-                .using(phantom.init(opts.phantom), function () {
-                    return getHTML(opts.html, opts)
-                        .spread(processAsPostCss);
-                })
-                .asCallback(function (err, outputCss) { // eslint-disable-line no-unused-vars
-                    // TODO: should outputCss go into result, somehow?
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve();
-                    }
-                });
+            serializedQueue.push(opts, function (err) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve();
+                }
+            });
         });
     };
 });

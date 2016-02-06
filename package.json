@@ -45,6 +45,7 @@
     "request": "~2.69.0"
   },
   "devDependencies": {
+    "async": "^1.5.2",
     "chai": "~3.5.0",
     "chai-resemble": "~0.4.1",
     "es6-promise": "^3.0.2",
