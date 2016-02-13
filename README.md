@@ -91,7 +91,7 @@ Options:
   -u, --uncssrc <file>                  Load these options from <file>
 ```
 
-**Note that you can pass both local file paths and  URLs to the program.**
+**Note that you can pass both local file paths (which are processed by [glob](https://github.com/isaacs/node-glob)) and URLs to the program.**
 
 - **ignore** (Array): provide a list of selectors that should not be removed by UnCSS. For example, styles added by user interaction with the page (hover, click), since those are not detectable by UnCSS yet. Both literal names and regex patterns are recognized. Otherwise, you can add a comment before specific selectors:
 
