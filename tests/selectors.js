@@ -38,7 +38,7 @@ tests = fixtures.map(function (test) {
 describe('Selectors', function () {
 
     before(function (done) {
-        uncss(rfs('selectors/index.html'), { csspath: 'tests/selectors' }, function (err, output) {
+        uncss(rfs('selectors/index.html'), { csspath: 'tests/selectors', ignoreModifiers: ['.ignored-class'] }, function (err, output) {
             if (err) {
                 throw err;
             }

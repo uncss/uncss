@@ -6,6 +6,7 @@
     process.title = 'uncss';
 
     var uncss = require('../src/uncss.js'),
+        utility = require('../src/utility.js'),
         data = require('../package.json'),
         program = require('commander');
 
@@ -20,6 +21,7 @@
         .version(data.version)
         .usage('[options] <file or URL, ...>\n\t e.g. uncss http://getbootstrap.com/examples/jumbotron/ > stylesheet.css')
         .option('-i, --ignore <selector, ...>', 'Do not remove given selectors', listArg)
+        .option('-I, --ignoreModifiers <selector, ...>', 'Do not remove given selector modifiers', listArg)
         .option('-m, --media <media_query, ...>', 'Process additional media queries', listArg)
         .option('-C, --csspath <path>', 'Relative path where the CSS files are located')
         .option('-s, --stylesheets <file, ...>', 'Specify additional stylesheets to process', listArg)
@@ -32,6 +34,7 @@
 
     options = {
         ignore: program.ignore,
+        ignoreModifiers: program.ignoreModifiers,
         ignoreSheets: program.ignoreSheets,
         media: program.media,
         csspath: program.csspath,
@@ -60,16 +63,9 @@
             });
         });
     } else {
-        if (options.ignore) {
-            options.ignore = options.ignore.map(function (ign) {
-                /* Create RegExes */
-                if (ign[0] === '/') {
-                    /* Remove starting and trailing '/' */
-                    return new RegExp(ign.slice(1, -1));
-                }
-                return ign;
-            });
-        }
+        options.ignore = options.ignore ? options.ignore.map(utility.strToRegExp) : undefined;
+        options.ignoreModifiers = options.ignoreModifiers ? options.ignoreModifiers.map(utility.strToRegExp) : undefined;
+        options.ignoreSheets = options.ignoreSheets ? options.ignoreSheets.map(utility.strToRegExp) : undefined;
 
         if (options.ignoreSheets) {
             options.ignoreSheets = options.ignoreSheets.map(function (ign) {

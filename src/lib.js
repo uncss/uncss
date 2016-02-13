@@ -35,13 +35,46 @@ var dePseudify = (function () {
 }());
 
 /**
- * Private function used in filterUnusedRules.
- * @param  {Array} selectors      CSS selectors created by the CSS parser
- * @param  {Array} ignore         List of selectors to be ignored
- * @param  {Array} usedSelectors  List of Selectors found in the PhantomJS pages
- * @return {Array}                The selectors matched in the DOMs
+ * Remove modifier, such as ".visible" or "[disabled]".
  */
-function filterUnusedSelectors(selectors, ignore, usedSelectors) {
+function removeIgnoredModifier(match, i, selector) {
+    return !selector[i - 1] || /[\s>+(,]/.test(selector[i - 1]) ? '*' : '';
+}
+
+/**
+ * Remove modifiers, such as ".visible" or "[disabled]".
+ * @param  {Array} ignoreModifiers  List of selector modifiers to be ignored
+ * @return {Function}               Function to remove the modifiers
+ */
+function removeIgnoredModifiers(ignoreModifiers) {
+    if (!ignoreModifiers) {
+        return function (selector) {
+            return selector;
+        };
+    }
+    return function (selector) {
+        ignoreModifiers.forEach(function (ignoreModifier) {
+            while (
+                typeof ignoreModifier === 'string' ?
+                    selector.indexOf(ignoreModifier) !== -1 :
+                    ignoreModifier.test(selector)
+            ) {
+                selector = selector.replace(ignoreModifier, removeIgnoredModifier);
+            }
+        });
+        return selector;
+    };
+}
+
+/**
+ * Private function used in filterUnusedRules.
+ * @param  {Array} selectors        CSS selectors created by the CSS parser
+ * @param  {Array} ignore           List of selectors to be ignored
+ * @param  {Array} ignoreModifiers  List of selector modifiers to be ignored
+ * @param  {Array} usedSelectors    List of Selectors found in the PhantomJS pages
+ * @return {Array}                  The selectors matched in the DOMs
+ */
+function filterUnusedSelectors(selectors, ignore, ignoreModifiers, usedSelectors) {
     /* There are some selectors not supported for matching, like
      *   :before, :after
      * They should be removed only if the parent is not found.
@@ -49,8 +82,10 @@ function filterUnusedSelectors(selectors, ignore, usedSelectors) {
      *          is no '.clearfix'
      */
     var i = 0;
+    var removeIgnoredModifiersFunction = removeIgnoredModifiers(ignoreModifiers);
     return selectors.filter(function (selector) {
         selector = dePseudify(selector);
+        selector = removeIgnoredModifiersFunction(selector);
         /* TODO: process @-rules */
         if (selector[0] === '@') {
             return true;
@@ -139,17 +174,18 @@ function filterEmptyRules(rules) {
 
 /**
  * Find which selectors are used in {page}
- * @param  {Array}    page          List of PhantomJS pages
- * @param  {Object}   stylesheet    The output of css.parse().stylesheet
- * @param  {Boolean}  isRec         Used internally
+ * @param  {Array}    page             List of PhantomJS pages
+ * @param  {Object}   stylesheet       The output of css.parse().stylesheet
+ * @param  {Array}    ignoreModifiers  List of selector modifiers to be ignored
+ * @param  {Boolean}  isRec            Used internally
  * @return {promise}
  */
-function getUsedSelectors(page, stylesheet, isRec) {
+function getUsedSelectors(page, stylesheet, ignoreModifiers, isRec) {
     return promise.map(stylesheet.rules, function (rule) {
         if (rule.type === 'rule') {
             return rule.selectors;
         } else if (rule.type === 'media') {
-            return getUsedSelectors(page, rule, true);
+            return getUsedSelectors(page, rule, ignoreModifiers, true);
         }
         return [];
     }).then(function (selectors) {
@@ -157,7 +193,7 @@ function getUsedSelectors(page, stylesheet, isRec) {
         if (isRec) {
             return selectors;
         }
-        return phantom.findAll(page, selectors.map(dePseudify));
+        return phantom.findAll(page, selectors.map(dePseudify).map(removeIgnoredModifiers(ignoreModifiers)));
     });
 }
 
@@ -184,13 +220,14 @@ function getAllSelectors(stylesheet) {
 
 /**
  * Remove css rules not used in the dom
- * @param  {Array}  pages           List of PhantomJS pages
- * @param  {Object} stylesheet      The output of css.parse().stylesheet
- * @param  {Array}  ignore          List of selectors to be ignored
- * @param  {Array}  usedSelectors   List of selectors that are found in {pages}
- * @return {Object}                 A css_parse-compatible stylesheet
+ * @param  {Array}  pages            List of PhantomJS pages
+ * @param  {Object} stylesheet       The output of css.parse().stylesheet
+ * @param  {Array}  ignore           List of selectors to be ignored
+ * @param  {Array}  ignoreModifiers  List of selector modifiers to be ignored
+ * @param  {Array}  usedSelectors    List of selectors that are found in {pages}
+ * @return {Object}                  A css_parse-compatible stylesheet
  */
-function filterUnusedRules(pages, stylesheet, ignore, usedSelectors) {
+function filterUnusedRules(pages, stylesheet, ignore, ignoreModifiers, usedSelectors) {
     var rules = stylesheet.rules,
         nextRule,
         unusedRules = [],
@@ -216,6 +253,7 @@ function filterUnusedRules(pages, stylesheet, ignore, usedSelectors) {
             usedRuleSelectors = filterUnusedSelectors(
                 rule.selectors,
                 ignore,
+                ignoreModifiers,
                 usedSelectors
             );
             unusedRuleSelectors = rule.selectors.filter(function (selector) {
@@ -235,6 +273,7 @@ function filterUnusedRules(pages, stylesheet, ignore, usedSelectors) {
                 pages,
                 { rules: rule.rules },
                 ignore,
+                ignoreModifiers,
                 usedSelectors
             ).stylesheet.rules;
         }
@@ -263,12 +302,12 @@ function filterUnusedRules(pages, stylesheet, ignore, usedSelectors) {
  * @param  {Array}   ignore     List of selectors to be ignored
  * @return {promise}
  */
-module.exports = function uncss(pages, stylesheet, ignore) {
+module.exports = function uncss(pages, stylesheet, ignore, ignoreModifiers) {
     return promise.map(pages, function (page) {
-        return getUsedSelectors(page, stylesheet);
+        return getUsedSelectors(page, stylesheet, ignoreModifiers);
     }).then(function (usedSelectors) {
         usedSelectors = _.flatten(usedSelectors);
-        var processed = filterUnusedRules(pages, stylesheet, ignore, usedSelectors);
+        var processed = filterUnusedRules(pages, stylesheet, ignore, ignoreModifiers, usedSelectors);
 
         return [
             processed,
