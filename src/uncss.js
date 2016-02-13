@@ -213,11 +213,12 @@ function init(files, options, callback) {
         media: [],
         timeout: 0,
         report: false,
-        ignoreSheets: []
+        ignoreSheets: [],
+        httpSetting: {},
     });
 
     return promise
-        .using(phantom.init(options.phantom), function () {
+        .using(phantom.init(options.phantom, options.httpSetting), function () {
             return getHTML(files, options)
                 .spread(getStylesheets)
                 .spread(getCSS)
