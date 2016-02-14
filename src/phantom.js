@@ -116,11 +116,11 @@ function fromRaw(html, options) {
     var page = phantom.createPage(),
         htmlroot = path.join(process.cwd(), options.htmlroot || '');
 
-    return page.run(htmlroot, utility.isWindows(), ResourceHandler).then(function () {
+    return promise.resolve(page.run(htmlroot, utility.isWindows(), ResourceHandler).then(function () {
         return page.run(html, function (raw) {
             this.setContent(raw, 'local');
         });
-    }).then(resolveWithPage(page, options));
+    }).then(resolveWithPage(page, options)));
 }
 
 /**
@@ -147,9 +147,9 @@ function fromRemote(url, options) {
         url = 'http:' + url;
     }
 
-    return phantom.openPage(url).then(function (page) {
+    return promise.resolve(phantom.openPage(url).then(function (page) {
         return resolveWithPage(page, options)();
-    });
+    }));
 }
 
 /**
@@ -210,6 +210,7 @@ function findAll(page, sels) {
                 } catch (e) {
                     return true;
                 }
+                return false;
             });
             return {
                 selectors: selectors
