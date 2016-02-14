@@ -1,35 +1,6 @@
-/*** uncss> filename: http://cdnjs.cloudflare.com/ajax/libs/colors/1.0/colors.min.css ***/
-
-a {
-  text-decoration: none;
-  -webkit-transition: color .3s ease-in-out;
-  transition: color .3s ease-in-out;
-}
-
-a:link {
-  color: #0074d9;
-  -webkit-transition: color .3s ease-in-out;
-  transition: color .3s ease-in-out;
-}
-
-a:visited {
-  color: #b10dc9;
-}
-
-a:hover {
-  color: #7fdbff;
-  -webkit-transition: color .3s ease-in-out;
-  transition: color .3s ease-in-out;
-}
-
-a:active {
-  color: #ff851b;
-  -webkit-transition: color .3s ease-in-out;
-  transition: color .3s ease-in-out;
-}
-
+/*** uncss> filename: http://cdnjs.cloudflare.com/ajax/libs/colors/1.0/colors.min.css ***/a{text-decoration:none;-webkit-transition:color .3s ease-in-out;transition:color .3s ease-in-out}a:link{color:#0074d9;-webkit-transition:color .3s ease-in-out;transition:color .3s ease-in-out}a:visited{color:#b10dc9}a:hover{color:#7fdbff;-webkit-transition:color .3s ease-in-out;transition:color .3s ease-in-out}a:active{color:#ff851b;-webkit-transition:color .3s ease-in-out;transition:color .3s ease-in-out}
+ 
 /*** uncss> filename: http://giakki.github.io/uncss/stylesheets/stylesheet.css ***/
-
 /*******************************************************************************
 Slate Theme for GitHub Pages
 by Jason Costello, @jsncostello
@@ -41,26 +12,7 @@ by Jason Costello, @jsncostello
 MeyerWeb Reset
 *******************************************************************************/
 
-html,
-body,
-div,
-span,
-h1,
-h2,
-h3,
-p,
-pre,
-a,
-code,
-em,
-img,
-strong,
-ol,
-ul,
-li,
-footer,
-header,
-section {
+html, body, div, span, h1, h2, h3, p, pre, a, code, em, img, strong, ol, ul, li, footer, header, section {
   margin: 0;
   padding: 0;
   border: 0;
@@ -69,15 +21,11 @@ section {
 }
 
 /* HTML5 display-role reset for older browsers */
-
-footer,
-header,
-section {
+footer, header, section {
   display: block;
 }
 
-ol,
-ul {
+ol, ul {
   list-style: none;
 }
 
@@ -87,7 +35,7 @@ Theme Styles
 
 body {
   box-sizing: border-box;
-  color: #373737;
+  color:#373737;
   background: #212121;
   font-size: 16px;
   font-family: 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;
@@ -95,12 +43,10 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1,
-h2,
-h3 {
+h1, h2, h3 {
   margin: 10px 0;
   font-weight: 700;
-  color: #222222;
+  color:#222222;
   font-family: 'Lucida Grande', 'Calibri', Helvetica, Arial, sans-serif;
   letter-spacing: -1px;
 }
@@ -132,6 +78,7 @@ a {
   text-decoration: none;
   color: #007edf;
   text-shadow: none;
+
   transition: color 0.5s ease;
   transition: text-shadow 0.5s ease;
   -webkit-transition: color 0.5s ease;
@@ -144,10 +91,7 @@ a {
   -ms-transition: text-shadow 0.5s ease;
 }
 
-a:hover,
-a:focus {
-  text-decoration: underline;
-}
+a:hover, a:focus {text-decoration: underline;}
 
 footer a {
   color: #F2F2F2;
@@ -169,6 +113,7 @@ img {
   padding: 5px;
   margin: 10px 0 10px 0;
   border: 1px solid #ebebeb;
+
   box-shadow: 0 0 5px #ebebeb;
   -webkit-box-shadow: 0 0 5px #ebebeb;
   -moz-box-shadow: 0 0 5px #ebebeb;
@@ -185,13 +130,14 @@ p img {
   border: none;
 }
 
-pre,
-code {
+pre, code {
   width: 100%;
   color: #222;
   background-color: #fff;
+
   font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
   font-size: 14px;
+
   border-radius: 2px;
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
@@ -215,9 +161,9 @@ pre code {
   box-shadow: none;
 }
 
-ul,
-ol {
-  margin-bottom: 15px;
+
+ul, ol {
+  margin-bottom: 15px
 }
 
 ul {
@@ -250,7 +196,7 @@ Full-Width Styles
 #forkme_banner {
   display: block;
   position: absolute;
-  top: 0;
+  top:0;
   right: 10px;
   z-index: 10;
   padding: 10px 50px 10px 10px;
@@ -305,7 +251,7 @@ Full-Width Styles
   display: block;
   float: right;
   width: 90px;
-  height: 70px;
+  height:70px;
   text-indent: -5000px;
   overflow: hidden;
   background: url(../images/sprite_download.png) no-repeat bottom left;
@@ -315,7 +261,7 @@ Full-Width Styles
   display: block;
   float: right;
   width: 90px;
-  height: 70px;
+  height:70px;
   text-indent: -5000px;
   overflow: hidden;
   background: url(../images/sprite_download.png) no-repeat bottom right;
@@ -344,13 +290,15 @@ Full-Width Styles
   background: #212121;
 }
 
+
+
 /*******************************************************************************
 Small Device Styles
 *******************************************************************************/
 
 @media screen and (max-width: 480px) {
   body {
-    font-size: 14px;
+    font-size:14px;
   }
 
   #downloads {
@@ -363,7 +311,7 @@ Small Device Styles
   }
 
   #project_title {
-    font-size: 32px;
+  font-size: 32px;
   }
 
   h1 {
@@ -378,10 +326,10 @@ Small Device Styles
     font-size: 21px;
   }
 
-  code,
-  pre {
+  code, pre {
     min-width: 320px;
     max-width: 480px;
     font-size: 11px;
   }
+
 }

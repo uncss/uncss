@@ -1,49 +1,24 @@
-/*** uncss> filename: http://cdnjs.cloudflare.com/ajax/libs/colors/1.0/colors.min.css ***/
-
-.navy {
-  color: #001f3f;
-}
-
-.blue {
-  color: #0074d9;
-}
-
-.red {
-  color: #ff4136;
-}
-
+/*** uncss> filename: http://cdnjs.cloudflare.com/ajax/libs/colors/1.0/colors.min.css ***/.navy{color:#001f3f}.blue{color:#0074d9}.red{color:#ff4136}
+ 
 /*** uncss> filename: http://fonts.googleapis.com/css?family=Open+Sans:400 ***/
-
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
   src: local('Open Sans'), local('OpenSans'), url(http://fonts.gstatic.com/s/opensans/v13/cJZKeOuBrn4kERxqtaUH3aCWcynf_cDxXwCLxiixG1c.ttf) format('truetype');
 }
-
+ 
 /*** uncss> filename: http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css ***/
-
 /*!
  *  Font Awesome 4.0.3 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
- */
-
-@font-face {
-  font-family: 'FontAwesome';
-  src: url('../fonts/fontawesome-webfont.eot?v=4.0.3');
-  src: url('../fonts/fontawesome-webfont.eot?#iefix&v=4.0.3') format('embedded-opentype'),url('../fonts/fontawesome-webfont.woff?v=4.0.3') format('woff'),url('../fonts/fontawesome-webfont.ttf?v=4.0.3') format('truetype'),url('../fonts/fontawesome-webfont.svg?v=4.0.3#fontawesomeregular') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
-
+ */@font-face{font-family:'FontAwesome';src:url('../fonts/fontawesome-webfont.eot?v=4.0.3');src:url('../fonts/fontawesome-webfont.eot?#iefix&v=4.0.3') format('embedded-opentype'),url('../fonts/fontawesome-webfont.woff?v=4.0.3') format('woff'),url('../fonts/fontawesome-webfont.ttf?v=4.0.3') format('truetype'),url('../fonts/fontawesome-webfont.svg?v=4.0.3#fontawesomeregular') format('svg');font-weight:normal;font-style:normal} 
 /*** uncss> filename: tests/selectors/fixtures/adjacent.css ***/
-
 span + span {
   text-decoration: underline;
 }
-
+ 
 /*** uncss> filename: tests/selectors/fixtures/classes.css ***/
-
 .red {
   color: red;
 }
@@ -51,19 +26,16 @@ span + span {
 .blue {
   color: blue;
 }
-
+ 
 /*** uncss> filename: tests/selectors/fixtures/complex.css ***/
-
 [data-section=''] > section > h4 [data-section-title] {
   color: cyan;
 }
 
 #battleground ~ main {
-  color: red;
-}
-
+    color: red;
+} 
 /*** uncss> filename: tests/selectors/fixtures/elements.css ***/
-
 body {
   font-size: 100%;
 }
@@ -75,41 +47,35 @@ h1 {
 span {
   display: block;
 }
-
+ 
 /*** uncss> filename: tests/selectors/fixtures/generalsibling.css ***/
-
 .red ~ span {
   color: blue;
 }
-
+ 
 /*** uncss> filename: tests/selectors/fixtures/ids.css ***/
-
 #battleground {
   box-shadow: 0 1px 3px rgba(0, 0, 0, .15);
 }
-
+ 
 /*** uncss> filename: tests/selectors/fixtures/mediaqueries.css ***/
-
 @media screen and (min-width:320px) {
   body {
     color: blue;
   }
 }
-
+ 
 /*** uncss> filename: tests/selectors/fixtures/noscript.css ***/
-
 .noscript-one {
   color: yellow;
 }
-
+ 
 /*** uncss> filename: tests/selectors/fixtures/not.css ***/
-
 div:not(#bat):not(#man) {
   display: inline-block;
 }
-
+ 
 /*** uncss> filename: tests/selectors/fixtures/nthchild.css ***/
-
 span:nth-child(odd) {
   border-bottom: 1px solid red;
 }
@@ -117,40 +83,34 @@ span:nth-child(odd) {
 span:nth-child(2) {
   border-bottom: 1px solid blue;
 }
-
+ 
 /*** uncss> filename: tests/selectors/fixtures/nthoftype.css ***/
-
 span:nth-of-type(2) {
   border-bottom: 1px solid blue;
 }
-
+ 
 /*** uncss> filename: tests/selectors/fixtures/pseudo.css ***/
-
 h3:hover {
   color: green;
 }
-
+ 
 /*** uncss> filename: tests/selectors/fixtures/child.css ***/
-
 h1 > span {
   color: crimson;
 }
-
+ 
 /*** uncss> filename: tests/selectors/fixtures/target.css ***/
-
 h1:target {
   color: blue;
 }
-
+ 
 /*** uncss> filename: tests/selectors/fixtures/vendor.css ***/
-
 ::-moz-selection {
   color: gold;
   background: red;
 }
-
+ 
 /*** uncss> filename: tests/selectors/fixtures/keyframes.css ***/
-
 @-webkit-keyframes slideRight {
   from {
     left: 0px;

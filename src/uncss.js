@@ -1,12 +1,19 @@
 'use strict';
 
+var semver = require('semver');
+if (semver.satisfies(process.versions.node, '<0.11.0')) {
+    // As suggested on the bottom of https://github.com/postcss/postcss
+    require('es6-promise').polyfill();
+}
 var promise = require('bluebird'),
-    css = require('css'),
+    async = require('async'),
+    assign = require('object-assign'),
     fs = require('fs'),
     glob = require('glob'),
     isHTML = require('is-html'),
     isURL = require('is-absolute-url'),
     phantom = require('./phantom.js'),
+    postcss = require('postcss'),
     uncss = require('./lib.js'),
     utility = require('./utility.js'),
     _ = require('lodash');
@@ -18,7 +25,6 @@ var promise = require('bluebird'),
  * @return {promise}
  */
 function getHTML(files, options) {
-
     if (_.isString(files)) {
         return phantom.fromRaw(files, options).then(function (pages) {
             return [files, options, [pages]];
@@ -125,7 +131,7 @@ function getCSS(files, options, pages, stylesheets) {
  * @param  {Array}   stylesheets List of CSS files
  * @return {promise}
  */
-function process(files, options, pages, stylesheets) {
+function processWithTextApi(files, options, pages, stylesheets) {
     /* If we specified a raw string of CSS, add it to the stylesheets array */
     if (options.raw) {
         if (_.isString(options.raw)) {
@@ -152,16 +158,19 @@ function process(files, options, pages, stylesheets) {
      * - Return the optimized CSS as a string
      */
     var cssStr = stylesheets.join(' \n'),
-        parsed, report;
-
+        pcss, report;
     try {
-        parsed = css.parse(cssStr);
+        pcss = postcss.parse(cssStr);
     } catch (err) {
         /* Try and construct a helpful error message */
         throw utility.parseErrorMessage(err, cssStr);
     }
-    return uncss(pages, parsed.stylesheet, options.ignore).spread(function (used, rep) {
-        var usedCss = css.stringify(used);
+    return uncss(pages, pcss, options.ignore).spread(function (css, rep) {
+        var newCssStr = '';
+        postcss.stringify(css, function(result) {
+            newCssStr += result;
+        });
+
         if (options.report) {
             report = {
                 original: cssStr,
@@ -169,7 +178,7 @@ function process(files, options, pages, stylesheets) {
             };
         }
         return new promise(function (resolve) {
-            resolve([usedCss + '\n', report]);
+            resolve([newCssStr, report]);
         });
     });
 }
@@ -213,7 +222,9 @@ function init(files, options, callback) {
         media: [],
         timeout: 0,
         report: false,
-        ignoreSheets: []
+        ignoreSheets: [],
+        // gulp-uncss parameters:
+        raw: null
     });
 
     return promise
@@ -221,9 +232,55 @@ function init(files, options, callback) {
             return getHTML(files, options)
                 .spread(getStylesheets)
                 .spread(getCSS)
-                .spread(process);
+                .spread(processWithTextApi);
         })
         .asCallback(callback, { spread: true });
 }
 
+function processAsPostCss(files, options, pages) {
+    return uncss(pages, options.rawPostCss, options.ignore);
+}
+
+// There always seem to be problems trying to run more than one phantom at a time,
+// so let's serialize all their accesses here
+var serializedQueue = async.queue(function (opts, callback) {
+    return promise
+        .using(phantom.init(phantom.phantom), function () {
+            return getHTML(opts.html, opts)
+                .spread(processAsPostCss);
+        })
+        .asCallback(callback);
+}, 1);
+
+serializedQueue.drain = function() {
+    phantom.cleanupAll();
+};
+
+var postcssPlugin = postcss.plugin('uncss', function (opts) {
+    opts = _.defaults(opts, {
+        // Ignore stylesheets in the HTML files; only use those from the stream
+        ignoreSheets: [/\s*/],
+        html: [],
+        ignore: []
+    });
+
+    return function (css, result) { // eslint-disable-line no-unused-vars
+        opts = assign(opts, {
+            // This is used to pass the css object in to processAsPostCSS
+            rawPostCss: css
+        });
+
+        return new promise(function (resolve, reject) {
+            serializedQueue.push(opts, function (err) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve();
+                }
+            });
+        });
+    };
+});
+
 module.exports = init;
+module.exports.postcssPlugin = postcssPlugin;
