@@ -9,5 +9,5 @@
         "coverage/ignore.css",
         "coverage/ignore_comment.css"
     ],
-    "raw": "html { margin: 0; }"
+    "raw": "html {\n  margin: 0;\n}"
 }

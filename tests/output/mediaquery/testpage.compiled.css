@@ -1,17 +1,18 @@
 /*** uncss> filename: tests/input/main.css ***/
-
 body {
-  font-family: Helvetica Neue, Helvetica, Arial;
+  font-family:Helvetica Neue, Helvetica, Arial;
 }
 
 h1 {
   font-weight: normal;
 }
-
+ 
 /*** uncss> filename: tests/input/responsive.css ***/
+@media(max-width: 480px) {
 
-@media (max-width: 480px) {
   h1 {
     color: red;
   }
+
 }
+

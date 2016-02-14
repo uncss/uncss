@@ -35,12 +35,12 @@
   "dependencies": {
     "bluebird": "~3.1.5",
     "commander": "~2.9.0",
-    "css": "1.6.0",
     "glob": "~6.0.1",
     "is-absolute-url": "~1.0.0",
     "is-html": "~1.0.0",
     "lodash": "~4.0.1",
     "phridge": "~1.2.2",
+    "postcss": "~5.0.14",
     "request": "~2.69.0"
   },
   "devDependencies": {
