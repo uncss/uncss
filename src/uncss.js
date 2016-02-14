@@ -1,10 +1,5 @@
 'use strict';
 
-var semver = require('semver');
-if (semver.satisfies(process.versions.node, '<0.11.0')) {
-    // As suggested on the bottom of https://github.com/postcss/postcss
-    require('es6-promise').polyfill();
-}
 var promise = require('bluebird'),
     async = require('async'),
     assign = require('object-assign'),
