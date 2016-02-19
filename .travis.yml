@@ -3,9 +3,9 @@ language: node_js
 sudo: false
 
 node_js:
-    - "0.10"
-    - "4"
     - "5"
+    - "4"
+    - "0.12"
 
 before_script:
     - npm install -g grunt-cli
