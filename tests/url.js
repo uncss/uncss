@@ -69,6 +69,29 @@ describe('Compile the CSS of an HTML page passed by URL', () => {
         });
     });
 
+    it('Deals with local options.stylesheets when using URLs', function (done) {
+        const localStylesheetPath = path.join(__dirname, '/input/main.css');
+
+        this.timeout(25000);
+        uncss(['http://giakki.github.io/uncss/'], {
+            stylesheets: [path.join('file:', localStylesheetPath)]
+        }, (err, output) => {
+            expect(err).to.equal(null);
+
+            fs.readFile(localStylesheetPath, 'utf-8', (err, stylesheet) => {
+                if (err) {
+                    throw err;
+                }
+
+                // First line of output is comment added by uncss, so remove before comparing:
+                output = output.split('\n').splice(1).join('\n');
+
+                expect(output).to.equal(stylesheet);
+                done();
+            });
+        });
+    });
+
     after((done) => {
         fs.writeFile(path.join(__dirname, '/output/gh-pages/stylesheets/stylesheet.css'),
             prevRun,

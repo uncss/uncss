@@ -51,6 +51,7 @@ function parseUncssrc(filename) {
 function parsePaths(source, stylesheets, options) {
     return stylesheets.map((sheet) => {
         let sourceProtocol;
+        const isLocalFile = sheet.substr(0, 5) === 'file:';
 
         if (sheet.substr(0, 4) === 'http') {
             /* No need to parse, it's already a valid path */
@@ -58,7 +59,7 @@ function parsePaths(source, stylesheets, options) {
         }
 
         /* Check if we are fetching over http(s) */
-        if (isURL(source)) {
+        if (isURL(source) && !isLocalFile) {
             sourceProtocol = url.parse(source).protocol;
 
             if (sheet.substr(0, 2) === '//') {
@@ -78,7 +79,7 @@ function parsePaths(source, stylesheets, options) {
         sheet = sheet.split('?')[0].split('#')[0];
 
         /* Path already parsed by jsdom */
-        if (sheet.substr(0, 5) === 'file:') {
+        if (isLocalFile) {
             sheet = url.parse(sheet).path.replace('%20', ' ');
             /* If on windows, remove first '/' */
             sheet = isWindows() ? sheet.substring(1) : sheet;
