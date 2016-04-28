@@ -53,6 +53,7 @@ function parseUncssrc(filename) {
 function parsePaths(source, stylesheets, options) {
     return stylesheets.map(function (sheet) {
         var sourceProtocol;
+        var isLocalFile = sheet.substr(0, 5) === 'file:';
 
         if (sheet.substr(0, 4) === 'http') {
             /* No need to parse, it's already a valid path */
@@ -60,7 +61,7 @@ function parsePaths(source, stylesheets, options) {
         }
 
         /* Check if we are fetching over http(s) */
-        if (isURL(source)) {
+        if (isURL(source) && !isLocalFile) {
             sourceProtocol = url.parse(source).protocol;
 
             if (sheet.substr(0, 2) === '//') {
@@ -79,8 +80,8 @@ function parsePaths(source, stylesheets, options) {
         /* Fix the case when there is a query string or hash */
         sheet = sheet.split('?')[0].split('#')[0];
 
-        /* Path already parsed by PhantomJS */
-        if (sheet.substr(0, 5) === 'file:') {
+        /* Path already parsed by PhantomJS, or user passed in local path */
+        if (isLocalFile) {
             sheet = url.parse(sheet).path.replace('%20', ' ');
             /* If on windows, remove first '/' */
             sheet = isWindows() ? sheet.substring(1) : sheet;
