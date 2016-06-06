@@ -138,6 +138,43 @@ Options:
   }
   ```
 
+### As a PostCSS Plugin
+
+UnCSS can be used as a [PostCSS](https://github.com/postcss/postcss) Plugin.
+
+```js
+postcss([ require('postcss-uncss').postcssPlugin ]);
+```
+
+See [PostCSS docs](https://github.com/postcss/postcss) for examples for your environment.
+
+**Note:** Depending on your environment, you might not be able to use giakki/uncss as a PostCSS plugin since the plugin is not directly exported. In such cases, use the wrapper library [postcss-uncss](https://github.com/RyanZim/postcss-uncss).
+
+#### Options
+
+- **html** (Array): provide a list of html files to parse for selectors and elements. Usage of [globs](https://github.com/isaacs/node-glob) is allowed.
+
+- **ignore** (Array): provide a list of selectors that should not be removed by UnCSS. For example, styles added by user interaction with the page (hover, click), since those are not detectable by UnCSS yet. Both literal names and regex patterns are recognized. Otherwise, you can add a comment before specific selectors in your css:
+
+  ```css
+  /* uncss:ignore */
+  .selector1 {
+      /* this rule will be ignored */
+  }
+
+  .selector2 {
+      /* this will NOT be ignored */
+  }
+  ```
+
+##### Example Configuration
+
+```js
+{
+  html: ['index.html', 'about.html', 'team/*.html'],
+  ignore: ['.fade']
+}
+```
 
 ## License
 Copyright (c) 2013 Giacomo Martino. See the [LICENSE](/LICENSE.md) file for license rights and limitations (MIT).
