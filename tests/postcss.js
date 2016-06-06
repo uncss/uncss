@@ -1,7 +1,5 @@
 'use strict';
 
-/* eslint-env mocha */
-
 var expect = require('chai').expect,
     fs = require('fs'),
     postcss = require('postcss'),
@@ -62,6 +60,5 @@ describe('PostCSS Plugin', function () {
             }, function(error) {
                 done(error);
             });
-    });});
-
-
+    });
+});

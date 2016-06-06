@@ -1,7 +1,5 @@
 'use strict';
 
-/* eslint-env mocha */
-
 var expect = require('chai').expect,
     uncss = require('./../src/uncss.js');
 
@@ -34,7 +32,9 @@ describe('PhantomJS', function () {
 
     it('Should respect options.timeout', function (done) {
         this.timeout(25000);
-        uncss(['tests/phantomjs/timeout.html'], { timeout: 5000 }, function (err, output) {
+        uncss(['tests/phantomjs/timeout.html'], {
+            timeout: 5000
+        }, function (err, output) {
             expect(err).to.equal(null);
             expect(output).to.include('.timeout');
             done();

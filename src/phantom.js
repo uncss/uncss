@@ -166,7 +166,10 @@ function getStylesheets(page, options) {
     return page.run(function () {
         return this.evaluate(function () {
             return Array.prototype.map.call(document.querySelectorAll('link[rel="stylesheet"]'), function (link) {
-                return { href: link.href, media: link.media };
+                return {
+                    href: link.href,
+                    media: link.media
+                };
             });
         });
     }).then(function (stylesheets) {

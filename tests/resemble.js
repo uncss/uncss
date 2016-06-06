@@ -1,7 +1,5 @@
 'use strict';
 
-/* eslint-env mocha */
-
 var chai = require('chai'),
     resemble = require('chai-resemble');
 

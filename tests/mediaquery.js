@@ -1,7 +1,5 @@
 'use strict';
 
-/* eslint-env mocha */
-
 var fs = require('fs'),
     path = require('path'),
     expect = require('chai').expect,

@@ -47,14 +47,13 @@ function filterUnusedSelectors(selectors, ignore, usedSelectors) {
      * Example: '.clearfix:before' should be removed only if there
      *          is no '.clearfix'
      */
-    var i = 0;
     return selectors.filter(function (selector) {
         selector = dePseudify(selector);
         /* TODO: process @-rules */
         if (selector[0] === '@') {
             return true;
         }
-        for (i = 0; i < ignore.length; ++i) {
+        for (var i = 0, len = ignore.length; i < len; ++i) {
             if (_.isRegExp(ignore[i]) && ignore[i].test(selector)) {
                 return true;
             }
@@ -229,12 +228,10 @@ module.exports = function uncss(pages, css, ignore) {
     }).then(function (usedSelectors) {
         usedSelectors = _.flatten(usedSelectors);
         var filteredCss = filterUnusedRules(pages, css, ignore, usedSelectors);
-        return [
-            filteredCss,
+        return [filteredCss, {
             /* Get the selectors for the report */
-            {
-                all: getAllSelectors(css),
-                used: usedSelectors
-            }];
+            all: getAllSelectors(css),
+            used: usedSelectors
+        }];
     });
 };

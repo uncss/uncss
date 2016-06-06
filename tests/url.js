@@ -1,7 +1,5 @@
 'use strict';
 
-/* eslint-env mocha */
-
 var fs = require('fs'),
     path = require('path'),
     expect = require('chai').expect,
@@ -47,32 +45,32 @@ describe('Compile the CSS of an HTML page passed by URL', function () {
 
     it('Deals with relative options.stylesheets when using URLs', function (done) {
         this.timeout(25000);
-        uncss(
-            ['http://giakki.github.io/uncss/'],
-            { stylesheets: ['//cdnjs.cloudflare.com/ajax/libs/colors/1.0/colors.min.css',
-                            'stylesheets/stylesheet.css'] },
-            function (err, output) {
-                expect(err).to.equal(null);
-                expect(output).to.equal(prevRun);
-                prevRun = output;
-                done();
-            }
-        );
+        uncss(['http://giakki.github.io/uncss/'], {
+            stylesheets: [
+                'http://cdnjs.cloudflare.com/ajax/libs/colors/1.0/colors.min.css',
+                'stylesheets/stylesheet.css'
+            ]
+        }, function (err, output) {
+            expect(err).to.equal(null);
+            expect(output).to.equal(prevRun);
+            prevRun = output;
+            done();
+        });
     });
 
     it('Deals with absolute options.stylesheets when using URLs', function (done) {
         this.timeout(25000);
-        uncss(
-            ['http://giakki.github.io/uncss/'],
-            { stylesheets: ['//cdnjs.cloudflare.com/ajax/libs/colors/1.0/colors.min.css',
-                            '/uncss/stylesheets/stylesheet.css'] },
-            function (err, output) {
-                expect(err).to.equal(null);
-                expect(output).to.equal(prevRun);
-                prevRun = output;
-                done();
-            }
-        );
+        uncss(['http://giakki.github.io/uncss/'], {
+            stylesheets: [
+                'http://cdnjs.cloudflare.com/ajax/libs/colors/1.0/colors.min.css',
+                '/uncss/stylesheets/stylesheet.css'
+            ]
+        }, function (err, output) {
+            expect(err).to.equal(null);
+            expect(output).to.equal(prevRun);
+            prevRun = output;
+            done();
+        });
     });
 
     after(function (done) {

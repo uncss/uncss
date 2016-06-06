@@ -123,7 +123,7 @@ function readStylesheets(files) {
         throw new Error('UnCSS: could not open ' + path.join(process.cwd(), filename));
     }).then(function (res) {
         // res is an array of the content of each file in files (in the same order)
-        for (var i = 0; i < files.length; i++) {
+        for (var i = 0, len = files.length; i < len; i++) {
             // We append a small banner to keep track of which file we are currently processing
             // super helpful for debugging
             var banner = '/*** uncss> filename: ' + files[i].replace(/\\/g, '/') + ' ***/\n';

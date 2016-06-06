@@ -1,7 +1,5 @@
 'use strict';
 
-/* eslint-env mocha */
-
 var expect = require('chai').expect,
     uncss = require('./../src/uncss.js');
 
@@ -26,7 +24,9 @@ describe('Error reporting', function () {
     });
 
     it('Invalid options.stylesheets', function (done) {
-        uncss('<html></html>', { stylesheets: ['nonexistent'] }, function (error, output) {
+        uncss('<html></html>', {
+            stylesheets: ['nonexistent']
+        }, function (error, output) {
             expect(output).to.equal(undefined);
             expect(error.message).to.contain('UnCSS: could not open');
             done();
@@ -34,7 +34,9 @@ describe('Error reporting', function () {
     });
 
     it('Invalid options.stylesheets with URL', function (done) {
-        uncss('<html></html>', { stylesheets: ['http://invalid'] }, function (error, output) {
+        uncss('<html></html>', {
+            stylesheets: ['http://invalid']
+        }, function (error, output) {
             expect(output).to.equal(undefined);
             expect(error.message).to.contain('ENOTFOUND');
             done();
@@ -42,7 +44,9 @@ describe('Error reporting', function () {
     });
 
     it('Invalid options.raw', function (done) {
-        uncss('<html></html>', { raw: ['.test { margin: 0 }'] }, function (error, output) {
+        uncss('<html></html>', {
+            raw: ['.test { margin: 0 }']
+        }, function (error, output) {
             expect(output).to.equal(undefined);
             expect(error.message).to.equal('UnCSS: options.raw - expected a string');
             done();
@@ -72,39 +76,32 @@ describe('Error reporting', function () {
             stderrBuffer += data;
         };
 
-        uncss(
-            ['tests/phantomjs/throw.html'],
-            { raw: '' },
-            function (error) {
-                expect(error).to.equal(null);
-                expect(stderrBuffer).to.contain('Exception');
-                process.stderr.write = oldWrite;
-                done();
-            });
+        uncss(['tests/phantomjs/throw.html'], { raw: '' }, function (error) {
+            expect(error).to.equal(null);
+            expect(stderrBuffer).to.contain('Exception');
+            process.stderr.write = oldWrite;
+            done();
+        });
     });
 
     it('css-parse errors', function (done) {
-        uncss(
-            ['tests/selectors/index.html'],
-            { raw: invalidCss },
-            function (error, output) {
-                expect(output).to.equal(undefined);
-                expect(error.message).to.contain('unable to parse');
-                done();
-            }
-        );
+        uncss(['tests/selectors/index.html'], {
+            raw: invalidCss
+        }, function (error, output) {
+            expect(output).to.equal(undefined);
+            expect(error.message).to.contain('unable to parse');
+            done();
+        });
     });
 
     it('css-parse errors (minified stylesheet)', function (done) {
-        uncss(
-            ['tests/selectors/index.html'],
-            { stylesheets: ['../coverage/minified.css'] },
-            function (error, output) {
-                expect(output).to.equal(undefined);
-                expect(error.message).to.contain('unable to parse');
-                done();
-            }
-        );
+        uncss(['tests/selectors/index.html'], {
+            stylesheets: ['../coverage/minified.css']
+        }, function (error, output) {
+            expect(output).to.equal(undefined);
+            expect(error.message).to.contain('unable to parse');
+            done();
+        });
     });
 
     it('Report should be generated only if specified', function (done) {
@@ -115,14 +112,18 @@ describe('Error reporting', function () {
     });
 
     it('Reports when the uncssrc file does not exist', function (done) {
-        uncss(['selectors/index.html'], { uncssrc: 'nonexistent' }, function (err) {
+        uncss(['selectors/index.html'], {
+            uncssrc: 'nonexistent'
+        }, function (err) {
             expect(err.code).to.equal('ENOENT');
             done();
         });
     });
 
     it('Reports errors in the uncssrc file', function (done) {
-        uncss(['selectors/index.html'], { uncssrc: 'tests/coverage/.invaliduncssrc' }, function (err) {
+        uncss(['selectors/index.html'], {
+            uncssrc: 'tests/coverage/.invaliduncssrc'
+        }, function (err) {
             expect(err).to.be.an.instanceOf(SyntaxError);
             expect(err.message).to.equal('UnCSS: uncssrc file is invalid JSON.');
             done();

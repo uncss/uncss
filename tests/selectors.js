@@ -1,7 +1,5 @@
 'use strict';
 
-/* eslint-env mocha */
-
 var fs = require('fs'),
     path = require('path'),
     expect = require('chai').expect,
@@ -38,7 +36,9 @@ tests = fixtures.map(function (test) {
 describe('Selectors', function () {
 
     before(function (done) {
-        uncss(rfs('selectors/index.html'), { csspath: 'tests/selectors' }, function (err, output) {
+        uncss(rfs('selectors/index.html'), {
+            csspath: 'tests/selectors'
+        }, function (err, output) {
             if (err) {
                 throw err;
             }
