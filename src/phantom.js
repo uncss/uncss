@@ -82,7 +82,7 @@ function ResourceHandler(htmlroot, isWindows, resolve) {
             }
             networkRequest.changeUrl(url);
         } else if (ignoreRequests.test(url)) {
-            networkRequest.abort();
+            networkRequest.cancel();
         }
     };
     resolve();
