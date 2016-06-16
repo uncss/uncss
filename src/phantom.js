@@ -53,12 +53,15 @@ function cleanupAll() {
  *                 redirect the request to the correct location.
  */
 function ResourceHandler(htmlroot, isWindows, resolve) {
+    var webPage = require('webpage');
+    var page = webPage.create();
+
     var ignoredExtensions = ['\\.css', '\\.png', '\\.gif', '\\.jpg', '\\.jpeg', ''],
         ignoredEndpoints = ['fonts\\.googleapis'];
 
     var ignoreRequests = new RegExp(ignoredExtensions.join('$|') + ignoredEndpoints.join('|'));
 
-    this.onResourceRequested = function (requestData, networkRequest) {
+    page.onResourceRequested = function (requestData, networkRequest) {
         var originalUrl = requestData.url,
             url = originalUrl.split('?')[0].split('#')[0];
 
@@ -82,7 +85,7 @@ function ResourceHandler(htmlroot, isWindows, resolve) {
             }
             networkRequest.changeUrl(url);
         } else if (ignoreRequests.test(url)) {
-            networkRequest.cancel();
+            networkRequest.abort();
         }
     };
     resolve();
