@@ -77,8 +77,13 @@ function getUsedAnimations(css) {
             /* Multiple animations, separated by comma */
             usedAnimations.push.apply(usedAnimations, decl.value.replace(' ', '').split(','));
         } else if (_.endsWith(decl.prop, 'animation')) {
-            /* If declared as animation, it should be in the form 'name Xs etc..' */
-            usedAnimations.push(decl.value.split(' ')[0]);
+            /* Multiple animations, separated by comma */
+            decl.value.split(',').forEach(function (anim) {
+                /* Trim leading whitespace */
+                anim=anim.trim(' ');
+                /* If declared as animation, it should be in the form 'name Xs etc..' */
+                usedAnimations.push(anim.split(' ')[0]);
+            });
         }
     });
     return usedAnimations;
