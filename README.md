@@ -14,10 +14,9 @@ It works across multiple files and supports Javascript-injected CSS.
 The process by which UnCSS removes the unused rules is as follows:
 
 1. The HTML files are loaded by [PhantomJS](https://github.com/Obvious/phantomjs) and JavaScript is executed.
-2. Used stylesheets are extracted from the resulting HTML.
-3. The stylesheets are concatenated and the rules are parsed by [css-parse](https://github.com/reworkcss/css).
-4. `document.querySelector` filters out selectors that are not found in the HTML files.
-5. The remaining rules are converted back to CSS.
+2. All the stylesheets are parsed by [PostCSS](https://github.com/postcss/postcss).
+3. `document.querySelector` filters out selectors that are not found in the HTML files.
+4. The remaining rules are converted back to CSS.
 
 ## Installation:
 
