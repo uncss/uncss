@@ -2,6 +2,7 @@
 
 var promise = require('bluebird'),
     phantom = require('./phantom.js'),
+    postcss = require('postcss'),
     _ = require('lodash');
 /* Some styles are applied only with user interaction, and therefore its
  *   selectors cannot be used with querySelectorAll.
@@ -75,10 +76,13 @@ function getUsedAnimations(css) {
     css.walkDecls(function (decl) {
         if (_.endsWith(decl.prop, 'animation-name')) {
             /* Multiple animations, separated by comma */
-            usedAnimations.push.apply(usedAnimations, decl.value.replace(' ', '').split(','));
+            usedAnimations.push.apply(usedAnimations, postcss.list.comma(decl.value));
         } else if (_.endsWith(decl.prop, 'animation')) {
-            /* If declared as animation, it should be in the form 'name Xs etc..' */
-            usedAnimations.push(decl.value.split(' ')[0]);
+            /* Support multiple animations */
+            postcss.list.comma(decl.value).forEach(function (anim) {
+                /* If declared as animation, it should be in the form 'name Xs etc..' */
+                usedAnimations.push(postcss.list.space(anim)[0]);
+            });
         }
     });
     return usedAnimations;
