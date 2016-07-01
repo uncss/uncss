@@ -23,6 +23,15 @@
         <link rel="stylesheet" href="fixtures/keyframes.css">
     </head>
     <body>
+        <!--
+            Some Instructions:
+            - Placing any <div> elements on this page other than
+              div#battleground will break the "not" test!
+            - Any changes made here **must** be reflected in
+              /tests/output/selectors/index.html; otherwise, the
+              "Pages should resemble the reference:Selectors" test
+              will fail!
+        -->
         <div id="battleground" data-section="">
             <h1>
                 <span class="red"> Red </span>
@@ -37,9 +46,12 @@
             </section>
         </div>
         <h5 class="navy">Navy</h5>
-        <main class="slideRight">
+        <main class="slideRightAndFade">
             Slidin'
         </main>
+        <aside class="flashBounce">
+            Your Attention, Please!
+        </aside>
         <noscript>
             <h6 class="noscript-one">
                 YELLOW
