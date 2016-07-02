@@ -131,10 +131,58 @@ h1:target {
   }
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes flash {
+  from, to {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes bounce {
+  from, to {
+    transform: translate3d(0,0,0);
+  }
+
+  50% {
+    transform: translate3d(0, -10px, 0);
+  }
+}
+
 /* Test both vendor and standard */
 
-.slideRight {
+.slideRightAndFade {
   position: relative;
-  -webkit-animation: slideRight 5s infinite;
-  animation: slideRight 5s infinite;
+  -webkit-animation: slideRight 5s infinite, fadeIn 1s 1;
+  animation: slideRight 5s infinite, fadeIn 1s 1;
+}
+
+/* Test animation-name */
+
+.flashBounce {
+  animation-name: flash, bounce;
+  animation-duration: 1s, 3s;
+  animation-iteration-count: infinite;
 }
