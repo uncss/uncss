@@ -184,7 +184,6 @@ function processWithTextApi(files, options, pages, stylesheets) {
  * @param  {Array}    files     Array of filenames
  * @param  {Object}   [options] options
  * @param  {Function} callback(Error, String, Object)
- * @return {promise}
  */
 function init(files, options, callback) {
 
@@ -203,10 +202,11 @@ function init(files, options, callback) {
             options = _.merge(utility.parseUncssrc(options.uncssrc), options);
         } catch (err) {
             if (err instanceof SyntaxError) {
-                return callback(new SyntaxError('UnCSS: uncssrc file is invalid JSON.'));
+                callback(new SyntaxError('UnCSS: uncssrc file is invalid JSON.'));
+                return;
             }
-            return callback(err);
-
+            callback(err);
+            return;
         }
     }
 
@@ -218,18 +218,12 @@ function init(files, options, callback) {
         timeout: 0,
         report: false,
         ignoreSheets: [],
+        html: files,
         // gulp-uncss parameters:
         raw: null
     });
 
-    return promise
-        .using(phantom.init(options.phantom), function () {
-            return getHTML(files, options)
-                .spread(getStylesheets)
-                .spread(getCSS)
-                .spread(processWithTextApi);
-        })
-        .asCallback(callback, { spread: true });
+    serializedQueue.push(options, callback);
 }
 
 function processAsPostCss(files, options, pages) {
@@ -239,12 +233,22 @@ function processAsPostCss(files, options, pages) {
 // There always seem to be problems trying to run more than one phantom at a time,
 // so let's serialize all their accesses here
 var serializedQueue = async.queue(function (opts, callback) {
+    if (opts.usePostCssInternal) {
+        return promise
+            .using(phantom.init(phantom.phantom), function () {
+                return getHTML(opts.html, opts)
+                    .spread(processAsPostCss);
+            })
+            .asCallback(callback);
+    }
     return promise
         .using(phantom.init(phantom.phantom), function () {
             return getHTML(opts.html, opts)
-                .spread(processAsPostCss);
+                .spread(getStylesheets)
+                .spread(getCSS)
+                .spread(processWithTextApi);
         })
-        .asCallback(callback);
+        .asCallback(callback, { spread: true });
 }, 1);
 
 serializedQueue.drain = function() {
@@ -253,6 +257,7 @@ serializedQueue.drain = function() {
 
 var postcssPlugin = postcss.plugin('uncss', function (opts) {
     opts = _.defaults(opts, {
+        usePostCssInternal: true,
         // Ignore stylesheets in the HTML files; only use those from the stream
         ignoreSheets: [/\s*/],
         html: [],
