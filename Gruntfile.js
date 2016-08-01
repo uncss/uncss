@@ -25,7 +25,7 @@ module.exports = function (grunt) {
             options: {
                 files: ['tests/*.js', '!tests/resemble.js', 'tests/resemble.js'],
                 slow: 7500,
-                timeout: 20000
+                timeout: 25000
             },
             unit: {
                 options: {

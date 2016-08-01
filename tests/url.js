@@ -23,7 +23,6 @@ describe('Compile the CSS of an HTML page passed by URL', function () {
     });
 
     it('Accepts an array of URLs', function (done) {
-        this.timeout(25000);
         uncss(['http://getbootstrap.com/examples/jumbotron/'], function (err, output) {
             expect(err).to.equal(null);
             expect(output).to.have.length.above(2);
@@ -34,7 +33,6 @@ describe('Compile the CSS of an HTML page passed by URL', function () {
     });
 
     it('Deals with CSS files linked with absolute URL', function (done) {
-        this.timeout(25000);
         uncss(['http://giakki.github.io/uncss/'], function (err, output) {
             expect(err).to.equal(null);
             expect(output).to.equal(prevRun);
@@ -44,7 +42,6 @@ describe('Compile the CSS of an HTML page passed by URL', function () {
     });
 
     it('Deals with relative options.stylesheets when using URLs', function (done) {
-        this.timeout(25000);
         uncss(['http://giakki.github.io/uncss/'], {
             stylesheets: [
                 'http://cdnjs.cloudflare.com/ajax/libs/colors/1.0/colors.min.css',
@@ -59,7 +56,6 @@ describe('Compile the CSS of an HTML page passed by URL', function () {
     });
 
     it('Deals with absolute options.stylesheets when using URLs', function (done) {
-        this.timeout(25000);
         uncss(['http://giakki.github.io/uncss/'], {
             stylesheets: [
                 'http://cdnjs.cloudflare.com/ajax/libs/colors/1.0/colors.min.css',

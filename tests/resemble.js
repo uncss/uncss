@@ -8,8 +8,6 @@ var expect = chai.expect;
 chai.use(resemble);
 
 describe('Pages should resemble the reference', function () {
-    this.timeout(15000);
-
     it('Bootstrap', function (done) {
         expect('tests/output/bootstrap/jumbotron.html')
             .to.resemble('http://getbootstrap.com/examples/jumbotron/', done);

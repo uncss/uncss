@@ -6,8 +6,6 @@ var expect = require('chai').expect,
 describe('Using globbing patterns', function () {
 
     it('should find both index pages in the directory and return the used CSS for both of them', function (done) {
-        this.timeout(25000);
-
         uncss(['tests/glob/**/*.html'], function (err, output) {
             expect(err).to.equal(null);
             expect(output).to.not.equal(undefined);
