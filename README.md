@@ -4,16 +4,17 @@
 [![Linux Build Status](https://img.shields.io/travis/giakki/uncss/master.svg?label=Linux%20build)](https://travis-ci.org/giakki/uncss)
 [![Windows Build status](https://img.shields.io/appveyor/ci/giakki/uncss/master.svg?label=Windows%20build)](https://ci.appveyor.com/project/giakki/uncss/branch/master)
 [![Coverage Status](https://img.shields.io/coveralls/giakki/uncss.svg)](https://coveralls.io/r/giakki/uncss?branch=master)  
-[![Dependency Status](https://img.shields.io/david/giakki/uncss.svg)](https://david-dm.org/giakki/uncss)
-[![devDependency Status](https://img.shields.io/david/dev/giakki/uncss.svg)](https://david-dm.org/giakki/uncss#info=devDependencies)
+[![dependencies Status](https://img.shields.io/david/giakki/uncss.svg)](https://david-dm.org/giakki/uncss)
+[![devDependencies Status](https://img.shields.io/david/dev/giakki/uncss.svg)](https://david-dm.org/giakki/uncss?type=dev)
 
 UnCSS is a tool that removes unused CSS from your stylesheets.
 It works across multiple files and supports Javascript-injected CSS.
 
 ## How?
+
 The process by which UnCSS removes the unused rules is as follows:
 
-1. The HTML files are loaded by [PhantomJS](https://github.com/Obvious/phantomjs) and JavaScript is executed.
+1. The HTML files are loaded by [PhantomJS](https://github.com/Medium/phantomjs) and JavaScript is executed.
 2. All the stylesheets are parsed by [PostCSS](https://github.com/postcss/postcss).
 3. `document.querySelector` filters out selectors that are not found in the HTML files.
 4. The remaining rules are converted back to CSS.
@@ -63,7 +64,8 @@ uncss(rawHtml, options, function (error, output) {
 ```
 
 ### At build-time
-UnCSS can also be used in conjunction with other javascript build systems, such as [Grunt](https://github.com/gruntjs/grunt), [Broccoli](https://github.com/broccolijs/broccoli#readme) or [Gulp](https://github.com/gulpjs/gulp)!
+
+UnCSS can also be used in conjunction with other JavaScript build systems, such as [Grunt](https://github.com/gruntjs/grunt), [Broccoli](https://github.com/broccolijs/broccoli#readme) or [Gulp](https://github.com/gulpjs/gulp)!
 
 - [grunt-uncss](https://github.com/addyosmani/grunt-uncss) – Thanks to [@addyosmani](https://github.com/addyosmani)
 - [gulp-uncss](https://github.com/ben-eb/gulp-uncss) – Thanks to [@ben-eb](https://github.com/ben-eb)
@@ -105,7 +107,7 @@ Options:
   }
   ```
 
-- **media** (Array): By default UnCSS processes only stylesheets with media query "_all_", "_screen_", and those without one. Specify here which others to include.
+- **media** (Array): By default UnCSS processes only stylesheets with media query `_all_`, `_screen_`, and those without one. Specify here which others to include.
 
 - **csspath** (String): Path where the CSS files are related to the HTML files. By default, UnCSS uses the path specified in the `<link rel="stylesheet" href="path/to/file.css"/>`.
 
@@ -153,7 +155,7 @@ See [PostCSS docs](https://github.com/postcss/postcss) for examples for your env
 
 - **html** (Array): provide a list of html files to parse for selectors and elements. Usage of [globs](https://github.com/isaacs/node-glob) is allowed.
 
-- **ignore** (Array): provide a list of selectors that should not be removed by UnCSS. For example, styles added by user interaction with the page (hover, click), since those are not detectable by UnCSS yet. Both literal names and regex patterns are recognized. Otherwise, you can add a comment before specific selectors in your css:
+- **ignore** (Array): provide a list of selectors that should not be removed by UnCSS. For example, styles added by user interaction with the page (hover, click), since those are not detectable by UnCSS yet. Both literal names and regex patterns are recognized. Otherwise, you can add a comment before specific selectors in your CSS:
 
   ```css
   /* uncss:ignore */
@@ -176,4 +178,5 @@ See [PostCSS docs](https://github.com/postcss/postcss) for examples for your env
 ```
 
 ## License
+
 Copyright (c) 2013 Giacomo Martino. See the [LICENSE](/LICENSE.md) file for license rights and limitations (MIT).
