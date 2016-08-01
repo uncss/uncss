@@ -104,12 +104,12 @@ function getCSS(files, options, pages, stylesheets) {
          */
         stylesheets =
             _.chain(stylesheets)
-            .map(function (sheets, i) {
-                return utility.parsePaths(files[i], sheets, options);
-            })
-            .flatten()
-            .uniq()
-            .value();
+                .map(function (sheets, i) {
+                    return utility.parsePaths(files[i], sheets, options);
+                })
+                .flatten()
+                .uniq()
+                .value();
     } else {
         /* Reset the array if we didn't find any link tags */
         stylesheets = [];
