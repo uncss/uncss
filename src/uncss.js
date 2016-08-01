@@ -2,7 +2,6 @@
 
 var promise = require('bluebird'),
     async = require('async'),
-    assign = require('object-assign'),
     fs = require('fs'),
     glob = require('glob'),
     isHTML = require('is-html'),
@@ -267,7 +266,7 @@ var postcssPlugin = postcss.plugin('uncss', function (opts) {
     });
 
     return function (css, result) { // eslint-disable-line no-unused-vars
-        opts = assign(opts, {
+        opts = Object.assign(opts, {
             // This is used to pass the css object in to processAsPostCSS
             rawPostCss: css
         });
