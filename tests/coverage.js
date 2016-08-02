@@ -156,6 +156,8 @@ describe('Options', function () {
             expect(rep.selectors.all.length).to.not.equal(0);
             expect(rep.selectors.used).to.be.instanceof(Array);
             expect(rep.selectors.used.length).to.not.equal(0);
+            expect(rep.selectors.unused).to.be.instanceof(Array);
+            expect(rep.selectors.unused.length).to.not.equal(0);
 
             done();
         });
