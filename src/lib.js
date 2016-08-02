@@ -232,9 +232,11 @@ module.exports = function uncss(pages, css, ignore) {
     }).then(function (usedSelectors) {
         usedSelectors = _.flatten(usedSelectors);
         var filteredCss = filterUnusedRules(pages, css, ignore, usedSelectors);
+        var allSelectors = getAllSelectors(css);
         return [filteredCss, {
             /* Get the selectors for the report */
-            all: getAllSelectors(css),
+            all: allSelectors,
+            unused: _.difference(allSelectors, usedSelectors),
             used: usedSelectors
         }];
     });
