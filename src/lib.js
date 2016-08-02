@@ -145,7 +145,7 @@ function getUsedSelectors(page, css) {
 function getAllSelectors(css) {
     var selectors = [];
     css.walkRules(function (rule) {
-        selectors.concat(rule.selector);
+        selectors = _.concat(selectors, rule.selector);
     });
     return selectors;
 }

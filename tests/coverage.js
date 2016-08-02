@@ -153,7 +153,9 @@ describe('Options', function () {
             expect(rep).to.have.ownProperty('original');
 
             expect(rep.selectors.all).to.be.instanceof(Array);
+            expect(rep.selectors.all.length).to.not.equal(0);
             expect(rep.selectors.used).to.be.instanceof(Array);
+            expect(rep.selectors.used.length).to.not.equal(0);
 
             done();
         });
