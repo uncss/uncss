@@ -6,9 +6,9 @@ var fs = require('fs'),
     uncss = require('./../src/uncss.js');
 
 /* Read file sync sugar. */
-var rfs = function (file) {
+function rfs (file) {
     return fs.readFileSync(path.join(__dirname, file), 'utf-8').replace(/\r\n/g, '\n');
-};
+}
 
 var stylesheets = [
         'coverage/override.css',

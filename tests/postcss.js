@@ -24,8 +24,8 @@ describe('PostCSS Plugin', function () {
 
     it('Simple end-to-end test', function (done) {
         var opts = {};
-        opts['html'] = ['./tests/glob/one.html'];
-        postcss([ uncss.postcssPlugin(opts) ]).process(prevRun)
+        opts.html = ['./tests/glob/one.html'];
+        postcss([uncss.postcssPlugin(opts)]).process(prevRun)
             .then(function(result) {
                 expect(result.warnings().length).to.equal(0);
                 expect(result.css).to.not.equal(undefined);
@@ -45,8 +45,8 @@ describe('PostCSS Plugin', function () {
         var opts = {
             ignore: ['h4']
         };
-        opts['html'] = ['./tests/glob/one.html'];
-        postcss([ uncss.postcssPlugin(opts) ]).process(prevRun)
+        opts.html = ['./tests/glob/one.html'];
+        postcss([uncss.postcssPlugin(opts)]).process(prevRun)
             .then(function(result) {
                 expect(result.warnings().length).to.equal(0);
                 expect(result.css).to.not.equal(undefined);

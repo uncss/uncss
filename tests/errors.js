@@ -9,9 +9,9 @@ var invalidCss = 'We need to create a string longer than 40 characters to ' +
 describe('Error reporting', function () {
 
     it('No callback', function () {
-        var throwTest = function () {
+        function throwTest () {
             uncss('<html></html>', { stylesheets: ['nonexistent'] });
-        };
+        }
         expect(throwTest).to.throw(TypeError);
     });
 

@@ -153,7 +153,9 @@ function processWithTextApi(files, options, pages, stylesheets) {
      * - Return the optimized CSS as a string
      */
     var cssStr = stylesheets.join(' \n'),
-        pcss, report;
+        pcss,
+        report;
+
     try {
         pcss = postcss.parse(cssStr);
     } catch (err) {
