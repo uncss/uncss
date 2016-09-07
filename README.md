@@ -90,6 +90,7 @@ Options:
   -t, --timeout <milliseconds>          Wait for JS evaluation
   -H, --htmlroot <folder>               Absolute paths' root location
   -u, --uncssrc <file>                  Load these options from <file>
+  -n, --noBanner                        Disable banner
 ```
 
 **Note that you can pass both local file paths (which are processed by [glob](https://github.com/isaacs/node-glob)) and URLs to the program.**
