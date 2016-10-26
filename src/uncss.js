@@ -2,6 +2,7 @@
 
 var promise = require('bluebird'),
     async = require('async'),
+    assign = require('object-assign'),
     fs = require('fs'),
     glob = require('glob'),
     isHTML = require('is-html'),
@@ -79,6 +80,7 @@ function getStylesheets(files, options, pages) {
  * @return {promise}
  */
 function getCSS(files, options, pages, stylesheets) {
+
     /* Ignore specified stylesheets */
     if (options.ignoreSheets.length) {
         stylesheets = stylesheets.map(function (arr) {
@@ -104,17 +106,27 @@ function getCSS(files, options, pages, stylesheets) {
          */
         stylesheets =
             _.chain(stylesheets)
-                .map(function (sheets, i) {
-                    return utility.parsePaths(files[i], sheets, options);
-                })
-                .flatten()
-                .uniq()
-                .value();
+            .map(function (sheets, i) {
+                return utility.parsePaths(files[i], sheets, options);
+            })
+            .flatten()
+            .uniq()
+            .value();
     } else {
         /* Reset the array if we didn't find any link tags */
         stylesheets = [];
     }
     return [files, options, pages, utility.readStylesheets(stylesheets)];
+}
+
+function prepareResults(css, pages) {
+    return promise.map( pages, function (page) {
+        return phantom.getAll(page).then(function(result){
+            return result;
+        })
+    }).then(function success(response){
+        return [css[0], response[0]];
+    });
 }
 
 /**
@@ -152,16 +164,15 @@ function processWithTextApi(files, options, pages, stylesheets) {
      * - Return the optimized CSS as a string
      */
     var cssStr = stylesheets.join(' \n'),
-        pcss,
-        report;
-
+        pcss, report;
     try {
         pcss = postcss.parse(cssStr);
     } catch (err) {
         /* Try and construct a helpful error message */
         throw utility.parseErrorMessage(err, cssStr);
     }
-    return uncss(pages, pcss, options.ignore).spread(function (css, rep) {
+
+    var cleanCss = uncss(pages, pcss, options.ignore).spread(function (css, rep) {
         var newCssStr = '';
         postcss.stringify(css, function(result) {
             newCssStr += result;
@@ -177,6 +188,8 @@ function processWithTextApi(files, options, pages, stylesheets) {
             resolve([newCssStr, report]);
         });
     });
+
+    return [cleanCss, pages];
 }
 
 /**
@@ -242,12 +255,22 @@ var serializedQueue = async.queue(function (opts, callback) {
             })
             .asCallback(callback);
     }
+    /*
+    if (opts.getRawHtml) {
+        return promise
+            .using(phantom.init(phantom.phantom), function () {
+                return getHTML(opts.html, opts);
+            })
+            .asCallback(callback);
+    }
+    */
     return promise
         .using(phantom.init(phantom.phantom), function () {
             return getHTML(opts.html, opts)
                 .spread(getStylesheets)
                 .spread(getCSS)
-                .spread(processWithTextApi);
+                .spread(processWithTextApi)
+                .spread(prepareResults);
         })
         .asCallback(callback, { spread: true });
 }, 1);
@@ -266,7 +289,7 @@ var postcssPlugin = postcss.plugin('uncss', function (opts) {
     });
 
     return function (css, result) { // eslint-disable-line no-unused-vars
-        opts = Object.assign(opts, {
+        opts = assign(opts, {
             // This is used to pass the css object in to processAsPostCSS
             rawPostCss: css
         });

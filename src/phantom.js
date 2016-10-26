@@ -8,10 +8,12 @@ var path = require('path'),
     phridge = require('phridge'),
     promise = require('bluebird'),
     utility = require('./utility'),
+
     fs = require('fs'),
     _ = require('lodash');
 
 var phantom;
+var phantomMethods = require("../../phridge/lib/phantom/methods.js");
 
 /**
  * Create the PhantomJS instances, or use the given one.
@@ -143,13 +145,15 @@ function fromLocal(filename, options) {
  */
 function fromRemote(url, options) {
     /* If the protocol is unspecified, default to HTTP */
+
     if (!/^http/.test(url)) {
         url = 'http:' + url;
     }
 
-    return promise.resolve(phantom.openPage(url).then(function (page) {
+    return promise.resolve(phantom.openPage(url, options).then(function (page) {
         return resolveWithPage(page, options)();
     }));
+
 }
 
 /**
@@ -183,6 +187,18 @@ function getStylesheets(page, options) {
                 return sheet.href;
             });
         return stylesheets;
+    });
+}
+
+function getAll(page) {
+    return page.run(null, function (args) {
+        return this.evaluate(function () {
+            //return document.querySelectorAll('*');
+            return document.documentElement.outerHTML
+        }, args);
+    }).then(function (res) {
+        //console.log(res);
+        return res;
     });
 }
 
@@ -234,5 +250,6 @@ module.exports = {
     fromRaw: fromRaw,
     fromRemote: fromRemote,
     findAll: findAll,
+    getAll: getAll,
     getStylesheets: getStylesheets
 };
