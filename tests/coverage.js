@@ -45,7 +45,7 @@ describe('Options', function () {
         uncss(rfs('selectors/index.html'), {
             ignoreSheets: [
                 'http://fonts.googleapis.com/css?family=Open+Sans:400',
-                /font\-awesome/
+                /font-awesome/
             ],
             csspath: 'tests/selectors'
         }, function (err, out) {

@@ -2,10 +2,10 @@
 
 var promise = require('bluebird'),
     async = require('async'),
-    fs = require('fs'),
     glob = require('glob'),
     isHTML = require('is-html'),
     isURL = require('is-absolute-url'),
+    jsdom = require('jsdom'),
     phantom = require('./phantom.js'),
     postcss = require('postcss'),
     uncss = require('./lib.js'),
@@ -20,9 +20,7 @@ var promise = require('bluebird'),
  */
 function getHTML(files, options) {
     if (_.isString(files)) {
-        return phantom.fromRaw(files, options).then(function (pages) {
-            return [files, options, [pages]];
-        });
+        files = [files];
     }
 
     files = _.flatten(files.map(function (file) {
@@ -36,16 +34,17 @@ function getHTML(files, options) {
         throw new Error('UnCSS: no HTML files found');
     }
 
-    return promise.map(files, function (filename) {
-        if (isURL(filename)) {
-            return phantom.fromRemote(filename, options);
-        }
-        if (fs.existsSync(filename)) {
-            return phantom.fromLocal(filename, options);
-        }
-        // raw html
-        return phantom.fromRaw(filename, options);
-    }).then(function (pages) {
+    var promises = files.map(function(file) {
+        return promise.fromCallback(function(callback) {
+            jsdom.env(file, {
+                features: {
+                    FetchExternalResources: ['script'],
+                    ProcessExternalResources: ['script']
+                }
+            }, callback);
+        }).delay(options.timeout);
+    });
+    return promise.all(promises).then(function(pages) {
         return [files, options, pages];
     });
 }
@@ -176,6 +175,10 @@ function processWithTextApi(files, options, pages, stylesheets) {
         return new promise(function (resolve) {
             resolve([newCssStr, report]);
         });
+    }).tap(function() {
+        return pages.map(function(page) {
+            return page.close();
+        });
     });
 }
 
@@ -234,27 +237,17 @@ function processAsPostCss(files, options, pages) {
 // There always seem to be problems trying to run more than one phantom at a time,
 // so let's serialize all their accesses here
 var serializedQueue = async.queue(function (opts, callback) {
-    if (opts.usePostCssInternal) {
-        return promise
-            .using(phantom.init(phantom.phantom), function () {
-                return getHTML(opts.html, opts)
-                    .spread(processAsPostCss);
-            })
-            .asCallback(callback);
-    }
-    return promise
-        .using(phantom.init(phantom.phantom), function () {
+    return promise.resolve().then(function() {
+        if (opts.usePostCssInternal) {
             return getHTML(opts.html, opts)
-                .spread(getStylesheets)
-                .spread(getCSS)
-                .spread(processWithTextApi);
-        })
-        .asCallback(callback, { spread: true });
+                .spread(processAsPostCss);
+        }
+        return getHTML(opts.html, opts)
+              .spread(getStylesheets)
+              .spread(getCSS)
+              .spread(processWithTextApi);
+    }).asCallback(callback, { spread: true });
 }, 1);
-
-serializedQueue.drain = function() {
-    phantom.cleanupAll();
-};
 
 var postcssPlugin = postcss.plugin('uncss', function (opts) {
     opts = _.defaults(opts, {
@@ -271,14 +264,8 @@ var postcssPlugin = postcss.plugin('uncss', function (opts) {
             rawPostCss: css
         });
 
-        return new promise(function (resolve, reject) {
-            serializedQueue.push(opts, function (err) {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve();
-                }
-            });
+        return promise.fromCallback(function(callback) {
+            serializedQueue.push(opts, callback);
         });
     };
 });
