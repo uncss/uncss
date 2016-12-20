@@ -1,20 +1,66 @@
 'use strict';
 
-var _ = require('lodash');
+var jsdom = require('jsdom'),
+    HTMLElement = require('jsdom/lib/jsdom/living').HTMLElement,
+    Promise = require('bluebird'),
+    _ = require('lodash');
+
+// Configure.
+var jsdomAsync = Promise.promisify(jsdom.env, { context: jsdom });
+
+// Patch jsdom.
+Object.defineProperties(HTMLElement.prototype, {
+    clientWidth: {
+        get: function() {
+            return 1024;
+        }
+    },
+    clientHeight: {
+        get: function() {
+            return 768;
+        }
+    }
+});
+
+/**
+ * Closes a page.
+ * @param {Object} Page opened by jsdom
+ * @return {void}
+ */
+function cleanup(page) {
+    return page.close();
+}
+
+/**
+ * Load a page.
+ * @param  {String}  src
+ * @param  {Object}  options
+ * @return {Promise}
+ */
+function fromSource(src, options) {
+    var config = {
+        features: {
+            FetchExternalResources: ['script'],
+            ProcessExternalResources: ['script']
+        },
+        virtualConsole: jsdom.createVirtualConsole().sendTo(console)
+    };
+    return jsdomAsync(src, config).delay(options.timeout).disposer(cleanup);
+}
 
 /**
  * Extract stylesheets' hrefs from dom
- * @param  {Object}  page       A PhantomJS page
+ * @param  {Object}  window     A jsdom window
  * @param  {Object}  options    Options, as passed to UnCSS
- * @return {promise}
+ * @return {Array}
  */
-function getStylesheets(page, options) {
-    if (_.isArray(options.media) === false) {
+function getStylesheets(window, options) {
+    if (Array.isArray(options.media) === false) {
         options.media = [options.media];
     }
 
     var media = _.union(['', 'all', 'screen'], options.media);
-    var elements = page.document.documentElement.querySelectorAll('link[rel="stylesheet"]');
+    var elements = window.document.querySelectorAll('link[rel="stylesheet"]');
 
     return Array.prototype.map.call(elements, function(link) {
         return {
@@ -30,12 +76,12 @@ function getStylesheets(page, options) {
 
 /**
  * Filter unused selectors.
- * @param  {Object}  page   A PhantomJS page
+ * @param  {Object}  window A jsdom window
  * @param  {Array}   sels   List of selectors to be filtered
- * @return {promise}
+ * @return {Array}
  */
-function findAll(page, sels) {
-    var document = page.document;
+function findAll(window, sels) {
+    var document = window.document;
 
     // Unwrap noscript elements.
     var elements = document.getElementsByTagName('noscript');
@@ -48,20 +94,18 @@ function findAll(page, sels) {
         });
     });
 
-    // Do the filtering
+    // Do the filtering.
     return sels.filter(function (selector) {
         try {
-            if (document.querySelector(selector)) {
-                return true;
-            }
+            return document.querySelector(selector);
         } catch (e) {
             return true;
         }
-        return false;
     });
 }
 
 module.exports = {
+    fromSource: fromSource,
     findAll: findAll,
     getStylesheets: getStylesheets
 };

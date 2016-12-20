@@ -1,13 +1,11 @@
 'use strict';
 
-var promise = require('bluebird'),
-    async = require('async'),
-    glob = require('glob'),
+var glob = require('glob'),
     isHTML = require('is-html'),
     isURL = require('is-absolute-url'),
-    jsdom = require('jsdom'),
     phantom = require('./phantom.js'),
     postcss = require('postcss'),
+    Promise = require('bluebird'),
     uncss = require('./lib.js'),
     utility = require('./utility.js'),
     _ = require('lodash');
@@ -16,7 +14,7 @@ var promise = require('bluebird'),
  * Get the contents of HTML pages through PhantomJS.
  * @param  {Array}   files   List of HTML files
  * @param  {Object}  options UnCSS options
- * @return {promise}
+ * @return {Array|Promise}
  */
 function getHTML(files, options) {
     if (_.isString(files)) {
@@ -31,21 +29,13 @@ function getHTML(files, options) {
     }));
 
     if (!files.length) {
-        throw new Error('UnCSS: no HTML files found');
+        return Promise.reject(new Error('UnCSS: no HTML files found'));
     }
 
-    var promises = files.map(function(file) {
-        return promise.fromCallback(function(callback) {
-            jsdom.env(file, {
-                features: {
-                    FetchExternalResources: ['script'],
-                    ProcessExternalResources: ['script']
-                }
-            }, callback);
-        }).delay(options.timeout);
-    });
-    return promise.all(promises).then(function(pages) {
-        return [files, options, pages];
+    // Save files for later reference.
+    options.files = files;
+    return files.map(function(file) {
+        return phantom.fromSource(file, options);
     });
 }
 
@@ -53,16 +43,16 @@ function getHTML(files, options) {
  * Get the contents of CSS files.
  * @param  {Array}   files   List of HTML files
  * @param  {Object}  options UnCSS options
- * @param  {Array}   pages   Pages opened by phridge
- * @return {promise}
+ * @param  {Array}   pages   Pages opened by jsdom
+ * @return {Promise}
  */
 function getStylesheets(files, options, pages) {
     if (options.stylesheets && options.stylesheets.length) {
         /* Simulate the behavior below */
-        return [files, options, pages, [options.stylesheets]];
+        return Promise.resolve([files, options, pages, [options.stylesheets]]);
     }
     /* Extract the stylesheets from the HTML */
-    return promise.map(pages, function (page) {
+    return Promise.map(pages, function (page) {
         return phantom.getStylesheets(page, options);
     }).then(function (stylesheets) {
         return [files, options, pages, stylesheets];
@@ -73,9 +63,9 @@ function getStylesheets(files, options, pages) {
  * Get the contents of CSS files.
  * @param  {Array}   files       List of HTML files
  * @param  {Object}  options     UnCSS options
- * @param  {Array}   pages       Pages opened by phridge
+ * @param  {Array}   pages       Pages opened by jsdom
  * @param  {Array}   stylesheets List of CSS files
- * @return {promise}
+ * @return {Array}
  */
 function getCSS(files, options, pages, stylesheets) {
     /* Ignore specified stylesheets */
@@ -120,9 +110,9 @@ function getCSS(files, options, pages, stylesheets) {
  * Do the actual work
  * @param  {Array}   files       List of HTML files
  * @param  {Object}  options     UnCSS options
- * @param  {Array}   pages       Pages opened by phridge
+ * @param  {Array}   pages       Pages opened by jsdom
  * @param  {Array}   stylesheets List of CSS files
- * @return {promise}
+ * @return {Promise}
  */
 function processWithTextApi(files, options, pages, stylesheets) {
     /* If we specified a raw string of CSS, add it to the stylesheets array */
@@ -172,13 +162,7 @@ function processWithTextApi(files, options, pages, stylesheets) {
                 selectors: rep
             };
         }
-        return new promise(function (resolve) {
-            resolve([newCssStr, report]);
-        });
-    }).tap(function() {
-        return pages.map(function(page) {
-            return page.close();
-        });
+        return [newCssStr, report];
     });
 }
 
@@ -227,27 +211,24 @@ function init(files, options, callback) {
         raw: null
     });
 
-    serializedQueue.push(options, callback);
+    process(options, callback);
 }
 
 function processAsPostCss(files, options, pages) {
     return uncss(pages, options.rawPostCss, options.ignore);
 }
 
-// There always seem to be problems trying to run more than one phantom at a time,
-// so let's serialize all their accesses here
-var serializedQueue = async.queue(function (opts, callback) {
-    return promise.resolve().then(function() {
+function process(opts, callback) {
+    var resource = getHTML(opts.html, opts);
+    return Promise.using(resource, function(pages) {
         if (opts.usePostCssInternal) {
-            return getHTML(opts.html, opts)
-                .spread(processAsPostCss);
+            return processAsPostCss(opts.files, opts, pages);
         }
-        return getHTML(opts.html, opts)
-              .spread(getStylesheets)
-              .spread(getCSS)
-              .spread(processWithTextApi);
-    }).asCallback(callback, { spread: true });
-}, 1);
+        return getStylesheets(opts.files, opts, pages)
+          .spread(getCSS)
+          .spread(processWithTextApi);
+    }).asCallback(callback, { spread: !opts.usePostCssInternal });
+}
 
 var postcssPlugin = postcss.plugin('uncss', function (opts) {
     opts = _.defaults(opts, {
@@ -264,9 +245,7 @@ var postcssPlugin = postcss.plugin('uncss', function (opts) {
             rawPostCss: css
         });
 
-        return promise.fromCallback(function(callback) {
-            serializedQueue.push(opts, callback);
-        });
+        return process(opts);
     };
 });
 

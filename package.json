@@ -33,7 +33,6 @@
     "LICENSE.md"
   ],
   "dependencies": {
-    "async": "^2.0.1",
     "bluebird": "^3.4.0",
     "commander": "^2.9.0",
     "glob": "^7.0.3",

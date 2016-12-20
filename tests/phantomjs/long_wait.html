@@ -7,14 +7,16 @@
     </head>
     <body>
         <script>
-            /* Simulate long computation */
-            for (var i = 0; i < 2000000000; ++i) {
-                i++;
-            }
-            /* Append an element */
-            var div = document.createElement('div');
-            div.className = 'long-wait';
-            document.body.appendChild(div);
+            (function() {
+                /* Simulate long computation */
+                for (var i = 0; i < 2000000000; ++i) {
+                    i++;
+                }
+                /* Append an element */
+                var div = document.createElement('div');
+                div.className = 'long-wait';
+                document.body.appendChild(div);
+            }());
         </script>
     </body>
 </html>

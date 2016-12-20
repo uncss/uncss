@@ -129,12 +129,7 @@ function getUsedSelectors(page, css) {
     css.walkRules(function (rule) {
         usedSelectors = _.concat(usedSelectors, rule.selectors.map(dePseudify));
     });
-    // TODO: Can this be written in a more straightforward fashion?
-    return promise.map(usedSelectors, function (selector) {
-        return selector;
-    }).then(function(selector) {
-        return phantom.findAll(page, selector);
-    });
+    return phantom.findAll(page, usedSelectors);
 }
 
 /**
