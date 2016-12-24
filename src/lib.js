@@ -1,7 +1,7 @@
 'use strict';
 
 var promise = require('bluebird'),
-    phantom = require('./phantom.js'),
+    jsdom = require('./jsdom.js'),
     postcss = require('postcss'),
     _ = require('lodash');
 /* Some styles are applied only with user interaction, and therefore its
@@ -129,7 +129,7 @@ function getUsedSelectors(page, css) {
     css.walkRules(function (rule) {
         usedSelectors = _.concat(usedSelectors, rule.selectors.map(dePseudify));
     });
-    return phantom.findAll(page, usedSelectors);
+    return jsdom.findAll(page, usedSelectors);
 }
 
 /**
