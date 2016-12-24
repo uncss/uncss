@@ -3,7 +3,7 @@
 var glob = require('glob'),
     isHTML = require('is-html'),
     isURL = require('is-absolute-url'),
-    phantom = require('./phantom.js'),
+    jsdom = require('./jsdom.js'),
     postcss = require('postcss'),
     Promise = require('bluebird'),
     uncss = require('./lib.js'),
@@ -11,7 +11,7 @@ var glob = require('glob'),
     _ = require('lodash');
 
 /**
- * Get the contents of HTML pages through PhantomJS.
+ * Get the contents of HTML pages through jsdom.
  * @param  {Array}   files   List of HTML files
  * @param  {Object}  options UnCSS options
  * @return {Array|Promise}
@@ -35,7 +35,7 @@ function getHTML(files, options) {
     // Save files for later reference.
     options.files = files;
     return files.map(function(file) {
-        return phantom.fromSource(file, options);
+        return jsdom.fromSource(file, options);
     });
 }
 
@@ -53,7 +53,7 @@ function getStylesheets(files, options, pages) {
     }
     /* Extract the stylesheets from the HTML */
     return Promise.map(pages, function (page) {
-        return phantom.getStylesheets(page, options);
+        return jsdom.getStylesheets(page, options);
     }).then(function (stylesheets) {
         return [files, options, pages, stylesheets];
     });
@@ -168,7 +168,7 @@ function processWithTextApi(files, options, pages, stylesheets) {
 
 /**
  * Main exposed function.
- * Here we check the options and callback, then run the files through PhantomJS.
+ * Here we check the options and callback, then run the files through jsdom.
  * @param  {Array}    files     Array of filenames
  * @param  {Object}   [options] options
  * @param  {Function} callback(Error, String, Object)

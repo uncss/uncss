@@ -7,7 +7,7 @@ var expect = chai.expect;
 
 chai.use(resemble);
 
-describe.skip('Pages should resemble the reference', function () {
+describe('Pages should resemble the reference', function () {
     it('Bootstrap', function (done) {
         expect('tests/output/bootstrap/jumbotron.html')
             .to.resemble('http://getbootstrap.com/examples/jumbotron/', done);

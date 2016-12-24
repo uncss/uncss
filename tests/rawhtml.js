@@ -6,10 +6,10 @@ var fs = require('fs'),
 
 describe('Raw HTML', function () {
     it('Should process an array containing HTML', function (done) {
-        var html = fs.readFileSync('tests/phantomjs/basic.html', { encoding: 'utf8' });
+        var html = fs.readFileSync('tests/jsdom/basic.html', { encoding: 'utf8' });
 
         uncss([html], {
-            csspath: 'tests/phantomjs'
+            csspath: 'tests/jsdom'
         }, function (err, output) {
             expect(err).to.equal(null);
             expect(output).to.include('.evaluated');
