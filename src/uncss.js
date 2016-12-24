@@ -11,7 +11,7 @@ var glob = require('glob'),
     _ = require('lodash');
 
 /**
- * Get the contents of HTML pages through PhantomJS.
+ * Get the contents of HTML pages through jsdom.
  * @param  {Array}   files   List of HTML files
  * @param  {Object}  options UnCSS options
  * @return {Array|Promise}
@@ -168,7 +168,7 @@ function processWithTextApi(files, options, pages, stylesheets) {
 
 /**
  * Main exposed function.
- * Here we check the options and callback, then run the files through PhantomJS.
+ * Here we check the options and callback, then run the files through jsdom.
  * @param  {Array}    files     Array of filenames
  * @param  {Object}   [options] options
  * @param  {Function} callback(Error, String, Object)
