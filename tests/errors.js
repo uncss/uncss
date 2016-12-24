@@ -76,7 +76,7 @@ describe('Error reporting', function () {
             stderrBuffer += data;
         };
 
-        uncss(['tests/phantomjs/throw.html'], { raw: '' }, function (error) {
+        uncss(['tests/jsdom/throw.html'], { raw: '' }, function (error) {
             expect(error).to.equal(null);
             expect(stderrBuffer).to.contain('Exception');
             process.stderr.write = oldWrite;
