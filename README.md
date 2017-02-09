@@ -27,6 +27,10 @@ npm install -g uncss
 
 ## Usage
 
+### Online Server
+
+- https://uncss-online.com/ - Unofficial server, very convenient for testing or one-off usage!
+
 ### Within Node.js:
 
 ```js
@@ -176,10 +180,6 @@ See [PostCSS docs](https://github.com/postcss/postcss) for examples for your env
   ignore: ['.fade']
 }
 ```
-
-## Projects using UnCSS
-
-- https://uncss-online.com/
 
 
 ## License
