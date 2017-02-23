@@ -3,6 +3,7 @@
 var jsdom = require('jsdom'),
     HTMLElement = require('jsdom/lib/jsdom/living').HTMLElement,
     Promise = require('bluebird'),
+    path = require('path'),
     _ = require('lodash');
 
 // Configure.
@@ -45,6 +46,20 @@ function fromSource(src, options) {
         },
         virtualConsole: jsdom.createVirtualConsole().sendTo(console)
     };
+
+    // The htmlroot option allows root-relative URLs (starting with a slash)
+    // to be used for all resources. Without it, root-relative URLs are
+    // looked up relative to file://, so will not be found.
+    if (options.htmlroot) {
+        config.resourceLoader = function(resource, callback) {
+            var originalPathname = resource.url.pathname;
+            if (/^\/[^/]/.test(originalPathname)) {
+                resource.url.pathname = path.join(options.htmlroot, originalPathname);
+            }
+            return resource.defaultFetch(callback);
+        };
+    }
+
     return jsdomAsync(src, config).delay(options.timeout).disposer(cleanup);
 }
 
