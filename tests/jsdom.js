@@ -58,4 +58,13 @@ describe('jsdom', function () {
             done();
         });
     });
+
+    it('Should not use htmlroot when loading non-root-relative scripts', function (done) {
+        var options = { htmlroot: path.join(__dirname, './jsdom') };
+        uncss(['tests/jsdom/non_root_relative_script.html'], options, function (err, output) {
+            expect(err).to.equal(null);
+            expect(output).to.include('.evaluated');
+            done();
+        });
+    });
 });

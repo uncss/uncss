@@ -53,8 +53,14 @@ function fromSource(src, options) {
     if (options.htmlroot) {
         config.resourceLoader = function(resource, callback) {
             var originalPathname = resource.url.pathname;
-            if (/^\/[^/]/.test(originalPathname)) {
-                resource.url.pathname = path.join(options.htmlroot, originalPathname);
+            if (resource.url.protocol === 'file:') {
+                // All resource.url.pathames are absolute at this point, because jsdom
+                // has already prefixed relative paths with the baseUrl. So we have
+                // to identify which paths still need that prefix (the root-relative ones).
+                var baseDir = path.dirname(resource.baseUrl.replace(/^file:\/\//, ''));
+                if (!_.startsWith(originalPathname, baseDir)) {
+                    resource.url.pathname = path.join(options.htmlroot, originalPathname);
+                }
             }
             return resource.defaultFetch(callback);
         };
