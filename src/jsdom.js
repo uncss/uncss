@@ -52,15 +52,12 @@ function fromSource(src, options) {
     // looked up relative to file://, so will not be found.
     if (options.htmlroot) {
         config.resourceLoader = function(resource, callback) {
-            var originalPathname = resource.url.pathname;
-            if (resource.url.protocol === 'file:') {
-                // All resource.url.pathames are absolute at this point, because jsdom
-                // has already prefixed relative paths with the baseUrl. So we have
-                // to identify which paths still need that prefix (the root-relative ones).
-                var baseDir = path.dirname(resource.baseUrl.replace(/^file:\/\//, ''));
-                if (!_.startsWith(originalPathname, baseDir)) {
-                    resource.url.pathname = path.join(options.htmlroot, originalPathname);
-                }
+            // Ensure htmlroot is an absolute path.
+            var htmlroot = path.resolve(options.htmlroot);
+
+            // Only apply htmlroot to local root-relative resources.
+            if (resource.url.protocol === 'file:' && resource.url.pathname.indexOf(htmlroot) !== 0) {
+                resource.url.pathname = path.join(options.htmlroot, resource.url.pathname);
             }
             return resource.defaultFetch(callback);
         };
