@@ -1,26 +1,11 @@
 'use strict';
 
 var jsdom = require('jsdom'),
-    HTMLElement = require('jsdom/lib/jsdom/living').HTMLElement,
     Promise = require('bluebird'),
     _ = require('lodash');
 
 // Configure.
 var jsdomAsync = Promise.promisify(jsdom.env, { context: jsdom });
-
-// Patch jsdom.
-Object.defineProperties(HTMLElement.prototype, {
-    clientWidth: {
-        get: function() {
-            return 1024;
-        }
-    },
-    clientHeight: {
-        get: function() {
-            return 768;
-        }
-    }
-});
 
 /**
  * Closes a page.
