@@ -119,7 +119,7 @@ Options:
 
 - **timeout** (Number): Specify how long to wait for the JS to be loaded.
 
-- **htmlroot** (String): Where the project root is. Useful for example if you are running UnCSS on _local_ files that have absolute href to the stylesheets, i.e. `href="/css/style.css"`.
+- **htmlroot** (String): Where the project root is. Useful for example if you have HTML that references _local_ files with root-relative URLs, i.e. `href="/css/style.css"`.
 
 - **report** (Boolean): Return the report object in callback.
 

@@ -2,6 +2,7 @@
 
 var jsdom = require('jsdom'),
     Promise = require('bluebird'),
+    path = require('path'),
     _ = require('lodash');
 
 // Configure.
@@ -30,6 +31,23 @@ function fromSource(src, options) {
         },
         virtualConsole: jsdom.createVirtualConsole().sendTo(console)
     };
+
+    // The htmlroot option allows root-relative URLs (starting with a slash)
+    // to be used for all resources. Without it, root-relative URLs are
+    // looked up relative to file://, so will not be found.
+    if (options.htmlroot) {
+        config.resourceLoader = function(resource, callback) {
+            // Ensure htmlroot is an absolute path.
+            var htmlroot = path.resolve(options.htmlroot);
+
+            // Only apply htmlroot to local root-relative resources.
+            if (resource.url.protocol === 'file:' && resource.url.pathname.indexOf(htmlroot) !== 0) {
+                resource.url.pathname = path.join(options.htmlroot, resource.url.pathname);
+            }
+            return resource.defaultFetch(callback);
+        };
+    }
+
     return jsdomAsync(src, config).delay(options.timeout).disposer(cleanup);
 }
 
