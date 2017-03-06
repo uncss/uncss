@@ -27,8 +27,8 @@ function init(instance) {
     // Convert to bluebird promise
     return new promise(function (resolve) {
         resolve(phridge.spawn({
-            ignoreSslErrors: 'yes',
-            sslProtocol: 'any'
+            '--ignore-ssl-errors': 'yes',
+            '--ssl-protocol': 'any'
         }));
     }).then(function (ph) {
         /* Phridge outputs everything to stdout by default */
