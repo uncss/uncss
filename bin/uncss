@@ -42,7 +42,24 @@
         uncssrc: program.uncssrc
     };
 
-    if (program.args.length) {
+    if (!program.args.length) {
+        /* No files were specified, read HTML from stdin */
+        process.stdin.resume();
+        process.stdin.setEncoding('utf8');
+
+        process.stdin.on('data', function (chunk) {
+            buffer += chunk;
+        });
+
+        process.stdin.on('end', function () {
+            uncss(buffer, options, function (err, css) {
+                if (err) {
+                    throw err;
+                }
+                console.log(css);
+            });
+        });
+    } else {
         if (options.ignore) {
             options.ignore = options.ignore.map(function (ign) {
                 /* Create RegExes */
@@ -71,23 +88,6 @@
                 throw err;
             }
             console.log(css);
-        });
-    } else {
-        /* No files were specified, read HTML from stdin */
-        process.stdin.resume();
-        process.stdin.setEncoding('utf8');
-
-        process.stdin.on('data', function (chunk) {
-            buffer += chunk;
-        });
-
-        process.stdin.on('end', function () {
-            uncss(buffer, options, function (err, css) {
-                if (err) {
-                    throw err;
-                }
-                console.log(css);
-            });
         });
     }
 

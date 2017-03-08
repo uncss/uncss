@@ -120,14 +120,17 @@ function readStylesheets(files) {
                 return contents;
             });
         }
-        throw new Error('UnCSS: could not open ' + path.join(process.cwd(), filename));
+        throw new Error('Could not open ' + path.join(process.cwd(), filename));
     }).then(function (res) {
         // res is an array of the content of each file in files (in the same order)
         for (var i = 0, len = files.length; i < len; i++) {
             // We append a small banner to keep track of which file we are currently processing
             // super helpful for debugging
-            var banner = '/*** uncss> filename: ' + files[i].replace(/\\/g, '/') + ' ***/\n';
-            res[i] = banner + res[i];
+            var banner = '\n/*** CSS Filename: ' + files[i].replace(/\\/g, '/') + ' BEGINS ***/\n';
+            var banner2 = '/*** CSS Filename: ' + files[i].replace(/\\/g, '/') + ' ENDS ***/\n\n';
+            res[i] = banner + res[i] + banner2;
+
+
         }
         return res;
     });

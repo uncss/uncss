@@ -145,7 +145,7 @@ function getUsedSelectors(page, css) {
 function getAllSelectors(css) {
     var selectors = [];
     css.walkRules(function (rule) {
-        selectors = _.concat(selectors, rule.selector);
+        selectors.concat(rule.selector);
     });
     return selectors;
 }
@@ -232,11 +232,9 @@ module.exports = function uncss(pages, css, ignore) {
     }).then(function (usedSelectors) {
         usedSelectors = _.flatten(usedSelectors);
         var filteredCss = filterUnusedRules(pages, css, ignore, usedSelectors);
-        var allSelectors = getAllSelectors(css);
         return [filteredCss, {
             /* Get the selectors for the report */
-            all: allSelectors,
-            unused: _.difference(allSelectors, usedSelectors),
+            all: getAllSelectors(css),
             used: usedSelectors
         }];
     });
