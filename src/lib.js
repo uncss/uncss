@@ -174,14 +174,11 @@ function filterUnusedRules(pages, css, ignore, usedSelectors) {
     ignoreNextRule = false;
     css.walk(function (rule) {
         if (rule.type === 'comment') {
-            // ignore next rules while using comment `/* uncss:ignore start */`
-            if (/^!?\s?uncss:ignore start\s?$/.test(rule.text)) {
+            if (/^!?\s?uncss:ignore start\s?$/.test(rule.text)) { // ignore next rules while using comment `/* uncss:ignore start */`
                 ignoreNextRulesStart = true;
-            } // until `/* uncss:ignore end */` was found
-            else if (/^!?\s?uncss:ignore end\s?$/.test(rule.text)) {
+            } else if (/^!?\s?uncss:ignore end\s?$/.test(rule.text)) { // until `/* uncss:ignore end */` was found
                 ignoreNextRulesStart = false;
-            } // ignore next rule while using comment `/* uncss:ignore */`
-            else if (/^!?\s?uncss:ignore\s?$/.test(rule.text)) {
+            } else if (/^!?\s?uncss:ignore\s?$/.test(rule.text)) { // ignore next rule while using comment `/* uncss:ignore */`
                 ignoreNextRule = true;
             }
         } else if (rule.type === 'rule') {
@@ -191,8 +188,7 @@ function filterUnusedRules(pages, css, ignore, usedSelectors) {
             }
             if (ignoreNextRulesStart) {
                 ignore = ignore.concat(rule.selectors);
-            }
-            else if (ignoreNextRule) {
+            } else if (ignoreNextRule) {
                 ignoreNextRule = false;
                 ignore = ignore.concat(rule.selectors);
             }
