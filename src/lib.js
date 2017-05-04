@@ -160,6 +160,7 @@ function getAllSelectors(css) {
  */
 function filterUnusedRules(pages, css, ignore, usedSelectors) {
     var ignoreNextRule = false,
+        ignoreNextRulesStart = false,
         unusedRules = [],
         unusedRuleSelectors,
         usedRuleSelectors;
@@ -173,8 +174,14 @@ function filterUnusedRules(pages, css, ignore, usedSelectors) {
     ignoreNextRule = false;
     css.walk(function (rule) {
         if (rule.type === 'comment') {
-            // ignore next rule while using comment `/* uncss:ignore */`
-            if (/^!?\s?uncss:ignore\s?$/.test(rule.text)) {
+            // ignore next rules while using comment `/* uncss:ignore start */`
+            if (/^!?\s?uncss:ignore start\s?$/.test(rule.text)) {
+                ignoreNextRulesStart = true;
+            } // until `/* uncss:ignore end */` was found
+            else if (/^!?\s?uncss:ignore end\s?$/.test(rule.text)) {
+                ignoreNextRulesStart = false;
+            } // ignore next rule while using comment `/* uncss:ignore */`
+            else if (/^!?\s?uncss:ignore\s?$/.test(rule.text)) {
                 ignoreNextRule = true;
             }
         } else if (rule.type === 'rule') {
@@ -182,7 +189,10 @@ function filterUnusedRules(pages, css, ignore, usedSelectors) {
                 // Don't remove animation keyframes that have selector names of '30%' or 'to'
                 return;
             }
-            if (ignoreNextRule) {
+            if (ignoreNextRulesStart) {
+                ignore = ignore.concat(rule.selectors);
+            }
+            else if (ignoreNextRule) {
                 ignoreNextRule = false;
                 ignore = ignore.concat(rule.selectors);
             }
