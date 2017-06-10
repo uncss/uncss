@@ -41,7 +41,7 @@
     "is-html": "^1.0.0",
     "lodash": "^4.13.1",
     "phridge": "^2.0.0",
-    "postcss": "^5.0.21",
+    "postcss": "^6.0.1",
     "request": "^2.72.0"
   },
   "devDependencies": {
