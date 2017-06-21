@@ -37,13 +37,12 @@ function fromSource(src, options) {
     // looked up relative to file://, so will not be found.
     if (options.htmlroot) {
         config.resourceLoader = function(resource, callback) {
-            // Ensure htmlroot is an absolute path.
-            var htmlroot = path.resolve(options.htmlroot);
-
-            // Only apply htmlroot to local root-relative resources.
-            if (resource.url.protocol === 'file:' && resource.url.pathname.indexOf(htmlroot) !== 0) {
-                resource.url.pathname = path.join(options.htmlroot, resource.url.pathname);
+            // See whether raw attribute value is root-relative.
+            var src = resource.element.getAttribute('src');
+            if (src.indexOf('/') === 0) {
+                resource.url.pathname = path.join(options.htmlroot, src);
             }
+
             return resource.defaultFetch(callback);
         };
     }
