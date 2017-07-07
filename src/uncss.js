@@ -103,7 +103,7 @@ function getCSS(files, options, pages, stylesheets) {
         /* Reset the array if we didn't find any link tags */
         stylesheets = [];
     }
-    return [files, options, pages, utility.readStylesheets(stylesheets)];
+    return [files, options, pages, utility.readStylesheets(stylesheets, options.banner)];
 }
 
 /**
@@ -207,6 +207,7 @@ function init(files, options, callback) {
         report: false,
         ignoreSheets: [],
         html: files,
+        banner: true,
         // gulp-uncss parameters:
         raw: null
     });

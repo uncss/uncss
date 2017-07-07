@@ -37,6 +37,23 @@ describe('Options', function () {
         });
     });
 
+    it('options.banner is enabled by default', function () {
+        expect(output).to.include('*** uncss>');
+    });
+
+    it('options.banner should be able to disable banner', function (done) {
+        uncss(rfs('selectors/index.html'), {
+            csspath: 'tests/selectors',
+            banner: false
+        }, function (err, res) {
+            if (err) {
+                throw err;
+            }
+            expect(res).to.not.include('*** uncss>');
+            done();
+        });
+    });
+
     it('options.stylesheets should override <link> tags', function () {
         expect(output).to.include(rfs(stylesheets[0]));
     });

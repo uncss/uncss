@@ -106,7 +106,7 @@ function parsePaths(source, stylesheets, options) {
  * @param  {Array}   files  An array of the filenames to read
  * @return {promise}
  */
-function readStylesheets(files) {
+function readStylesheets(files, outputBanner) {
     return promise.map(files, function (filename) {
         if (isURL(filename)) {
             return request({
@@ -123,11 +123,13 @@ function readStylesheets(files) {
         throw new Error('UnCSS: could not open ' + path.join(process.cwd(), filename));
     }).then(function (res) {
         // res is an array of the content of each file in files (in the same order)
-        for (var i = 0, len = files.length; i < len; i++) {
-            // We append a small banner to keep track of which file we are currently processing
-            // super helpful for debugging
-            var banner = '/*** uncss> filename: ' + files[i].replace(/\\/g, '/') + ' ***/\n';
-            res[i] = banner + res[i];
+        if (outputBanner) {
+            for (var i = 0, len = files.length; i < len; i++) {
+                // We append a small banner to keep track of which file we are currently processing
+                // super helpful for debugging
+                var banner = '/*** uncss> filename: ' + files[i].replace(/\\/g, '/') + ' ***/\n';
+                res[i] = banner + res[i];
+            }
         }
         return res;
     });

@@ -28,6 +28,7 @@
         .option('-t, --timeout <milliseconds>', 'Wait for JS evaluation')
         .option('-H, --htmlroot <folder>', 'Absolute paths\' root location')
         .option('-u, --uncssrc <file>', 'Load these options from <file>')
+        .option('-n, --noBanner', 'Disable banner')
         .parse(process.argv);
 
     options = {
@@ -39,7 +40,8 @@
         raw: program.raw,
         timeout: program.timeout,
         htmlroot: program.htmlroot,
-        uncssrc: program.uncssrc
+        uncssrc: program.uncssrc,
+        banner: !program.noBanner
     };
 
     if (program.args.length) {
