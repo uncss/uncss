@@ -33,14 +33,13 @@
     "LICENSE.md"
   ],
   "dependencies": {
-    "async": "^2.0.1",
     "bluebird": "^3.4.0",
     "commander": "^2.9.0",
     "glob": "^7.0.3",
     "is-absolute-url": "^2.0.0",
     "is-html": "^1.0.0",
+    "jsdom": "^9.11.0",
     "lodash": "^4.13.1",
-    "phridge": "^2.0.0",
     "postcss": "^5.0.21",
     "request": "^2.72.0"
   },

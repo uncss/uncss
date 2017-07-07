@@ -79,7 +79,7 @@ function parsePaths(source, stylesheets, options) {
         /* Fix the case when there is a query string or hash */
         sheet = sheet.split('?')[0].split('#')[0];
 
-        /* Path already parsed by PhantomJS */
+        /* Path already parsed by jsdom */
         if (sheet.substr(0, 5) === 'file:') {
             sheet = url.parse(sheet).path.replace('%20', ' ');
             /* If on windows, remove first '/' */

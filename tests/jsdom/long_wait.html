@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>jsdom long wait test</title>
+        <link rel="stylesheet" href="jsdom.css">
+    </head>
+    <body>
+        <script>
+            (function() {
+                /* Simulate long computation */
+                for (var i = 0; i < 2000000000; ++i) {
+                    i++;
+                }
+                /* Append an element */
+                var div = document.createElement('div');
+                div.className = 'long-wait';
+                document.body.appendChild(div);
+            }());
+        </script>
+    </body>
+</html>

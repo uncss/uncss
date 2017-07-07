@@ -1,7 +1,7 @@
 'use strict';
 
 var promise = require('bluebird'),
-    phantom = require('./phantom.js'),
+    jsdom = require('./jsdom.js'),
     postcss = require('postcss'),
     _ = require('lodash');
 /* Some styles are applied only with user interaction, and therefore its
@@ -38,7 +38,7 @@ var dePseudify = (function () {
  * Private function used in filterUnusedRules.
  * @param  {Array} selectors      CSS selectors created by the CSS parser
  * @param  {Array} ignore         List of selectors to be ignored
- * @param  {Array} usedSelectors  List of Selectors found in the PhantomJS pages
+ * @param  {Array} usedSelectors  List of Selectors found in the jsdom pages
  * @return {Array}                The selectors matched in the DOMs
  */
 function filterUnusedSelectors(selectors, ignore, usedSelectors) {
@@ -120,7 +120,7 @@ function filterEmptyAtRules(css) {
 
 /**
  * Find which selectors are used in {pages}
- * @param  {Array}    pages         List of PhantomJS pages
+ * @param  {Array}    pages         List of jsdom pages
  * @param  {Object}   css           The postcss.Root node
  * @return {promise}
  */
@@ -129,12 +129,7 @@ function getUsedSelectors(page, css) {
     css.walkRules(function (rule) {
         usedSelectors = _.concat(usedSelectors, rule.selectors.map(dePseudify));
     });
-    // TODO: Can this be written in a more straightforward fashion?
-    return promise.map(usedSelectors, function (selector) {
-        return selector;
-    }).then(function(selector) {
-        return phantom.findAll(page, selector);
-    });
+    return jsdom.findAll(page, usedSelectors);
 }
 
 /**
@@ -152,7 +147,7 @@ function getAllSelectors(css) {
 
 /**
  * Remove css rules not used in the dom
- * @param  {Array}  pages           List of PhantomJS pages
+ * @param  {Array}  pages           List of jsdom pages
  * @param  {Object} css             The postcss.Root node
  * @param  {Array}  ignore          List of selectors to be ignored
  * @param  {Array}  usedSelectors   List of selectors that are found in {pages}
@@ -221,7 +216,7 @@ function filterUnusedRules(pages, css, ignore, usedSelectors) {
 
 /**
  * Main exposed function
- * @param  {Array}   pages      List of PhantomJS pages
+ * @param  {Array}   pages      List of jsdom pages
  * @param  {Object}  css        The postcss.Root node
  * @param  {Array}   ignore     List of selectors to be ignored
  * @return {promise}

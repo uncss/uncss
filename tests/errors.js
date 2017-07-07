@@ -61,22 +61,22 @@ describe('Error reporting', function () {
         });
     });
 
-    it('PhantomJS errors', function (done) {
+    it('jsdom errors', function (done) {
         uncss(['http://invalid'], function (error, output) {
             expect(output).to.equal(undefined);
-            expect(error.message).to.contain('Cannot load http://invalid');
+            expect(error.message).to.contain('getaddrinfo ENOTFOUND invalid invalid:80');
             done();
         });
     });
 
-    it('PhantomJS errors to stderr', function (done) {
+    it('jsdom errors to stderr', function (done) {
         var stderrBuffer = '';
         var oldWrite = process.stderr.write;
         process.stderr.write = function (data) {
             stderrBuffer += data;
         };
 
-        uncss(['tests/phantomjs/throw.html'], { raw: '' }, function (error) {
+        uncss(['tests/jsdom/throw.html'], { raw: '' }, function (error) {
             expect(error).to.equal(null);
             expect(stderrBuffer).to.contain('Exception');
             process.stderr.write = oldWrite;
