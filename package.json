@@ -34,6 +34,7 @@
   ],
   "dependencies": {
     "bluebird": "^3.4.0",
+    "canvas-prebuilt": "^1.6.5-prerelease.1",
     "commander": "^2.9.0",
     "glob": "^7.0.3",
     "is-absolute-url": "^2.0.0",

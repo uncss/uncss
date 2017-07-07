@@ -76,4 +76,35 @@ describe('jsdom', function () {
             done();
         });
     });
+
+    it('Should not choke on canvas elements', function (done) {
+        var options = { htmlroot: path.join(__dirname, './jsdom') };
+        uncss(['tests/jsdom/canvas.html'], options, function (err) {
+            expect(err).to.equal(null);
+            done();
+        });
+    });
+
+    it('Should provide a way to extend jsdom window callback', function (done) {
+        var localStorage = {
+            data: {},
+            getItem: function(key) {
+                return localStorage.data[key];
+            },
+            setItem: function(key, value) {
+                localStorage.data[key] = value;
+            }
+        };
+        var options = {
+            jsdomCreated: function(e, win) {
+                win.localStorage = localStorage;
+            },
+            htmlroot: path.join(__dirname, './jsdom')
+        };
+        uncss(['tests/jsdom/local_storage.html'], options, function (err) {
+            expect(err).to.equal(null);
+            expect(localStorage.getItem('foo')).to.equal('bar');
+            done();
+        });
+    });
 });
