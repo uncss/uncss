@@ -120,7 +120,7 @@ function filterEmptyAtRules(css) {
 
 /**
  * Find which selectors are used in {pages}
- * @param  {Array}    pages         List of jsdom pages
+ * @param  {Array}    page          List of jsdom pages
  * @param  {Object}   css           The postcss.Root node
  * @return {promise}
  */

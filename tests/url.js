@@ -27,8 +27,8 @@ describe('Compile the CSS of an HTML page passed by URL', function () {
             expect(err).to.equal(null);
             expect(output).to.have.length.above(2);
             fs.writeFile(path.join(__dirname, '/output/bootstrap/jumbotron.compiled.css'),
-                                   output,
-                                   done);
+                output,
+                done);
         });
     });
 
@@ -71,8 +71,8 @@ describe('Compile the CSS of an HTML page passed by URL', function () {
 
     after(function (done) {
         fs.writeFile(path.join(__dirname, '/output/gh-pages/stylesheets/stylesheet.css'),
-                               prevRun,
-                               done);
+            prevRun,
+            done);
     });
 
 });
