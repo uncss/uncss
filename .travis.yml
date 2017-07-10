@@ -14,3 +14,7 @@ after_success:
 
 matrix:
     fast_finish: true
+
+cache:
+    directories:
+        - node_modules
