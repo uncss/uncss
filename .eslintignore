@@ -1,0 +1,4 @@
+/.git/
+/coverage/
+/node_modules/
+/tests/output/
