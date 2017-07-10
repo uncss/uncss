@@ -149,7 +149,7 @@ Options:
 UnCSS can be used as a [PostCSS](https://github.com/postcss/postcss) Plugin.
 
 ```js
-postcss([ require('postcss-uncss').postcssPlugin ]);
+postcss([ require('postcss-uncss') ]);
 ```
 
 See [PostCSS docs](https://github.com/postcss/postcss) for examples for your environment.
