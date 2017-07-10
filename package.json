@@ -28,14 +28,14 @@
     "optimize",
     "optimise",
     "unused",
+    "rules",
     "selector",
     "CSS",
     "HTML"
   ],
   "files": [
     "bin",
-    "src",
-    "LICENSE.md"
+    "src"
   ],
   "dependencies": {
     "bluebird": "^3.4.0",
