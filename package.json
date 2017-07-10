@@ -11,7 +11,7 @@
     "mocha": "mocha tests/*.js --reporter spec --slow 7500 --timeout 25000",
     "lint": "npm run eslint",
     "test": "npm run eslint && npm run mocha",
-    "travis": "nyc mocha tests/*.js --slow 7500 --timeout 25000"
+    "travis": "nyc npm run mocha"
   },
   "main": "src/uncss.js",
   "bin": {
