@@ -77,14 +77,6 @@ describe('jsdom', function () {
         });
     });
 
-    it('Should not choke on canvas elements', function (done) {
-        var options = { htmlroot: path.join(__dirname, './jsdom') };
-        uncss(['tests/jsdom/canvas.html'], options, function (err) {
-            expect(err).to.equal(null);
-            done();
-        });
-    });
-
     it('Should provide a way to extend jsdom window callback', function (done) {
         var localStorage = {
             data: {},
