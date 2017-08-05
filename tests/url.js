@@ -23,7 +23,7 @@ describe('Compile the CSS of an HTML page passed by URL', () => {
     });
 
     it('Accepts an array of URLs', (done) => {
-        uncss(['http://getbootstrap.com/docs/3.3/examples/jumbotron/'], (err, output) => {
+        uncss(['https://getbootstrap.com/docs/3.3/examples/jumbotron/'], (err, output) => {
             expect(err).to.equal(null);
             expect(output).to.have.length.above(2);
             fs.writeFile(path.join(__dirname, '/output/bootstrap/jumbotron.compiled.css'),
@@ -33,7 +33,7 @@ describe('Compile the CSS of an HTML page passed by URL', () => {
     });
 
     it('Deals with CSS files linked with absolute URL', (done) => {
-        uncss(['http://giakki.github.io/uncss/'], (err, output) => {
+        uncss(['https://giakki.github.io/uncss/'], (err, output) => {
             expect(err).to.equal(null);
             expect(output).to.equal(prevRun);
             prevRun = output;
@@ -42,9 +42,9 @@ describe('Compile the CSS of an HTML page passed by URL', () => {
     });
 
     it('Deals with relative options.stylesheets when using URLs', (done) => {
-        uncss(['http://giakki.github.io/uncss/'], {
+        uncss(['https://giakki.github.io/uncss/'], {
             stylesheets: [
-                'http://cdnjs.cloudflare.com/ajax/libs/colors/1.0/colors.min.css',
+                'https://cdnjs.cloudflare.com/ajax/libs/colors/1.0/colors.min.css',
                 'stylesheets/stylesheet.css'
             ]
         }, (err, output) => {
@@ -56,9 +56,9 @@ describe('Compile the CSS of an HTML page passed by URL', () => {
     });
 
     it('Deals with absolute options.stylesheets when using URLs', (done) => {
-        uncss(['http://giakki.github.io/uncss/'], {
+        uncss(['https://giakki.github.io/uncss/'], {
             stylesheets: [
-                'http://cdnjs.cloudflare.com/ajax/libs/colors/1.0/colors.min.css',
+                'https://cdnjs.cloudflare.com/ajax/libs/colors/1.0/colors.min.css',
                 '/uncss/stylesheets/stylesheet.css'
             ]
         }, (err, output) => {
