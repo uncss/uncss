@@ -6,12 +6,12 @@
   "license": "MIT",
   "homepage": "https://github.com/giakki/uncss",
   "scripts": {
-    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "eslint": "eslint \"**/*.js\"",
     "mocha": "mocha tests/*.js --reporter spec --slow 7500 --timeout 25000",
     "lint": "npm run eslint",
     "test": "npm run eslint && npm run mocha",
-    "travis": "nyc npm run mocha"
+    "travis": "npm run eslint && nyc npm run mocha"
   },
   "main": "src/uncss.js",
   "bin": {

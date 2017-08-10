@@ -10,7 +10,7 @@ node_js:
 script: "npm run travis"
 
 after_success:
-    - npm run coverage
+    - npm run coveralls
 
 matrix:
     fast_finish: true
