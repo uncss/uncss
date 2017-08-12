@@ -23,7 +23,7 @@ describe('Compile the CSS of an HTML page passed by URL', function () {
     });
 
     it('Accepts an array of URLs', function (done) {
-        uncss(['http://getbootstrap.com/examples/jumbotron/'], function (err, output) {
+        uncss(['http://getbootstrap.com/docs/3.3/examples/jumbotron/'], function (err, output) {
             expect(err).to.equal(null);
             expect(output).to.have.length.above(2);
             fs.writeFile(path.join(__dirname, '/output/bootstrap/jumbotron.compiled.css'),

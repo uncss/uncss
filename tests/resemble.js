@@ -10,7 +10,7 @@ chai.use(resemble);
 describe('Pages should resemble the reference', function () {
     it('Bootstrap', function (done) {
         expect('tests/output/bootstrap/jumbotron.html')
-            .to.resemble('http://getbootstrap.com/examples/jumbotron/', done);
+            .to.resemble('http://getbootstrap.com/docs/3.3/examples/jumbotron/', done);
     });
 
     it('GitHub pages', function (done) {
