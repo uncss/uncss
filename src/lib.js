@@ -16,6 +16,8 @@ var dePseudify = (function () {
             ':hover', ':active', ':focus',
             /* UI element states */
             ':enabled', ':disabled', ':checked', ':indeterminate',
+            /* form validation */
+            ':required', ':invalid', ':valid',
             /* pseudo elements */
             '::first-line', '::first-letter', '::selection', '::before', '::after',
             /* pseudo classes */
