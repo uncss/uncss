@@ -1,6 +1,6 @@
 'use strict';
 
-var promise = require('bluebird'),
+var Promise = require('bluebird'),
     jsdom = require('./jsdom.js'),
     postcss = require('postcss'),
     _ = require('lodash');
@@ -124,7 +124,7 @@ function filterEmptyAtRules(css) {
  * Find which selectors are used in {pages}
  * @param  {Array}    page          List of jsdom pages
  * @param  {Object}   css           The postcss.Root node
- * @return {promise}
+ * @return {Promise}
  */
 function getUsedSelectors(page, css) {
     var usedSelectors = [];
@@ -149,13 +149,12 @@ function getAllSelectors(css) {
 
 /**
  * Remove css rules not used in the dom
- * @param  {Array}  pages           List of jsdom pages
  * @param  {Object} css             The postcss.Root node
  * @param  {Array}  ignore          List of selectors to be ignored
  * @param  {Array}  usedSelectors   List of selectors that are found in {pages}
  * @return {Object}                 A css_parse-compatible stylesheet
  */
-function filterUnusedRules(pages, css, ignore, usedSelectors) {
+function filterUnusedRules(css, ignore, usedSelectors) {
     var ignoreNextRule = false,
         unusedRules = [],
         unusedRuleSelectors,
@@ -217,18 +216,38 @@ function filterUnusedRules(pages, css, ignore, usedSelectors) {
 }
 
 /**
+ * Get the contents of HTML pages through jsdom.
+ * @param  {Array}   file   HTML file path
+ * @param  {Object}  options UnCSS options
+ * @return {Array|Promise}
+ */
+function getHTML(file, options) {
+    return jsdom.fromSource(file, options);
+}
+
+/**
  * Main exposed function
  * @param  {Array}   pages      List of jsdom pages
  * @param  {Object}  css        The postcss.Root node
- * @param  {Array}   ignore     List of selectors to be ignored
- * @return {promise}
+ * @param  {Array}   options     List of options
+ * @return {Promise}
  */
-module.exports = function uncss(pages, css, ignore) {
-    return promise.map(pages, function (page) {
-        return getUsedSelectors(page, css);
-    }).then(function (usedSelectors) {
+module.exports = function uncss(files, css, options) {
+    var processingCount = 0;
+    return Promise.map(files, function(file) {
+        processingCount++;
+        if (processingCount % 20 === 0) {
+            console.log(`${new Date().toISOString()} current processingCount: ${processingCount}`);
+        }
+
+        var resource = getHTML(file, options);
+        return Promise.using(resource, function(page) {
+            return getUsedSelectors(page, css);
+        });
+    }, { concurrency: options.concurrency || Infinity }).then(function (usedSelectors) {
+        console.log('Done assembling used selectors');
         usedSelectors = _.flatten(usedSelectors);
-        var filteredCss = filterUnusedRules(pages, css, ignore, usedSelectors);
+        var filteredCss = filterUnusedRules(css, options.ignore, usedSelectors);
         var allSelectors = getAllSelectors(css);
         return [filteredCss, {
             /* Get the selectors for the report */

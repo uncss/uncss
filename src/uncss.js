@@ -11,12 +11,8 @@ var glob = require('glob'),
     _ = require('lodash');
 
 /**
- * Get the contents of HTML pages through jsdom.
- * @param  {Array}   files   List of HTML files
- * @param  {Object}  options UnCSS options
- * @return {Array|Promise}
- */
-function getHTML(files, options) {
+*/
+function massageFilesIntoList(files, options) {
     if (_.isString(files)) {
         files = [files];
     }
@@ -34,9 +30,8 @@ function getHTML(files, options) {
 
     // Save files for later reference.
     options.files = files;
-    return files.map(function(file) {
-        return jsdom.fromSource(file, options);
-    });
+
+    return files;
 }
 
 /**
@@ -114,7 +109,7 @@ function getCSS(files, options, pages, stylesheets) {
  * @param  {Array}   stylesheets List of CSS files
  * @return {Promise}
  */
-function processWithTextApi(files, options, pages, stylesheets) {
+function processWithTextApi(files, options, stylesheets) {
     /* If we specified a raw string of CSS, add it to the stylesheets array */
     if (options.raw) {
         if (_.isString(options.raw)) {
@@ -150,7 +145,7 @@ function processWithTextApi(files, options, pages, stylesheets) {
         /* Try and construct a helpful error message */
         throw utility.parseErrorMessage(err, cssStr);
     }
-    return uncss(pages, pcss, options.ignore).spread(function (css, rep) {
+    return uncss(files, pcss, options).spread(function (css, rep) {
         var newCssStr = '';
         postcss.stringify(css, function(result) {
             newCssStr += result;
@@ -220,15 +215,12 @@ function processAsPostCss(files, options, pages) {
 }
 
 function process(opts, callback) {
-    var resource = getHTML(opts.html, opts);
-    return Promise.using(resource, function(pages) {
-        if (opts.usePostCssInternal) {
-            return processAsPostCss(opts.files, opts, pages);
-        }
-        return getStylesheets(opts.files, opts, pages)
-          .spread(getCSS)
-          .spread(processWithTextApi);
-    }).asCallback(callback, { spread: !opts.usePostCssInternal });
+    var files = massageFilesIntoList(opts.html, opts);
+    utility.readStylesheets(opts.stylesheets)
+        .then(function(stylesheets) {
+          return processWithTextApi(files, opts, stylesheets);
+        })
+        .asCallback(callback, { spread: !opts.usePostCssInternal });
 }
 
 var postcssPlugin = postcss.plugin('uncss', function (opts) {
