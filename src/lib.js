@@ -1,9 +1,15 @@
 'use strict';
 
-var Promise = require('bluebird'),
-    jsdom = require('./jsdom.js'),
-    postcss = require('postcss'),
-    _ = require('lodash');
+var Promise = require('bluebird');
+var path = require('path');
+var fs = require('fs-extra');
+var outputFile = Promise.promisify(fs.outputFile);
+var readFile = Promise.promisify(fs.readFile);
+
+var jsdom = require('./jsdom.js');
+var postcss = require('postcss');
+var _ = require('lodash');
+
 /* Some styles are applied only with user interaction, and therefore its
  *   selectors cannot be used with querySelectorAll.
  * http://www.w3.org/TR/2001/CR-css3-selectors-20011113/
@@ -64,6 +70,7 @@ function filterUnusedSelectors(selectors, ignore, usedSelectors) {
                 return true;
             }
         }
+
         return usedSelectors.indexOf(selector) !== -1;
     });
 }
@@ -191,6 +198,7 @@ function filterUnusedRules(css, ignore, usedSelectors) {
             unusedRuleSelectors = rule.selectors.filter(function (selector) {
                 return usedRuleSelectors.indexOf(selector) < 0;
             });
+
             if (unusedRuleSelectors && unusedRuleSelectors.length) {
                 unusedRules.push({
                     type: 'rule',
@@ -240,19 +248,100 @@ module.exports = function uncss(files, css, options) {
             console.log(`${new Date().toISOString()} current processingCount: ${processingCount}`);
         }
 
-        var resource = getHTML(file, options);
-        return Promise.using(resource, function(page) {
-            return getUsedSelectors(page, css);
+        // Check the cache
+        const baseName = path.basename(file, '.html');
+        const cacheFilePath = options.cacheDirectory && path.join(options.cacheDirectory, `${baseName}.json`);
+        let cachedUsedSelectorsPromise = Promise.resolve();
+        if (cacheFilePath) {
+            cachedUsedSelectorsPromise = readFile(cacheFilePath, 'utf8')
+                .catch((err) => {
+                    // ignore non-existent files
+                })
+                .then((fileContents) => {
+                    return JSON.parse(fileContents);
+                })
+                .catch((err) => {
+                    console.log('Failed to parse JSON cache file', cacheFilePath, '|', err);
+                });
+        }
+
+        return cachedUsedSelectorsPromise.then((cachedUsedSelectors) => {
+            //console.log('cachedUsedSelectors', cachedUsedSelectors && cachedUsedSelectors.length);
+
+            // Find the unused selectors if not in the cache
+            if (!cachedUsedSelectors) {
+                var resource = getHTML(file, options);
+                return Promise.using(resource, function(page) {
+                    const usedSelectors = getUsedSelectors(page, css);
+
+                    // Save for cache lookup next run
+                    if (cacheFilePath) {
+                    outputFile(cacheFilePath, JSON.stringify(usedSelectors, null, 2))
+                        .catch((err) => {
+                            console.log('Problem saving used selectors', err, err.stack);
+                        });
+                    }
+
+                    return usedSelectors;
+                });
+            }
+
+            return cachedUsedSelectors;
         });
-    }, { concurrency: options.concurrency || Infinity }).then(function (usedSelectors) {
+    }, { concurrency: options.concurrency || Infinity }).then(function (usedSelectorsForEachFile) {
         console.log('Done assembling used selectors');
-        usedSelectors = _.flatten(usedSelectors);
-        var filteredCss = filterUnusedRules(css, options.ignore, usedSelectors);
+        //console.log('usedSelectorsForEachFile', `[${usedSelectorsForEachFile.map((selectorList) => { return selectorList.length })}]`);
+        console.log('--------------------');
+
+        var usedSelectorMap = {};
+        _.flatten(usedSelectorsForEachFile).forEach((selector) => {
+            usedSelectorMap[selector] = (usedSelectorMap[selector] || 0) + 1;
+        });
+        var usedSelectors = Object.keys(usedSelectorMap);
+
+        var usedCss = filterUnusedRules(css, options.ignore, usedSelectors);
         var allSelectors = getAllSelectors(css);
-        return [filteredCss, {
+        var unusedSelectors = _.difference(allSelectors, usedSelectors);
+
+        const selectorMap = Object.assign({}, usedSelectorMap);
+        allSelectors.forEach((selector) => {
+            // Set any unused selectors as 0
+            selectorMap[selector] = selectorMap[selector] || 0;
+        });
+
+        // Create a map that is sorted by count
+        const sortedSelectorListWithUsageCounts = Object.keys(selectorMap)
+            .map((selector) => {
+                return {
+                    selector,
+                    count: selectorMap[selector]
+                };
+            })
+            .sort((a, b) => {
+                return b.count - a.count;
+            });
+        const selectorMapByUsage = {};
+        sortedSelectorListWithUsageCounts.forEach((selectorWithUsageCount) => {
+            selectorMapByUsage[selectorWithUsageCount.selector] = selectorWithUsageCount.count;
+        });
+
+
+        console.log(`total usedSelectors ${_.flatten(usedSelectorsForEachFile).length}, deduped ${usedSelectors.length}`);
+        Promise.all([
+            outputFile(path.join(options.cacheDirectory, '#selector-map.json'), JSON.stringify(selectorMap, null, 2)),
+            outputFile(path.join(options.cacheDirectory, '#selector-map-by-usage.json'), JSON.stringify(selectorMapByUsage, null, 2))
+        ])
+            .then(() => {
+                console.log('saved map selector usage');
+            })
+            .catch((err) => {
+                console.log('Problem saving map of selector usage', err, err.stack);
+            });
+
+        return [usedCss, {
             /* Get the selectors for the report */
             all: allSelectors,
-            unused: _.difference(allSelectors, usedSelectors),
+            unused: unusedSelectors,
             used: usedSelectors
         }];
     });

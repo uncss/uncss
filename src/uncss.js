@@ -145,9 +145,9 @@ function processWithTextApi(files, options, stylesheets) {
         /* Try and construct a helpful error message */
         throw utility.parseErrorMessage(err, cssStr);
     }
-    return uncss(files, pcss, options).spread(function (css, rep) {
+    return uncss(files, pcss, options).spread(function (usedCss, rep) {
         var newCssStr = '';
-        postcss.stringify(css, function(result) {
+        postcss.stringify(usedCss, function(result) {
             newCssStr += result;
         });
 
@@ -220,7 +220,11 @@ function process(opts, callback) {
         .then(function(stylesheets) {
           return processWithTextApi(files, opts, stylesheets);
         })
-        .asCallback(callback, { spread: !opts.usePostCssInternal });
+        .then(function(result) {
+            var usedCss = result[0];
+            var report = result[1];
+            callback(null, usedCss, report);
+        });
 }
 
 var postcssPlugin = postcss.plugin('uncss', function (opts) {
