@@ -1,6 +1,6 @@
 'use strict';
 
-var jsdom = require('jsdom'),
+var jsdom = require('jsdom/lib/old-api.js'),
     Promise = require('bluebird'),
     path = require('path'),
     _ = require('lodash');
