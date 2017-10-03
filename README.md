@@ -110,6 +110,12 @@ Options:
   .selector2 {
       /* this will NOT be ignored */
   }
+
+  /* uncss:ignore start */
+
+  /* all rules in here will be ignored */
+
+  /* uncss:ignore end */
   ```
 
 - **media** (Array): By default UnCSS processes only stylesheets with media query `_all_`, `_screen_`, and those without one. Specify here which others to include.

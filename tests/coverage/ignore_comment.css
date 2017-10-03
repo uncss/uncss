@@ -3,3 +3,19 @@
 .ignore-comment {
   color: rgb(52, 152, 219);
 }
+
+/* uncss:ignore start */
+
+.ignore-comment1 {
+  color: rgb(52, 152, 219);
+}
+
+.ignore-comment2 {
+  color: rgb(52, 152, 219);
+}
+
+.ignore-comment3 {
+  color: rgb(52, 152, 219);
+}
+
+/* uncss:ignore end */
