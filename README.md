@@ -79,7 +79,7 @@ UnCSS can also be used in conjunction with other JavaScript build systems, such 
 
 ```
 Usage: uncss [options] <file or URL, ...>
-    e.g. uncss http://getbootstrap.com/examples/jumbotron/ > stylesheet.css
+    e.g. uncss https://getbootstrap.com/docs/3.3/examples/jumbotron/ > stylesheet.css
 
 Options:
 

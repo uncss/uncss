@@ -18,7 +18,7 @@
 
     program
         .version(data.version)
-        .usage('[options] <file or URL, ...>\n\t e.g. uncss http://getbootstrap.com/examples/jumbotron/ > stylesheet.css')
+        .usage('[options] <file or URL, ...>\n\t e.g. uncss https://getbootstrap.com/docs/3.3/examples/jumbotron/ > stylesheet.css')
         .option('-i, --ignore <selector, ...>', 'Do not remove given selectors', listArg)
         .option('-m, --media <media_query, ...>', 'Process additional media queries', listArg)
         .option('-C, --csspath <path>', 'Relative path where the CSS files are located')
