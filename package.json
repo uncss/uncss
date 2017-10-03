@@ -43,21 +43,21 @@
     "glob": "^7.0.3",
     "is-absolute-url": "^2.0.0",
     "is-html": "^1.0.0",
-    "jsdom": "^9.11.0",
+    "jsdom": "^11.3.0",
     "lodash": "^4.13.1",
     "postcss": "^6.0.1",
     "request": "^2.72.0"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
+    "chai": "^4.1.1",
     "chai-resemble": "^0.4.1",
-    "coveralls": "^2.13.1",
+    "coveralls": "^3.0.0",
     "eslint": "^4.2.0",
-    "mocha": "^3.4.2",
+    "mocha": "^4.0.0",
     "nyc": "^11.0.3"
   },
   "engines": {
-    "node": ">=4.0"
+    "node": ">=6.0"
   },
   "nyc": {
     "include": [
