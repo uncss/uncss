@@ -1,14 +1,12 @@
 'use strict';
 
-const promise = require('bluebird'),
-    isHTML = require('is-html'),
+const isHTML = require('is-html'),
     isURL = require('is-absolute-url'),
+    request = require('request'),
+    fs = require('fs'),
     os = require('os'),
     path = require('path'),
     url = require('url');
-
-const fs = promise.promisifyAll(require('fs'), { multiArgs: true }),
-    request = promise.promisify(require('request'), { multiArgs: true });
 
 function isWindows() {
     return os.platform() === 'win32';
@@ -104,20 +102,34 @@ function parsePaths(source, stylesheets, options) {
  * Given an array of filenames, return an array of the files' contents,
  *   only if the filename matches a regex
  * @param  {Array}   files  An array of the filenames to read
- * @return {promise}
+ * @return {Promise}
  */
 function readStylesheets(files, outputBanner) {
-    return promise.map(files, (filename) => {
+    return Promise.all(files.map((filename) => {
         if (isURL(filename)) {
-            return request({
-                url: filename,
-                headers: { 'User-Agent': 'UnCSS' }
-            }).spread((response, body) => body);
+            return new Promise((resolve, reject) => {
+                request({
+                    url: filename,
+                    headers: { 'User-Agent': 'UnCSS' }
+                }, (err, response, body) => {
+                    if (err) {
+                        return reject(err);
+                    }
+                    return resolve(body);
+                });
+            });
         } else if (fs.existsSync(filename)) {
-            return fs.readFileAsync(filename, 'utf-8').then((contents) => contents);
+            return new Promise((resolve, reject) => {
+                fs.readFile(filename, 'utf-8', (err, contents) => {
+                    if (err) {
+                        return reject(err);
+                    }
+                    return resolve(contents);
+                });
+            });
         }
         throw new Error(`UnCSS: could not open ${path.join(process.cwd(), filename)}`);
-    }).then((res) => {
+    })).then((res) => {
         // res is an array of the content of each file in files (in the same order)
         if (outputBanner) {
             for (let i = 0, len = files.length; i < len; i++) {

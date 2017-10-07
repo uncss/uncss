@@ -5,7 +5,6 @@ const glob = require('glob'),
     isURL = require('is-absolute-url'),
     jsdom = require('./jsdom.js'),
     postcss = require('postcss'),
-    Promise = require('bluebird'),
     uncss = require('./lib.js'),
     utility = require('./utility.js'),
     _ = require('lodash');
@@ -34,7 +33,7 @@ function getHTML(files, options) {
 
     // Save files for later reference.
     options.files = files;
-    return files.map((file) => jsdom.fromSource(file, options));
+    return Promise.all(files.map((file) => jsdom.fromSource(file, options)));
 }
 
 /**
@@ -50,7 +49,7 @@ function getStylesheets(files, options, pages) {
         return Promise.resolve([files, options, pages, [options.stylesheets]]);
     }
     /* Extract the stylesheets from the HTML */
-    return Promise.map(pages, (page) => jsdom.getStylesheets(page, options))
+    return Promise.all(pages.map((page) => jsdom.getStylesheets(page, options)))
     .then((stylesheets) => [files, options, pages, stylesheets]);
 }
 
@@ -62,7 +61,7 @@ function getStylesheets(files, options, pages) {
  * @param  {Array}   stylesheets List of CSS files
  * @return {Array}
  */
-function getCSS(files, options, pages, stylesheets) {
+function getCSS([files, options, pages, stylesheets]) {
     /* Ignore specified stylesheets */
     if (options.ignoreSheets.length) {
         stylesheets = stylesheets
@@ -97,7 +96,7 @@ function getCSS(files, options, pages, stylesheets) {
         /* Reset the array if we didn't find any link tags */
         stylesheets = [];
     }
-    return [files, options, pages, utility.readStylesheets(stylesheets, options.banner)];
+    return Promise.all([options, pages, utility.readStylesheets(stylesheets, options.banner)]);
 }
 
 /**
@@ -108,7 +107,7 @@ function getCSS(files, options, pages, stylesheets) {
  * @param  {Array}   stylesheets List of CSS files
  * @return {Promise}
  */
-function processWithTextApi(files, options, pages, stylesheets) {
+function processWithTextApi([options, pages, stylesheets]) {
     /* If we specified a raw string of CSS, add it to the stylesheets array */
     if (options.raw) {
         if (_.isString(options.raw)) {
@@ -144,7 +143,7 @@ function processWithTextApi(files, options, pages, stylesheets) {
         /* Try and construct a helpful error message */
         throw utility.parseErrorMessage(err, cssStr);
     }
-    return uncss(pages, pcss, options.ignore).spread((css, rep) => {
+    return uncss(pages, pcss, options.ignore).then(([css, rep]) => {
         let newCssStr = '';
         postcss.stringify(css, (result) => {
             newCssStr += result;
@@ -206,23 +205,30 @@ function init(files, options, callback) {
         raw: null
     });
 
-    process(options, callback);
+    process(options).then(([css, report]) => callback(null, css, report), callback);
 }
 
 function processAsPostCss(files, options, pages) {
     return uncss(pages, options.rawPostCss, options.ignore);
 }
 
-function process(opts, callback) {
+function process(opts) {
     const resource = getHTML(opts.html, opts);
-    return Promise.using(resource, (pages) => {
+    return resource.then((pages) => {
+        function cleanup (result) {
+            pages.forEach((page) => page.close());
+            return result;
+        }
+
         if (opts.usePostCssInternal) {
-            return processAsPostCss(opts.files, opts, pages);
+            return processAsPostCss(opts.files, opts, pages)
+            .then(cleanup);
         }
         return getStylesheets(opts.files, opts, pages)
-          .spread(getCSS)
-          .spread(processWithTextApi);
-    }).asCallback(callback, { spread: !opts.usePostCssInternal });
+          .then(getCSS)
+          .then(processWithTextApi)
+          .then(cleanup);
+    });
 }
 
 const postcssPlugin = postcss.plugin('uncss', (opts) => {
