@@ -5,11 +5,11 @@
 (function () {
     process.title = 'uncss';
 
-    var uncss = require('../src/uncss.js'),
+    const uncss = require('../src/uncss.js'),
         data = require('../package.json'),
         program = require('commander');
 
-    var buffer = '',
+    let buffer = '',
         options;
 
     function listArg(val) {
@@ -46,7 +46,7 @@
 
     if (program.args.length) {
         if (options.ignore) {
-            options.ignore = options.ignore.map(function (ign) {
+            options.ignore = options.ignore.map((ign) => {
                 /* Create RegExes */
                 if (ign[0] === '/') {
                     /* Remove starting and trailing '/' */
@@ -57,7 +57,7 @@
         }
 
         if (options.ignoreSheets) {
-            options.ignoreSheets = options.ignoreSheets.map(function (ign) {
+            options.ignoreSheets = options.ignoreSheets.map((ign) => {
                 /* Create RegExes */
                 if (ign[0] === '/') {
                     /* Remove starting and trailing '/' */
@@ -68,7 +68,7 @@
         }
 
         /* If used from the command line, concatenate the output */
-        uncss(program.args, options, function (err, css) {
+        uncss(program.args, options, (err, css) => {
             if (err) {
                 throw err;
             }
@@ -79,12 +79,12 @@
         process.stdin.resume();
         process.stdin.setEncoding('utf8');
 
-        process.stdin.on('data', function (chunk) {
+        process.stdin.on('data', (chunk) => {
             buffer += chunk;
         });
 
-        process.stdin.on('end', function () {
-            uncss(buffer, options, function (err, css) {
+        process.stdin.on('end', () => {
+            uncss(buffer, options, (err, css) => {
                 if (err) {
                     throw err;
                 }
