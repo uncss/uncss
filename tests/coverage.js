@@ -1,6 +1,6 @@
 'use strict';
 
-var fs = require('fs'),
+const fs = require('fs'),
     path = require('path'),
     expect = require('chai').expect,
     uncss = require('./../src/uncss.js');
@@ -10,7 +10,7 @@ function rfs (file) {
     return fs.readFileSync(path.join(__dirname, file), 'utf-8').replace(/\r\n/g, '\n');
 }
 
-var stylesheets = [
+const stylesheets = [
         'coverage/override.css',
         'coverage/ignore.css',
         'coverage/ignore_comment.css'
@@ -19,16 +19,16 @@ var stylesheets = [
     options = {
         csspath: 'tests',
         ignore: ['.unused_test', /^#test/],
-        stylesheets: stylesheets,
+        stylesheets,
         raw: rawcss
     };
 
-describe('Options', function () {
+describe('Options', () => {
 
-    var output;
+    let output;
 
-    before(function (done) {
-        uncss(rfs('selectors/index.html'), options, function (err, res) {
+    before((done) => {
+        uncss(rfs('selectors/index.html'), options, (err, res) => {
             if (err) {
                 throw err;
             }
@@ -37,15 +37,15 @@ describe('Options', function () {
         });
     });
 
-    it('options.banner is enabled by default', function () {
+    it('options.banner is enabled by default', () => {
         expect(output).to.include('*** uncss>');
     });
 
-    it('options.banner should be able to disable banner', function (done) {
+    it('options.banner should be able to disable banner', (done) => {
         uncss(rfs('selectors/index.html'), {
             csspath: 'tests/selectors',
             banner: false
-        }, function (err, res) {
+        }, (err, res) => {
             if (err) {
                 throw err;
             }
@@ -54,60 +54,60 @@ describe('Options', function () {
         });
     });
 
-    it('options.stylesheets should override <link> tags', function () {
+    it('options.stylesheets should override <link> tags', () => {
         expect(output).to.include(rfs(stylesheets[0]));
     });
 
-    it('options.ignoreSheets should be respected', function (done) {
+    it('options.ignoreSheets should be respected', (done) => {
         uncss(rfs('selectors/index.html'), {
             ignoreSheets: [
                 'http://fonts.googleapis.com/css?family=Open+Sans:400',
                 /font-awesome/
             ],
             csspath: 'tests/selectors'
-        }, function (err, out) {
+        }, (err, out) => {
             expect(err).to.equal(null);
             expect(out).to.not.include('@font-face');
             done();
         });
     });
 
-    it('options.raw should be added to the processed CSS', function () {
+    it('options.raw should be added to the processed CSS', () => {
         expect(output).to.include(rawcss);
     });
 
-    it('options.ignore should be added to the output and accept a regex', function () {
+    it('options.ignore should be added to the output and accept a regex', () => {
         expect(output).to.include(rfs(stylesheets[1]));
     });
 
-    it('inline ignore comments should be respected', function () {
+    it('inline ignore comments should be respected', () => {
         expect(output).to.include(rfs(stylesheets[2]));
     });
 
-    it('options.htmlroot should be respected', function (done) {
+    it('options.htmlroot should be respected', (done) => {
         uncss(rfs('coverage/htmlroot.html'), {
             htmlroot: 'tests/coverage'
-        }, function (err, out) {
+        }, (err, out) => {
             expect(err).to.equal(null);
             expect(out).to.include(rfs('coverage/override.css'));
             done();
         });
     });
 
-    it('options.htmlroot with local files', function (done) {
+    it('options.htmlroot with local files', (done) => {
         uncss(['tests/coverage/htmlroot.html'], {
             htmlroot: 'tests/coverage'
-        }, function (err, out) {
+        }, (err, out) => {
             expect(err).to.equal(null);
             expect(out).to.include(rfs('coverage/override.css'));
             done();
         });
     });
 
-    it('options.media should default to screen, all', function (done) {
+    it('options.media should default to screen, all', (done) => {
         uncss(rfs('coverage/media.html'), {
             csspath: 'tests/selectors'
-        }, function (err, out) {
+        }, (err, out) => {
             expect(err).to.equal(null);
             expect(out).to.include(rfs('selectors/expected/adjacent.css'));
             expect(out).to.include(rfs('selectors/expected/child.css'));
@@ -117,11 +117,11 @@ describe('Options', function () {
         });
     });
 
-    it('options.media should be configurable', function (done) {
+    it('options.media should be configurable', (done) => {
         uncss(rfs('coverage/media.html'), {
             csspath: 'tests/selectors',
             media: 'print'
-        }, function (err, out) {
+        }, (err, out) => {
             expect(err).to.equal(null);
             expect(out).to.include(rfs('selectors/expected/adjacent.css'));
             expect(out).to.include(rfs('selectors/expected/child.css'));
@@ -131,11 +131,11 @@ describe('Options', function () {
         });
     });
 
-    it('options.report should generate report object', function (done) {
+    it('options.report should generate report object', (done) => {
         uncss(rfs('selectors/index.html'), {
             csspath: 'tests/selectors',
             report: true
-        }, function (err, res, rep) {
+        }, (err, res, rep) => {
             expect(err).to.equal(null);
 
             expect(rep).to.have.ownProperty('original');
@@ -148,10 +148,10 @@ describe('Options', function () {
         });
     });
 
-    it('options.uncssrc should be read', function (done) {
+    it('options.uncssrc should be read', (done) => {
         uncss(rfs('selectors/index.html'), {
             uncssrc: 'tests/coverage/.uncssrc'
-        }, function (err, res) {
+        }, (err, res) => {
             expect(err).to.equal(null);
             expect(res).to.equal(output);
 
@@ -159,11 +159,11 @@ describe('Options', function () {
         });
     });
 
-    it('options.uncssrc with options.report should generate a valid report', function (done) {
+    it('options.uncssrc with options.report should generate a valid report', (done) => {
         uncss(rfs('selectors/index.html'), {
             uncssrc: 'tests/coverage/.uncssrc',
             report: true
-        }, function (err, res, rep) {
+        }, (err, res, rep) => {
             expect(err).to.equal(null);
             expect(res).to.equal(output);
 
