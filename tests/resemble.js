@@ -1,24 +1,24 @@
 'use strict';
 
-var chai = require('chai'),
+const chai = require('chai'),
     resemble = require('chai-resemble');
 
-var expect = chai.expect;
+const expect = chai.expect;
 
 chai.use(resemble);
 
-describe('Pages should resemble the reference', function () {
-    it('Bootstrap', function (done) {
+describe('Pages should resemble the reference', () => {
+    it('Bootstrap', (done) => {
         expect('tests/output/bootstrap/jumbotron.html')
             .to.resemble('http://getbootstrap.com/docs/3.3/examples/jumbotron/', done);
     });
 
-    it('GitHub pages', function (done) {
+    it('GitHub pages', (done) => {
         expect('tests/output/gh-pages/index.html')
             .to.resemble('http://giakki.github.io/uncss/', done);
     });
 
-    it('Selectors', function (done) {
+    it('Selectors', (done) => {
         expect('tests/selectors/index.html')
             .to.resemble('tests/output/selectors/index.html', done);
     });

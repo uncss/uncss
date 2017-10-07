@@ -1,13 +1,13 @@
 {
     "root": true,
     "env": {
-        "node": true
+        "node": true,
+        "es6": true
     },
     "extends": "eslint:recommended",
     "rules": {
         "array-bracket-spacing": "error",
         "array-callback-return": "error",
-        "arrow-body-style": ["error", "as-needed"],
         "arrow-parens": ["error", "always"],
         "arrow-spacing": "error",
         "block-scoped-var": "error",
@@ -175,6 +175,7 @@
         "no-useless-constructor": "error",
         "no-useless-escape": "error",
         "no-useless-rename": "error",
+        "no-var": "error",
         "no-void": "error",
         "no-whitespace-before-property": "error",
         "no-with": "error",
@@ -190,6 +191,7 @@
             "always"
         ],
         "object-property-newline": "error",
+        "object-shorthand": "error",
         "one-var": [
             "off",
             "never"
@@ -206,6 +208,10 @@
             "error",
             "after"
         ],
+        "prefer-arrow-callback": "error",
+        "prefer-numeric-literals": "error",
+        "prefer-spread": "error",
+        "prefer-rest-params": "error",
         "quote-props": [
             "error",
             "consistent"
