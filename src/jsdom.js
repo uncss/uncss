@@ -1,21 +1,8 @@
 'use strict';
 
 const jsdom = require('jsdom/lib/old-api.js'),
-    Promise = require('bluebird'),
     path = require('path'),
     _ = require('lodash');
-
-// Configure.
-const jsdomAsync = Promise.promisify(jsdom.env, { context: jsdom });
-
-/**
- * Closes a page.
- * @param {Object} Page opened by jsdom
- * @return {void}
- */
-function cleanup(page) {
-    return page.close();
-}
 
 /**
  * Load a page.
@@ -47,7 +34,18 @@ function fromSource(src, options) {
         };
     }
 
-    return jsdomAsync(src, config).delay(options.timeout).disposer(cleanup);
+    return new Promise((resolve, reject) => {
+        jsdom.env(src, config, (err, res) => {
+            if (err) {
+                return reject(err);
+            }
+            return resolve(res);
+        });
+    }).then((result) => {
+        return new Promise((resolve) => {
+            setTimeout(() => resolve(result), options.timeout);
+        });
+    });
 }
 
 /**
