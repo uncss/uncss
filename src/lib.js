@@ -1,7 +1,6 @@
 'use strict';
 
-const promise = require('bluebird'),
-    jsdom = require('./jsdom.js'),
+const jsdom = require('./jsdom.js'),
     postcss = require('postcss'),
     _ = require('lodash');
 /* Some styles are applied only with user interaction, and therefore its
@@ -124,7 +123,7 @@ function filterEmptyAtRules(css) {
  * Find which selectors are used in {pages}
  * @param  {Array}    page          List of jsdom pages
  * @param  {Object}   css           The postcss.Root node
- * @return {promise}
+ * @return {Promise}
  */
 function getUsedSelectors(page, css) {
     let usedSelectors = [];
@@ -225,10 +224,10 @@ function filterUnusedRules(pages, css, ignore, usedSelectors) {
  * @param  {Array}   pages      List of jsdom pages
  * @param  {Object}  css        The postcss.Root node
  * @param  {Array}   ignore     List of selectors to be ignored
- * @return {promise}
+ * @return {Promise}
  */
 module.exports = function uncss(pages, css, ignore) {
-    return promise.map(pages, (page) => getUsedSelectors(page, css))
+    return Promise.all(pages.map((page) => getUsedSelectors(page, css)))
     .then((usedSelectors) => {
         usedSelectors = _.flatten(usedSelectors);
         const filteredCss = filterUnusedRules(pages, css, ignore, usedSelectors);
