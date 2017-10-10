@@ -68,12 +68,14 @@ function filterUnusedSelectors(selectors, ignore, usedSelectors) {
 }
 
 /**
- * Find which animations are used
+ * Filter @keyframes that are not used
  * @param  {Object} css             The postcss.Root node
+ * @param  {Array}  animations
+ * @param  {Array}  unusedRules
  * @return {Array}
  */
-function getUsedAnimations(css) {
-    let usedAnimations = [];
+function filterKeyframes(css, unusedRules) {
+    const usedAnimations = [];
     css.walkDecls((decl) => {
         if (_.endsWith(decl.prop, 'animation-name')) {
             /* Multiple animations, separated by comma */
@@ -81,24 +83,14 @@ function getUsedAnimations(css) {
         } else if (_.endsWith(decl.prop, 'animation')) {
             /* Support multiple animations */
             postcss.list.comma(decl.value).forEach((anim) => {
-                /* If declared as animation, it should be in the form 'name Xs etc..' */
-                usedAnimations.push(postcss.list.space(anim)[0]);
+                /* If declared as animation, name can be anywhere in the string; so we include all the properties */
+                usedAnimations.push(...postcss.list.space(anim));
             });
         }
     });
-    return usedAnimations;
-}
-
-/**
- * Filter @keyframes that are not used
- * @param  {Object} css             The postcss.Root node
- * @param  {Array}  animations
- * @param  {Array}  unusedRules
- * @return {Array}
- */
-function filterKeyframes(css, animations, unusedRules) {
+    const usedAnimationsSet = new Set(usedAnimations);
     css.walkAtRules(/keyframes$/, (atRule) => {
-        if (animations.indexOf(atRule.params) === -1) {
+        if (!usedAnimationsSet.has(atRule.params)) {
             unusedRules.push(atRule);
             atRule.remove();
         }
@@ -214,7 +206,7 @@ function filterUnusedRules(pages, css, ignore, usedSelectors) {
     filterEmptyAtRules(css);
 
     /* Filter unused @keyframes */
-    filterKeyframes(css, getUsedAnimations(css), unusedRules);
+    filterKeyframes(css, unusedRules);
 
     return css;
 }
