@@ -19,6 +19,11 @@ The process by which UnCSS removes the unused rules is as follows:
 3. `document.querySelector` filters out selectors that are not found in the HTML files.
 4. The remaining rules are converted back to CSS.
 
+**Please note:**
+
+- UnCSS cannot be run on non-HTML pages, such as templates or PHP files. If you need to run UnCSS against your templates, you should probably generate example HTML pages from your templates, and run uncss on those generated files; or run a live local dev server, and point uncss at that.
+- UnCSS only runs the Javascript that is run on page load. It does not (and cannot) handle Javascript that runs on user interactions like button clicks. You must use the `ignore` option to preserve classes that are added by Javascript on user interaction.
+
 ## Installation:
 
 ```shell
