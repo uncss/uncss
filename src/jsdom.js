@@ -16,7 +16,8 @@ function fromSource(src, options) {
             FetchExternalResources: ['script'],
             ProcessExternalResources: ['script']
         },
-        virtualConsole: jsdom.createVirtualConsole().sendTo(console)
+        virtualConsole: jsdom.createVirtualConsole().sendTo(console),
+        userAgent: options.userAgent
     };
 
     // The htmlroot option allows root-relative URLs (starting with a slash)

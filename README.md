@@ -52,7 +52,8 @@ var files   = ['my', 'array', 'of', 'HTML', 'files', 'or', 'http://urls.com'],
         timeout      : 1000,
         htmlroot     : 'public',
         report       : false,
-        uncssrc      : '.uncssrc'
+        uncssrc      : '.uncssrc',
+        userAgent    : 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X)'
     };
 
 uncss(files, options, function (error, output) {
@@ -100,6 +101,7 @@ Options:
   -H, --htmlroot <folder>               Absolute paths' root location
   -u, --uncssrc <file>                  Load these options from <file>
   -n, --noBanner                        Disable banner
+  -a, --userAgent <string>              Use a custom user agent string
 ```
 
 **Note that you can pass both local file paths (which are processed by [glob](https://github.com/isaacs/node-glob)) and URLs to the program.**
@@ -154,6 +156,7 @@ Options:
       ]
   }
   ```
+- **userAgent** (String): The user agent string that jsdom should send when requesting pages. May be useful when loading markup from services which use user agent based device detection to serve custom markup to mobile devices. Defaults to `uncss`.
 
 ### As a PostCSS Plugin
 
