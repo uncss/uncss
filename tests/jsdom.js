@@ -76,4 +76,31 @@ describe('jsdom', () => {
             done();
         });
     });
+
+    it('Should set the useragent to the value given in options', (done) => {
+        const testUserAgent = 'foo';
+        const options = {
+            htmlroot: path.join(__dirname, './jsdom'),
+            userAgent: testUserAgent
+        };
+        uncss(['tests/jsdom/useragent.html'], options, (err, output) => {
+            expect(err).to.equal(null);
+            expect(output).to.include('useragentset');
+            expect(output).to.not.include('useragentunset');
+            expect(output).to.not.include('error');
+            done();
+        });
+    });
+    it('Should default the useragent to uncss', (done) => {
+        const options = {
+            htmlroot: path.join(__dirname, './jsdom')
+        };
+        uncss(['tests/jsdom/useragent.html'], options, (err, output) => {
+            expect(err).to.equal(null);
+            expect(output).to.include('useragentunset');
+            expect(output).to.not.include('useragentset');
+            expect(output).to.not.include('error');
+            done();
+        });
+    });
 });

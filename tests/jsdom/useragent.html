@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>jsdom basic test</title>
+        <link rel="stylesheet" href="jsdom.css">
+    </head>
+    <body>
+        <script>
+            /* Add the useragent string */
+            var div = document.createElement('div');
+            var agentMap = {
+                foo: 'useragentset',
+                uncss: 'useragentunset'
+            };
+            div.className = agentMap[navigator.userAgent] || 'error';
+            document.body.appendChild(div);
+        </script>
+    </body>
+</html>

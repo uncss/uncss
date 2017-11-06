@@ -29,6 +29,7 @@
         .option('-H, --htmlroot <folder>', 'Absolute paths\' root location')
         .option('-u, --uncssrc <file>', 'Load these options from <file>')
         .option('-n, --noBanner', 'Disable banner')
+        .option('-a, --userAgent <string>', 'Use a custom useragent string')
         .parse(process.argv);
 
     options = {
@@ -41,7 +42,8 @@
         timeout: program.timeout,
         htmlroot: program.htmlroot,
         uncssrc: program.uncssrc,
-        banner: !program.noBanner
+        banner: !program.noBanner,
+        userAgent: program.userAgent
     };
 
     if (program.args.length) {
