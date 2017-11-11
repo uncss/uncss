@@ -1,12 +1,20 @@
+
+.sm\:hover\:font-hairline {
+	height: 100px;
+}
+
 .sm\:hover\:font-hairline:hover {
 	font-weight: 100;
 }
 
-.sm\:valid\:font-bold:valid {
-	font-weight: 800;
+.sm\:hover\:font-hairline\:hover {
+	font-weight: 100;
 }
 
+.sm\:hover\:font-hairline\:valid {
+	color: red;
+}
 
-#battleground {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, .15);
+.sm\:valid\:font-bold:valid {
+	font-weight: 800;
 }

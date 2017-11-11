@@ -188,11 +188,11 @@ h1:target {
 }
  
 /*** uncss> filename: tests/selectors/fixtures/escaped-pseudo.css ***/
-.sm\:hover\:font-hairline:hover {
-	font-weight: 100;
+
+.sm\:hover\:font-hairline {
+	height: 100px;
 }
 
-
-#battleground {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, .15);
+.sm\:hover\:font-hairline:hover {
+	font-weight: 100;
 }

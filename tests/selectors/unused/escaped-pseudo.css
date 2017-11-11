@@ -1,3 +1,11 @@
+.sm\:hover\:font-hairline\:hover {
+	font-weight: 100;
+}
+
+.sm\:hover\:font-hairline\:valid {
+	color: red;
+}
+
 .sm\:valid\:font-bold:valid {
 	font-weight: 800;
 }
