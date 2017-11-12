@@ -29,6 +29,7 @@ var dePseudify = (function () {
              */
             '::?-(?:moz|ms|webkit|o)-[a-z0-9-]+'
         ],
+        // Actual regex is of the format: /([^\\])(:hover|:focus)/g
         pseudosRegex = new RegExp('([^\\\\])(' + ignoredPseudos.join('|') + ')', 'g');
 
     return function (selector) {
