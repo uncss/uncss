@@ -29,10 +29,11 @@ var dePseudify = (function () {
              */
             '::?-(?:moz|ms|webkit|o)-[a-z0-9-]+'
         ],
-        pseudosRegex = new RegExp(ignoredPseudos.join('|'), 'g');
+        // Actual regex is of the format: /([^\\])(:hover|:focus)/g
+        pseudosRegex = new RegExp('([^\\\\])(' + ignoredPseudos.join('|') + ')', 'g');
 
     return function (selector) {
-        return selector.replace(pseudosRegex, '');
+        return selector.replace(pseudosRegex, '$1');
     };
 }());
 

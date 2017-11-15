@@ -1,0 +1,8 @@
+
+.sm\:hover\:font-hairline {
+	height: 100px;
+}
+
+.sm\:hover\:font-hairline:hover {
+	font-weight: 100;
+}
