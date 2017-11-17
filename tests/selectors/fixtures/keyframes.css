@@ -82,8 +82,9 @@
 
 .slideRightAndFade {
   position: relative;
-  -webkit-animation: slideRight 5s infinite, fadeIn 1s 1;
-  animation: slideRight 5s infinite, fadeIn 1s 1;
+  /* testing both animation-name first, and placing animation-name elsewhere */
+  -webkit-animation: slideRight 5s infinite, 1s 1 fadeIn;
+  animation: slideRight 5s infinite, 1s 1 fadeIn;
 }
 
 /* Test animation-name */

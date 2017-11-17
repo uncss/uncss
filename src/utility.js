@@ -1,14 +1,12 @@
 'use strict';
 
-var promise = require('bluebird'),
-    isHTML = require('is-html'),
+const isHTML = require('is-html'),
     isURL = require('is-absolute-url'),
+    request = require('request'),
+    fs = require('fs'),
     os = require('os'),
     path = require('path'),
     url = require('url');
-
-var fs = promise.promisifyAll(require('fs'), { multiArgs: true }),
-    request = promise.promisify(require('request'), { multiArgs: true });
 
 function isWindows() {
     return os.platform() === 'win32';
@@ -32,7 +30,7 @@ function strToRegExp(str) {
  * @return {Object}          The options object
  */
 function parseUncssrc(filename) {
-    var options = JSON.parse(fs.readFileSync(filename, 'utf-8'));
+    let options = JSON.parse(fs.readFileSync(filename, 'utf-8'));
 
     /* RegExps can't be stored as JSON, therefore we need to parse them manually.
      * A string is a RegExp if it starts with '/', since that wouldn't be a valid CSS selector.
@@ -51,8 +49,8 @@ function parseUncssrc(filename) {
  * @return {Array}              List of paths
  */
 function parsePaths(source, stylesheets, options) {
-    return stylesheets.map(function (sheet) {
-        var sourceProtocol;
+    return stylesheets.map((sheet) => {
+        let sourceProtocol;
 
         if (sheet.substr(0, 4) === 'http') {
             /* No need to parse, it's already a valid path */
@@ -104,30 +102,40 @@ function parsePaths(source, stylesheets, options) {
  * Given an array of filenames, return an array of the files' contents,
  *   only if the filename matches a regex
  * @param  {Array}   files  An array of the filenames to read
- * @return {promise}
+ * @return {Promise}
  */
 function readStylesheets(files, outputBanner) {
-    return promise.map(files, function (filename) {
+    return Promise.all(files.map((filename) => {
         if (isURL(filename)) {
-            return request({
-                url: filename,
-                headers: { 'User-Agent': 'UnCSS' }
-            }).spread(function (response, body) {
-                return body;
+            return new Promise((resolve, reject) => {
+                request({
+                    url: filename,
+                    headers: { 'User-Agent': 'UnCSS' }
+                }, (err, response, body) => {
+                    if (err) {
+                        return reject(err);
+                    }
+                    return resolve(body);
+                });
             });
         } else if (fs.existsSync(filename)) {
-            return fs.readFileAsync(filename, 'utf-8').then(function (contents) {
-                return contents;
+            return new Promise((resolve, reject) => {
+                fs.readFile(filename, 'utf-8', (err, contents) => {
+                    if (err) {
+                        return reject(err);
+                    }
+                    return resolve(contents);
+                });
             });
         }
-        throw new Error('UnCSS: could not open ' + path.join(process.cwd(), filename));
-    }).then(function (res) {
+        throw new Error(`UnCSS: could not open ${path.join(process.cwd(), filename)}`);
+    })).then((res) => {
         // res is an array of the content of each file in files (in the same order)
         if (outputBanner) {
-            for (var i = 0, len = files.length; i < len; i++) {
+            for (let i = 0, len = files.length; i < len; i++) {
                 // We append a small banner to keep track of which file we are currently processing
                 // super helpful for debugging
-                var banner = '/*** uncss> filename: ' + files[i].replace(/\\/g, '/') + ' ***/\n';
+                const banner = `/*** uncss> filename: ${files[i].replace(/\\/g, '/')} ***/\n`;
                 res[i] = banner + res[i];
             }
         }
@@ -138,13 +146,13 @@ function readStylesheets(files, outputBanner) {
 function parseErrorMessage(error, cssStr) {
     /* TODO: FIXME */
     /* Base line for conveying the line number in the error message */
-    var zeroLine = 0;
+    let zeroLine = 0;
 
     if (error.line) {
-        var lines = cssStr.split('\n');
+        const lines = cssStr.split('\n');
         if (lines.length) {
             /* We get the filename of the css file that contains the error */
-            var i = error.line - 1;
+            let i = error.line - 1;
             while (i >= 0 && !error.filename) {
                 if (lines[i].substr(0, 21) === '/*** uncss> filename:') {
                     error.filename = lines[i].substring(22, lines[i].length - 4);
@@ -152,11 +160,11 @@ function parseErrorMessage(error, cssStr) {
                 }
                 i--;
             }
-            for (var j = error.line - 6; j < error.line + 5; j++) {
+            for (let j = error.line - 6; j < error.line + 5; j++) {
                 if (j - zeroLine < 0 || j >= lines.length) {
                     continue;
                 }
-                var line = lines[j];
+                let line = lines[j];
                 /* It could be minified CSS */
                 if (line.length > 120 && error.column) {
                     line = line.substring(error.column - 40, error.column);
@@ -170,14 +178,14 @@ function parseErrorMessage(error, cssStr) {
     if (zeroLine > 0) {
         error.message = error.message.replace(/[0-9]+:/, error.line - zeroLine + ':');
     }
-    error.message = 'uncss/node_modules/css: unable to parse ' + error.filename + ':\n' + error.message + '\n';
+    error.message = `uncss/node_modules/css: unable to parse ${error.filename}:\n${error.message}\n`;
     return error;
 }
 
 module.exports = {
-    isWindows: isWindows,
-    parseUncssrc: parseUncssrc,
-    parseErrorMessage: parseErrorMessage,
-    parsePaths: parsePaths,
-    readStylesheets: readStylesheets
+    isWindows,
+    parseUncssrc,
+    parseErrorMessage,
+    parsePaths,
+    readStylesheets
 };

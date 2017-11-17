@@ -1,12 +1,12 @@
 'use strict';
 
-var expect = require('chai').expect,
+const expect = require('chai').expect,
     uncss = require('../src/uncss');
 
-describe('Using globbing patterns', function () {
+describe('Using globbing patterns', () => {
 
-    it('should find both index pages in the directory and return the used CSS for both of them', function (done) {
-        uncss(['tests/glob/**/*.html'], function (err, output) {
+    it('should find both index pages in the directory and return the used CSS for both of them', (done) => {
+        uncss(['tests/glob/**/*.html'], (err, output) => {
             expect(err).to.equal(null);
             expect(output).to.not.equal(undefined);
             expect(output).to.contain('h1');

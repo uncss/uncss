@@ -1,21 +1,8 @@
 'use strict';
 
-var jsdom = require('jsdom'),
-    Promise = require('bluebird'),
+const jsdom = require('jsdom/lib/old-api.js'),
     path = require('path'),
     _ = require('lodash');
-
-// Configure.
-var jsdomAsync = Promise.promisify(jsdom.env, { context: jsdom });
-
-/**
- * Closes a page.
- * @param {Object} Page opened by jsdom
- * @return {void}
- */
-function cleanup(page) {
-    return page.close();
-}
 
 /**
  * Load a page.
@@ -24,12 +11,13 @@ function cleanup(page) {
  * @return {Promise}
  */
 function fromSource(src, options) {
-    var config = {
+    const config = {
         features: {
             FetchExternalResources: ['script'],
             ProcessExternalResources: ['script']
         },
-        virtualConsole: jsdom.createVirtualConsole().sendTo(console)
+        virtualConsole: jsdom.createVirtualConsole().sendTo(console),
+        userAgent: options.userAgent
     };
 
     // The htmlroot option allows root-relative URLs (starting with a slash)
@@ -38,7 +26,7 @@ function fromSource(src, options) {
     if (options.htmlroot) {
         config.resourceLoader = function(resource, callback) {
             // See whether raw attribute value is root-relative.
-            var src = resource.element.getAttribute('src');
+            const src = resource.element.getAttribute('src');
             if (src.indexOf('/') === 0) {
                 resource.url.pathname = path.join(options.htmlroot, src);
             }
@@ -47,7 +35,18 @@ function fromSource(src, options) {
         };
     }
 
-    return jsdomAsync(src, config).delay(options.timeout).disposer(cleanup);
+    return new Promise((resolve, reject) => {
+        jsdom.env(src, config, (err, res) => {
+            if (err) {
+                return reject(err);
+            }
+            return resolve(res);
+        });
+    }).then((result) => {
+        return new Promise((resolve) => {
+            setTimeout(() => resolve(result), options.timeout);
+        });
+    });
 }
 
 /**
@@ -61,19 +60,15 @@ function getStylesheets(window, options) {
         options.media = [options.media];
     }
 
-    var media = _.union(['', 'all', 'screen'], options.media);
-    var elements = window.document.querySelectorAll('link[rel="stylesheet"]');
+    const media = _.union(['', 'all', 'screen'], options.media);
+    const elements = window.document.querySelectorAll('link[rel="stylesheet"]');
 
-    return Array.prototype.map.call(elements, function(link) {
-        return {
-            href: link.getAttribute('href'),
-            media: link.getAttribute('media') || ''
-        };
-    }).filter(function (sheet) {
-        return media.indexOf(sheet.media) !== -1;
-    }).map(function (sheet) {
-        return sheet.href;
-    });
+    return Array.prototype.map.call(elements, (link) => ({
+        href: link.getAttribute('href'),
+        media: link.getAttribute('media') || ''
+    }))
+    .filter((sheet) => media.indexOf(sheet.media) !== -1)
+    .map((sheet) => sheet.href);
 }
 
 /**
@@ -83,21 +78,21 @@ function getStylesheets(window, options) {
  * @return {Array}
  */
 function findAll(window, sels) {
-    var document = window.document;
+    const document = window.document;
 
     // Unwrap noscript elements.
-    var elements = document.getElementsByTagName('noscript');
-    Array.prototype.forEach.call(elements, function(ns) {
-        var wrapper = document.createElement('div');
+    const elements = document.getElementsByTagName('noscript');
+    Array.prototype.forEach.call(elements, (ns) => {
+        const wrapper = document.createElement('div');
         wrapper.innerHTML = ns.textContent;
         // Insert each child of the <noscript> as its sibling
-        Array.prototype.forEach.call(wrapper.children, function (child) {
+        Array.prototype.forEach.call(wrapper.children, (child) => {
             ns.parentNode.insertBefore(child, ns);
         });
     });
 
     // Do the filtering.
-    return sels.filter(function (selector) {
+    return sels.filter((selector) => {
         try {
             return document.querySelector(selector);
         } catch (e) {
@@ -107,7 +102,7 @@ function findAll(window, sels) {
 }
 
 module.exports = {
-    fromSource: fromSource,
-    findAll: findAll,
-    getStylesheets: getStylesheets
+    fromSource,
+    findAll,
+    getStylesheets
 };
