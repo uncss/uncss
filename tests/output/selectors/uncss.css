@@ -94,6 +94,11 @@ h3:hover {
   color: green;
 }
  
+/*** uncss> filename: tests/selectors/fixtures/pseudo-class-with-pseudo-element.css ***/
+h5:hover::before {
+  content: "@";
+}
+ 
 /*** uncss> filename: tests/selectors/fixtures/child.css ***/
 h1 > span {
   color: crimson;
