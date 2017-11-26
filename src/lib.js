@@ -28,8 +28,8 @@ const dePseudify = (function () {
              */
             '::?-(?:moz|ms|webkit|o)-[a-z0-9-]+'
         ],
-        // Actual regex is of the format: /([^\\])(:hover|:focus)/g
-        pseudosRegex = new RegExp('([^\\\\])(' + ignoredPseudos.join('|') + ')', 'g');
+        // Actual regex is of the format: /([^\\])(:hover|:focus)+/
+        pseudosRegex = new RegExp('([^\\\\])(' + ignoredPseudos.join('|') + ')+');
 
     return function (selector) {
         return selector.replace(pseudosRegex, '$1');
