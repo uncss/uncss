@@ -61,7 +61,7 @@ describe('Options', () => {
     it('options.ignoreSheets should be respected', (done) => {
         uncss(rfs('selectors/index.html'), {
             ignoreSheets: [
-                'http://fonts.googleapis.com/css?family=Open+Sans:400',
+                'https://fonts.googleapis.com/css?family=Open+Sans:400',
                 /font-awesome/
             ],
             csspath: 'tests/selectors'
