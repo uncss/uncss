@@ -129,7 +129,7 @@ Options:
 
 - **csspath** (String): Path where the CSS files are related to the HTML files. By default, UnCSS uses the path specified in the `<link rel="stylesheet" href="path/to/file.css"/>`.
 
-- **stylesheets** (Array): Use these stylesheets instead of those extracted from the HTML files.
+- **stylesheets** (Array): Use these stylesheets instead of those extracted from the HTML files. Prepend paths with `file:` protocol to force use of local stylesheets, otherwise paths will be resolved as a browser would for an anchor tag `href` on the HTML page.
 
 - **ignoreSheets** (Array): Do not process these stylesheets, e.g. Google fonts. Accepts strings or regex patterns.
 
