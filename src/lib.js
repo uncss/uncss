@@ -244,3 +244,5 @@ module.exports = function uncss(pages, css, ignore) {
         }];
     });
 };
+
+module.exports.dePseudify = dePseudify;
