@@ -13,7 +13,7 @@ const dePseudify = (function () {
             /* link */
             ':link', ':visited',
             /* user action */
-            ':hover', ':active', ':focus',
+            ':hover', ':active', ':focus', ':focus-within',
             /* UI element states */
             ':enabled', ':disabled', ':checked', ':indeterminate',
             /* form validation */
