@@ -2,6 +2,7 @@
 
 const jsdom = require('./jsdom.js'),
     postcss = require('postcss'),
+    postcssSelectorParser = require('postcss-selector-parser'),
     _ = require('lodash');
 /* Some styles are applied only with user interaction, and therefore its
  *   selectors cannot be used with querySelectorAll.
@@ -12,7 +13,7 @@ const dePseudify = (function () {
             /* link */
             ':link', ':visited',
             /* user action */
-            ':hover', ':active', ':focus',
+            ':hover', ':active', ':focus', ':focus-within',
             /* UI element states */
             ':enabled', ':disabled', ':checked', ':indeterminate',
             /* form validation */
@@ -28,11 +29,21 @@ const dePseudify = (function () {
              */
             '::?-(?:moz|ms|webkit|o)-[a-z0-9-]+'
         ],
-        // Actual regex is of the format: /([^\\])(:hover|:focus)+/
-        pseudosRegex = new RegExp('([^\\\\])(' + ignoredPseudos.join('|') + ')+');
+        // Actual regex is of the format: /^(:hover|:focus|...)$/i
+        pseudosRegex = new RegExp('^(' + ignoredPseudos.join('|') + ')$', 'i');
+
+    function transform (selectors) {
+        selectors.walkPseudos((selector) => {
+            if (pseudosRegex.test(selector.value)) {
+                selector.remove();
+            }
+        });
+    }
+
+    const processor = postcssSelectorParser(transform);
 
     return function (selector) {
-        return selector.replace(pseudosRegex, '$1');
+        return processor.processSync(selector);
     };
 }());
 
@@ -233,3 +244,5 @@ module.exports = function uncss(pages, css, ignore) {
         }];
     });
 };
+
+module.exports.dePseudify = dePseudify;
