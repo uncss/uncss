@@ -52,6 +52,7 @@ var files   = ['my', 'array', 'of', 'HTML', 'files', 'or', 'http://urls.com'],
         timeout      : 1000,
         htmlroot     : 'public',
         report       : false,
+        banner       : false,
         uncssrc      : '.uncssrc',
         userAgent    : 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X)'
     };
