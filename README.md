@@ -23,6 +23,8 @@ The process by which UnCSS removes the unused rules is as follows:
 
 - UnCSS cannot be run on non-HTML pages, such as templates or PHP files. If you need to run UnCSS against your templates, you should probably generate example HTML pages from your templates, and run uncss on those generated files; or run a live local dev server, and point uncss at that.
 - UnCSS only runs the Javascript that is run on page load. It does not (and cannot) handle Javascript that runs on user interactions like button clicks. You must use the `ignore` option to preserve classes that are added by Javascript on user interaction.
+- UnCSS does not cater for classes used inside `ng-class` directive, and those classes are removed in the output.
+- UnCSS also removes classes applied on child element, which are generated during rendering, even though they are being used. 
 
 ## Installation:
 
