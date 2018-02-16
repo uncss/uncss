@@ -15,7 +15,7 @@ describe('Pages should resemble the reference', () => {
 
     it('GitHub pages', (done) => {
         expect('tests/output/gh-pages/index.html')
-            .to.resemble('http://giakki.github.io/uncss/', done);
+            .to.resemble('http://uncss.github.io/uncss/', done);
     });
 
     it('Selectors', (done) => {
