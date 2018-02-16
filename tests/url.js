@@ -33,7 +33,7 @@ describe('Compile the CSS of an HTML page passed by URL', () => {
     });
 
     it('Deals with CSS files linked with absolute URL', (done) => {
-        uncss(['http://giakki.github.io/uncss/'], (err, output) => {
+        uncss(['http://uncss.github.io/uncss/'], (err, output) => {
             expect(err).to.equal(null);
             expect(output).to.equal(prevRun);
             prevRun = output;
@@ -42,7 +42,7 @@ describe('Compile the CSS of an HTML page passed by URL', () => {
     });
 
     it('Deals with relative options.stylesheets when using URLs', (done) => {
-        uncss(['http://giakki.github.io/uncss/'], {
+        uncss(['http://uncss.github.io/uncss/'], {
             stylesheets: [
                 'http://cdnjs.cloudflare.com/ajax/libs/colors/1.0/colors.min.css',
                 'stylesheets/stylesheet.css'
@@ -56,7 +56,7 @@ describe('Compile the CSS of an HTML page passed by URL', () => {
     });
 
     it('Deals with absolute options.stylesheets when using URLs', (done) => {
-        uncss(['http://giakki.github.io/uncss/'], {
+        uncss(['http://uncss.github.io/uncss/'], {
             stylesheets: [
                 'http://cdnjs.cloudflare.com/ajax/libs/colors/1.0/colors.min.css',
                 '/uncss/stylesheets/stylesheet.css'
