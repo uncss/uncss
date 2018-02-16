@@ -4,7 +4,7 @@
   "author": "Giakki",
   "description": "Remove unused CSS styles",
   "license": "MIT",
-  "homepage": "https://github.com/giakki/uncss",
+  "homepage": "https://github.com/uncss/uncss",
   "scripts": {
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "eslint": "eslint \"**/*.js\" bin/uncss",
@@ -19,10 +19,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/giakki/uncss.git"
+    "url": "git+https://github.com/uncss/uncss.git"
   },
   "bugs": {
-    "url": "https://github.com/giakki/uncss/issues"
+    "url": "https://github.com/uncss/uncss/issues"
   },
   "keywords": [
     "optimize",
