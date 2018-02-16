@@ -1,7 +1,7 @@
 # UnCSS
 
 [![NPM version](https://img.shields.io/npm/v/uncss.svg)](https://www.npmjs.com/package/uncss)
-[![Linux Build Status](https://img.shields.io/travis/giakki/uncss/master.svg?label=Linux%20build)](https://travis-ci.org/giakki/uncss)
+[![Linux Build Status](https://img.shields.io/travis/uncss/uncss/master.svg?label=Linux%20build)](https://travis-ci.org/uncss/uncss)
 [![Windows Build status](https://img.shields.io/appveyor/ci/giakki/uncss/master.svg?label=Windows%20build)](https://ci.appveyor.com/project/giakki/uncss/branch/master)
 [![Coverage Status](https://img.shields.io/coveralls/giakki/uncss.svg)](https://coveralls.io/r/giakki/uncss?branch=master)
 [![dependencies Status](https://img.shields.io/david/giakki/uncss.svg)](https://david-dm.org/giakki/uncss)
