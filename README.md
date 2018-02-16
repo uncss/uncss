@@ -4,7 +4,7 @@
 [![Linux Build Status](https://img.shields.io/travis/uncss/uncss/master.svg?label=Linux%20build)](https://travis-ci.org/uncss/uncss)
 [![Windows Build status](https://img.shields.io/appveyor/ci/uncss/uncss/master.svg?label=Windows%20build)](https://ci.appveyor.com/project/uncss/uncss/branch/master)
 [![Coverage Status](https://img.shields.io/coveralls/uncss/uncss.svg)](https://coveralls.io/r/uncss/uncss?branch=master)
-[![dependencies Status](https://img.shields.io/uncss/uncss/uncss.svg)](https://david-dm.org/uncss/uncss)
+[![dependencies Status](https://img.shields.io/david/uncss/uncss.svg)](https://david-dm.org/uncss/uncss)
 [![devDependencies Status](https://img.shields.io/david/dev/uncss/uncss.svg)](https://david-dm.org/uncss/uncss?type=dev)
 
 UnCSS is a tool that removes unused CSS from your stylesheets.
