@@ -2,10 +2,10 @@
 
 [![NPM version](https://img.shields.io/npm/v/uncss.svg)](https://www.npmjs.com/package/uncss)
 [![Linux Build Status](https://img.shields.io/travis/uncss/uncss/master.svg?label=Linux%20build)](https://travis-ci.org/uncss/uncss)
-[![Windows Build status](https://img.shields.io/appveyor/ci/giakki/uncss/master.svg?label=Windows%20build)](https://ci.appveyor.com/project/giakki/uncss/branch/master)
-[![Coverage Status](https://img.shields.io/coveralls/giakki/uncss.svg)](https://coveralls.io/r/giakki/uncss?branch=master)
-[![dependencies Status](https://img.shields.io/david/giakki/uncss.svg)](https://david-dm.org/giakki/uncss)
-[![devDependencies Status](https://img.shields.io/david/dev/giakki/uncss.svg)](https://david-dm.org/giakki/uncss?type=dev)
+[![Windows Build status](https://img.shields.io/appveyor/ci/uncss/uncss/master.svg?label=Windows%20build)](https://ci.appveyor.com/project/uncss/uncss/branch/master)
+[![Coverage Status](https://img.shields.io/coveralls/uncss/uncss.svg)](https://coveralls.io/r/uncss/uncss?branch=master)
+[![dependencies Status](https://img.shields.io/uncss/uncss/uncss.svg)](https://david-dm.org/uncss/uncss)
+[![devDependencies Status](https://img.shields.io/david/dev/uncss/uncss.svg)](https://david-dm.org/uncss/uncss?type=dev)
 
 UnCSS is a tool that removes unused CSS from your stylesheets.
 It works across multiple files and supports Javascript-injected CSS.
@@ -169,7 +169,7 @@ postcss([ require('uncss').postcssPlugin ]);
 
 See [PostCSS docs](https://github.com/postcss/postcss) for examples for your environment.
 
-**Note:** Depending on your environment, you might not be able to use giakki/uncss as a PostCSS plugin since the plugin is not directly exported. In such cases, use the wrapper library [postcss-uncss](https://github.com/RyanZim/postcss-uncss).
+**Note:** Depending on your environment, you might not be able to use uncss as a PostCSS plugin since the plugin is not directly exported. In such cases, use the wrapper library [postcss-uncss](https://github.com/RyanZim/postcss-uncss).
 
 #### Options
 
