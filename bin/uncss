@@ -30,6 +30,7 @@
         .option('-u, --uncssrc <file>', 'Load these options from <file>')
         .option('-n, --noBanner', 'Disable banner')
         .option('-a, --userAgent <string>', 'Use a custom useragent string')
+        .option('-I, --inject <file>', 'Path to javascript file to be executed before uncss runs')
         .parse(process.argv);
 
     options = {
@@ -43,7 +44,8 @@
         htmlroot: program.htmlroot,
         uncssrc: program.uncssrc,
         banner: !program.noBanner,
-        userAgent: program.userAgent
+        userAgent: program.userAgent,
+        inject: program.inject
     };
 
     if (program.args.length) {

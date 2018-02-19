@@ -203,7 +203,8 @@ function init(files, options, callback) {
         banner: true,
         // gulp-uncss parameters:
         raw: null,
-        userAgent: 'uncss'
+        userAgent: 'uncss',
+        inject: null
     });
 
     process(options).then(([css, report]) => callback(null, css, report), callback);

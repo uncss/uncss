@@ -103,4 +103,34 @@ describe('jsdom', () => {
             done();
         });
     });
+
+    it('Should execute passed in javascript function before uncss runs', (done) => {
+        const options = {
+            htmlroot: path.join(__dirname, './jsdom'),
+            inject: (window) => {
+                window.document.querySelector('html').classList.add('no-test', 'test');
+            }
+        };
+        uncss(['tests/jsdom/inject.html'], options, (err, output) => {
+            expect(err).to.equal(null);
+            expect(output).to.include('.no-test .inject');
+            expect(output).to.include('.test .inject');
+
+            done();
+        });
+    });
+
+    it('Should load then execute passed in javascript function before uncss runs', (done) => {
+        const options = {
+            htmlroot: path.join(__dirname, './jsdom'),
+            inject: '../tests/jsdom/inject.js'
+        };
+        uncss(['tests/jsdom/inject.html'], options, (err, output) => {
+            expect(err).to.equal(null);
+            expect(output).to.include('.no-test .inject');
+            expect(output).to.include('.test .inject');
+
+            done();
+        });
+    });
 });

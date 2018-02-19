@@ -54,7 +54,8 @@ var files   = ['my', 'array', 'of', 'HTML', 'files', 'or', 'http://urls.com'],
         report       : false,
         banner       : false,
         uncssrc      : '.uncssrc',
-        userAgent    : 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X)'
+        userAgent    : 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X)',
+        inject       : function(window){ window.document.querySelector('html').classList.add('no-csscalc', 'csscalc'); }
     };
 
 uncss(files, options, function (error, output) {
@@ -103,6 +104,7 @@ Options:
   -u, --uncssrc <file>                  Load these options from <file>
   -n, --noBanner                        Disable banner
   -a, --userAgent <string>              Use a custom user agent string
+  -I, --inject <file>                   Path to javascript file to be executed before uncss runs
 ```
 
 **Note that you can pass both local file paths (which are processed by [glob](https://github.com/isaacs/node-glob)) and URLs to the program.**
@@ -158,6 +160,28 @@ Options:
   }
   ```
 - **userAgent** (String): The user agent string that jsdom should send when requesting pages. May be useful when loading markup from services which use user agent based device detection to serve custom markup to mobile devices. Defaults to `uncss`.
+
+- **inject** (String / Function): Path to a local javascript file which is executed before uncss runs. A function can also be passed directly in.
+
+	Example inject.js file
+	
+	```js
+	'use strict';
+	
+	module.exports = function(window) {
+	    window.document.querySelector('html').classList.add('no-csscalc', 'csscalc');
+	};
+	```
+	
+	Example of passing inject as a function
+	
+	```js
+	{
+	  inject: function(window){
+	    window.document.querySelector('html').classList.add('no-csscalc', 'csscalc');
+	  }
+	}
+	```
 
 ### As a PostCSS Plugin
 
