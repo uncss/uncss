@@ -21,3 +21,11 @@
 .error {
   margin: 0;
 }
+
+.no-test .inject{
+	margin: 0;
+}
+
+.test .inject{
+	margin: 0;
+}

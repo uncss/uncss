@@ -35,6 +35,16 @@ function fromSource(src, options) {
         };
     }
 
+    if (options.inject) {
+        config.onload = function(window) {
+            if (typeof options.inject === 'function') {
+                options.inject(window);
+            } else {
+                require(path.join(__dirname, options.inject))(window);
+            }
+        };
+    }
+
     return new Promise((resolve, reject) => {
         jsdom.env(src, config, (err, res) => {
             if (err) {
