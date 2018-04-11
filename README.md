@@ -32,10 +32,6 @@ npm install -g uncss
 
 ## Usage
 
-### Online Server
-
-- https://uncss-online.com/ - Unofficial server, very convenient for testing or one-off usage!
-
 ### Within Node.js:
 
 ```js
