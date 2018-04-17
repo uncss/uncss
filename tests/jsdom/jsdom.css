@@ -29,3 +29,13 @@
 .test .inject{
 	margin: 0;
 }
+
+/* uncss:ignore start */
+.pseudo:hover .child{
+	margin: 0;
+}
+
+.pseudo .child{
+	margin: 0;
+}
+/* uncss:ignore end */

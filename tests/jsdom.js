@@ -104,6 +104,20 @@ describe('jsdom', () => {
         });
     });
 
+    it('Should ignore selectors with pseudo class that target an inner child that is not present in dom if ignore comments used', (done) => {
+        const options = {
+            htmlroot: path.join(__dirname, './jsdom')
+        };
+        uncss(['tests/jsdom/ignored-pseudo-with-child.html'], options, (err, output) => {
+            expect(err).to.equal(null);
+
+            expect(output).to.include('.pseudo .child');
+            expect(output).to.include('.pseudo:hover .child');
+
+            done();
+        });
+    });
+
     it('Should execute passed in javascript function before uncss runs', (done) => {
         const options = {
             htmlroot: path.join(__dirname, './jsdom'),
