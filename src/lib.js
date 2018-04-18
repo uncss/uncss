@@ -71,7 +71,7 @@ function filterUnusedSelectors(selectors, ignore, usedSelectors) {
             if (_.isRegExp(ignore[i]) && ignore[i].test(selector)) {
                 return true;
             }
-            if (ignore[i] === selector) {
+            if (dePseudify(ignore[i]) === selector) {
                 return true;
             }
         }
