@@ -38,23 +38,23 @@
     "src"
   ],
   "dependencies": {
-    "commander": "^2.9.0",
-    "glob": "^7.0.3",
-    "is-absolute-url": "^2.0.0",
-    "is-html": "^1.0.0",
-    "jsdom": "^11.3.0",
-    "lodash": "^4.13.1",
-    "postcss": "^6.0.14",
-    "postcss-selector-parser": "3.1.1",
-    "request": "^2.72.0"
+    "commander": "^2.15.1",
+    "glob": "^7.1.2",
+    "is-absolute-url": "^2.1.0",
+    "is-html": "^1.1.0",
+    "jsdom": "^11.10.0",
+    "lodash": "^4.17.10",
+    "postcss": "^6.0.22",
+    "postcss-selector-parser": "4.0.0",
+    "request": "^2.85.0"
   },
   "devDependencies": {
-    "chai": "^4.1.1",
+    "chai": "^4.1.2",
     "chai-resemble": "^0.4.1",
-    "coveralls": "^3.0.0",
-    "eslint": "^4.11.0",
-    "mocha": "^4.0.1",
-    "nyc": "^11.3.0"
+    "coveralls": "^3.0.1",
+    "eslint": "^4.19.1",
+    "mocha": "^5.1.1",
+    "nyc": "^11.7.1"
   },
   "engines": {
     "node": ">=6.0"
