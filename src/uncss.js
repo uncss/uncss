@@ -143,7 +143,7 @@ function processWithTextApi([options, pages, stylesheets]) {
         /* Try and construct a helpful error message */
         throw utility.parseErrorMessage(err, cssStr);
     }
-    return uncss(pages, pcss, options.ignore).then(([css, rep]) => {
+    return uncss(pages, pcss, options.ignore, options.ignoreHtmlClass).then(([css, rep]) => {
         let newCssStr = '';
         postcss.stringify(css, (result) => {
             newCssStr += result;
@@ -199,6 +199,7 @@ function init(files, options, callback) {
         timeout: 0,
         report: false,
         ignoreSheets: [],
+        ignoreHtmlClass: null,
         html: files,
         banner: true,
         // gulp-uncss parameters:
@@ -211,7 +212,7 @@ function init(files, options, callback) {
 }
 
 function processAsPostCss(files, options, pages) {
-    return uncss(pages, options.rawPostCss, options.ignore);
+    return uncss(pages, options.rawPostCss, options.ignore, options.ignoreHtmlClass);
 }
 
 function process(opts) {
@@ -239,7 +240,8 @@ const postcssPlugin = postcss.plugin('uncss', (opts) => {
         // Ignore stylesheets in the HTML files; only use those from the stream
         ignoreSheets: [/\s*/],
         html: [],
-        ignore: []
+        ignore: [],
+        ignoreHtmlClass: null
     });
 
     return function (css, result) { // eslint-disable-line no-unused-vars
