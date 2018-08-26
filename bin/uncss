@@ -7,7 +7,8 @@
 
     const uncss = require('../src/uncss.js'),
         data = require('../package.json'),
-        program = require('commander');
+        program = require('commander'),
+        fs = require('fs');
 
     let buffer = '',
         options;
@@ -31,6 +32,7 @@
         .option('-n, --noBanner', 'Disable banner')
         .option('-a, --userAgent <string>', 'Use a custom useragent string')
         .option('-I, --inject <file>', 'Path to javascript file to be executed before uncss runs')
+        .option('-o, --output <file>', 'Path to write resulting CSS to')
         .parse(process.argv);
 
     options = {
@@ -76,7 +78,16 @@
             if (err) {
                 throw err;
             }
-            console.log(css);
+            if (program.output) {
+                fs.writeFile(program.output, css, 'utf8', (err) => {
+                    if (err) {
+                        throw err;
+                    }
+                    console.log(`${program.output} has been saved!`);
+                });
+            } else {
+                console.log(css);
+            }
         });
     } else {
         /* No files were specified, read HTML from stdin */
