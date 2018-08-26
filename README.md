@@ -105,6 +105,7 @@ Options:
   -n, --noBanner                        Disable banner
   -a, --userAgent <string>              Use a custom user agent string
   -I, --inject <file>                   Path to javascript file to be executed before uncss runs
+  -o, --output <file>                   Path to write resulting CSS to
 ```
 
 **Note that you can pass both local file paths (which are processed by [glob](https://github.com/isaacs/node-glob)) and URLs to the program.**
