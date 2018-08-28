@@ -2,6 +2,7 @@
 
 const jsdom = require('jsdom/lib/old-api.js'),
     path = require('path'),
+    { Console } = require('console'),
     _ = require('lodash');
 
 /**
@@ -16,7 +17,7 @@ function fromSource(src, options) {
             FetchExternalResources: ['script'],
             ProcessExternalResources: ['script']
         },
-        virtualConsole: jsdom.createVirtualConsole().sendTo(console),
+        virtualConsole: jsdom.createVirtualConsole().sendTo(new Console(process.stderr)),
         userAgent: options.userAgent
     };
 
