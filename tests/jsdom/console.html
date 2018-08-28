@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>jsdom basic test</title>
+        <link rel="stylesheet" href="jsdom.css">
+    </head>
+    <body>
+        <script>
+            /* Append an element */
+            var div = document.createElement('div');
+            div.className = 'evaluated';
+            document.body.appendChild(div);
+        </script>
+        <script>
+            var methods = ['debug', 'log', 'info'];
+            methods.forEach(function (method) {
+                console[method](method);
+            });
+        </script>
+    </body>
+</html>
