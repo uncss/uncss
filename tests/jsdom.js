@@ -156,7 +156,7 @@ describe('jsdom', () => {
             expect(err).to.equal(null);
             expect(output).to.include('.evaluated');
 
-            let methods = ['debug', 'log', 'info'];
+            let methods = ['log', 'info'];
             methods.forEach((method) => {
                 expect(stdout).to.not.include(method);
                 expect(stderr).to.include(method);
