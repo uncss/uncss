@@ -207,7 +207,7 @@ function init(files, options, callback) {
         inject: null
     });
 
-    process(options).then(([css, report]) => callback(null, css, report), callback);
+    return process(options).then(([css, report]) => callback(null, css, report), callback);
 }
 
 function processAsPostCss(files, options, pages) {
