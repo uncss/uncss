@@ -18,4 +18,8 @@
   color: rgb(52, 152, 219);
 }
 
+.ignore-comment4:hover .pseudo-child {
+  color: rgb(52, 152, 219);
+}
+
 /* uncss:ignore end */
