@@ -192,7 +192,7 @@ function init(files, options, callback) {
     }
 
     /* Assign default values to options, unless specified */
-    options = _.defaults(options, {
+    options = _.defaults({
         csspath: '',
         ignore: [],
         media: [],
@@ -205,7 +205,7 @@ function init(files, options, callback) {
         raw: null,
         userAgent: 'uncss',
         inject: null
-    });
+    }, options);
 
     process(options).then(([css, report]) => callback(null, css, report), callback);
 }
