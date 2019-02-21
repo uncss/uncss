@@ -16,13 +16,17 @@ const glob = require('glob'),
  * @return {Array|Promise}
  */
 function getHTML(files, options) {
+    const globOpts = {
+        ignore: options.ignoreHtml
+    };
+
     if (_.isString(files)) {
         files = [files];
     }
 
     files = _.flatten(files.map((file) => {
         if (!isURL(file) && !isHTML(file)) {
-            return glob.sync(file);
+            return glob.sync(file, globOpts);
         }
         return file;
     }));
@@ -193,6 +197,7 @@ function init(files, options, callback) {
 
     /* Assign default values to options, unless specified */
     options = _.defaults(options, {
+        ignoreHtml: [],
         csspath: '',
         ignore: [],
         media: [],
@@ -239,6 +244,7 @@ const postcssPlugin = postcss.plugin('uncss', (opts) => {
         // Ignore stylesheets in the HTML files; only use those from the stream
         ignoreSheets: [/\s*/],
         html: [],
+        ignoreHtml: [],
         ignore: []
     });
 

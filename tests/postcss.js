@@ -41,7 +41,7 @@ describe('PostCSS Plugin', () => {
             });
     });
 
-    it('Respects the ignores param', (done) => {
+    it('Respects the ignore param', (done) => {
         let opts = {
             ignore: ['h4']
         };
@@ -54,6 +54,27 @@ describe('PostCSS Plugin', () => {
                 expect(result.css).not.to.contain('h2');
                 expect(result.css).not.to.contain('h3');
                 expect(result.css).to.contain('h4');
+                expect(result.css).not.to.contain('h5');
+                expect(result.css).not.to.contain('h6');
+                done();
+            }, (error) => {
+                done(error);
+            });
+    });
+
+    it('Respects the ignoreHtml param', (done) => {
+        let opts = {
+            ignoreHtml: ['./tests/glob/two.html']
+        };
+        opts.html = ['./tests/glob/*.html'];
+        postcss([uncss.postcssPlugin(opts)]).process(prevRun)
+            .then((result) => {
+                expect(result.warnings().length).to.equal(0);
+                expect(result.css).to.not.equal(undefined);
+                expect(result.css).to.contain('h1');
+                expect(result.css).not.to.contain('h2');
+                expect(result.css).not.to.contain('h3');
+                expect(result.css).not.to.contain('h4');
                 expect(result.css).not.to.contain('h5');
                 expect(result.css).not.to.contain('h6');
                 done();

@@ -18,4 +18,18 @@ describe('Using globbing patterns', () => {
             done();
         });
     });
+
+    it('should find only first index pages in the directory and return the used CSS for it', (done) => {
+        uncss(['tests/glob/**/*.html'], { ignoreHtml: ['tests/glob/**/two.html'] }, (err, output) => {
+            expect(err).to.equal(null);
+            expect(output).to.not.equal(undefined);
+            expect(output).to.contain('h1');
+            expect(output).not.to.contain('h2');
+            expect(output).not.to.contain('h3');
+            expect(output).not.to.contain('h4');
+            expect(output).not.to.contain('h5');
+            expect(output).not.to.contain('h6');
+            done();
+        });
+    });
 });
