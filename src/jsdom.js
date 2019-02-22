@@ -54,7 +54,7 @@ function fromSource(src, options) {
     }
 
     if (options.strictSSL !== undefined) {
-      config.strictSSL = options.strictSSL
+        config.strictSSL = options.strictSSL;
     }
 
     return new Promise((resolve, reject) => {
