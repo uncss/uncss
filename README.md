@@ -56,6 +56,7 @@ var files   = ['my', 'array', 'of', 'HTML', 'files', 'or', 'http://urls.com'],
         uncssrc      : '.uncssrc',
         userAgent    : 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X)',
         inject       : function(window){ window.document.querySelector('html').classList.add('no-csscalc', 'csscalc'); }
+        strictSSL    : true
     };
 
 uncss(files, options, function (error, output) {
@@ -211,6 +212,8 @@ See [PostCSS docs](https://github.com/postcss/postcss) for examples for your env
       /* this will NOT be ignored */
   }
   ```
+
+- **strictSSL** (Boolean): Disable SSL verification when retrieving html source
 
 ##### Example Configuration
 
