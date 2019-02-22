@@ -53,6 +53,10 @@ function fromSource(src, options) {
         config.resources = new HtmlrootResourceLoader(options.htmlroot, options.userAgent);
     }
 
+    if (options.strictSSL !== undefined) {
+      config.strictSSL = options.strictSSL
+    }
+
     return new Promise((resolve, reject) => {
         let pagePromise;
         if (isURL(src)) {
