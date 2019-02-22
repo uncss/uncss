@@ -45,6 +45,10 @@ function fromSource(src, options) {
         };
     }
 
+    if (options.strictSSL !== undefined) {
+      config.strictSSL = options.strictSSL
+    }
+
     return new Promise((resolve, reject) => {
         jsdom.env(src, config, (err, res) => {
             if (err) {
