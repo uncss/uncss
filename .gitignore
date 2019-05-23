@@ -11,3 +11,5 @@ node_modules/
 
 uncss.sublime-project
 uncss.sublime-workspace
+
+tests/screenshots

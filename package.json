@@ -50,14 +50,14 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "chai-resemble": "^1.0.0",
+    "chai-resemble": "^1.2.0",
     "coveralls": "^3.0.3",
     "eslint": "^5.16.0",
     "mocha": "^6.1.4",
     "nyc": "^14.1.1"
   },
   "engines": {
-    "node": ">=8.0"
+    "node": ">=6.0"
   },
   "nyc": {
     "include": [
