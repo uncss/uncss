@@ -64,7 +64,7 @@ describe('Error reporting', () => {
     it('jsdom errors', (done) => {
         uncss(['http://invalid'], (error, output) => {
             expect(output).to.equal(undefined);
-            expect(error.message).to.contain('getaddrinfo ENOTFOUND invalid invalid:80');
+            expect(error.message).to.match(/getaddrinfo ENOTFOUND invalid/);
             done();
         });
     });

@@ -1,26 +1,43 @@
 'use strict';
 
 const chai = require('chai'),
-    path = require('path'),
-    resemble = require('chai-resemble');
+    path = require('path');
+
+// Ignore resemble tests on node 6.
+if (process.version.match(/^v6/)) {
+    return;
+}
+
+const resemble = require('chai-resemble');
 
 const expect = chai.expect;
 
 chai.use(resemble);
 
+function rel(relativePath) {
+    return path.resolve(__dirname, relativePath);
+}
+
 describe('Pages should resemble the reference', () => {
     it('Bootstrap', (done) => {
-        expect('file://' + path.resolve(__dirname, 'output/bootstrap/jumbotron.html'))
-            .to.resemble('http://getbootstrap.com/docs/3.3/examples/jumbotron/', done);
-    });
-
-    it('GitHub pages', (done) => {
-        expect('file://' + path.resolve(__dirname, 'output/gh-pages/index.html'))
-            .to.resemble('http://uncss.github.io/uncss/', done);
+        expect('file://' + rel('output/bootstrap/jumbotron.html')).to.resemble(
+            'https://getbootstrap.com/docs/3.3/examples/jumbotron/',
+            {
+                name: 'bootstrap',
+                outDir: rel('screenshots')
+            },
+            done
+        );
     });
 
     it('Selectors', (done) => {
-        expect('file://' + path.resolve(__dirname, 'selectors/index.html'))
-            .to.resemble('file://' + path.resolve(__dirname, 'output/selectors/index.html'), done);
+        expect('file://' + rel('selectors/index.html')).to.resemble(
+            'file://' + rel('output/selectors/index.html'),
+            {
+                name: 'selectors',
+                outDir: rel('screenshots')
+            },
+            done
+        );
     });
 });
