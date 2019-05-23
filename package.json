@@ -49,15 +49,15 @@
     "request": "^2.72.0"
   },
   "devDependencies": {
-    "chai": "^4.1.1",
-    "chai-resemble": "^0.4.1",
-    "coveralls": "^3.0.0",
-    "eslint": "^4.11.0",
-    "mocha": "^4.0.1",
-    "nyc": "^11.3.0"
+    "chai": "^4.2.0",
+    "chai-resemble": "^1.0.0",
+    "coveralls": "^3.0.3",
+    "eslint": "^5.16.0",
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1"
   },
   "engines": {
-    "node": ">=6.0"
+    "node": ">=8.0"
   },
   "nyc": {
     "include": [
