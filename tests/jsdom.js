@@ -133,4 +133,33 @@ describe('jsdom', () => {
             done();
         });
     });
+
+    // The use-case here is when using the cli to redirect output to a file:
+    //   uncss tests/jsdom/console.html > output.css
+    it('Should redirect console statements to stderr', (done) => {
+        // Overwrite stdout and stderr so we can monitor the output
+        const oldout = process.stdout.write,
+            olderr = process.stderr.write;
+        let stdout = '',
+            stderr = '';
+        process.stdout.write = function (content) {
+            stdout += content;
+        };
+        process.stderr.write = function (content) {
+            stderr += content;
+        };
+
+        uncss(['tests/jsdom/console.html'], (err, output) => {
+            process.stdout.write = oldout;
+            process.stderr.write = olderr;
+
+            expect(err).to.equal(null);
+            expect(output).to.include('.evaluated');
+
+            expect(stdout).to.not.include('log');
+            expect(stderr).to.include('log');
+
+            done();
+        });
+    });
 });
