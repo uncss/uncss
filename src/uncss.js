@@ -49,8 +49,8 @@ function getStylesheets(files, options, pages) {
         return Promise.resolve([files, options, pages, [options.stylesheets]]);
     }
     /* Extract the stylesheets from the HTML */
-    return Promise.all(pages.map((page) => jsdom.getStylesheets(page, options)))
-    .then((stylesheets) => [files, options, pages, stylesheets]);
+    return Promise.all(pages.map((page) => jsdom.getStylesheets(page.window, options)))
+        .then((stylesheets) => [files, options, pages, stylesheets]);
 }
 
 /**
@@ -210,26 +210,26 @@ function init(files, options, callback) {
     process(options).then(([css, report]) => callback(null, css, report), callback);
 }
 
-function processAsPostCss(files, options, pages) {
+function processAsPostCss(options, pages) {
     return uncss(pages, options.rawPostCss, options.ignore);
 }
 
 function process(opts) {
-    const resource = getHTML(opts.html, opts);
-    return resource.then((pages) => {
+    return getHTML(opts.html, opts).then((pages) => {
         function cleanup (result) {
-            pages.forEach((page) => page.close());
+            pages.forEach((page) => page.window.close());
             return result;
         }
 
         if (opts.usePostCssInternal) {
-            return processAsPostCss(opts.files, opts, pages)
-            .then(cleanup);
+            return processAsPostCss(opts, pages)
+                .then(cleanup);
         }
+
         return getStylesheets(opts.files, opts, pages)
-          .then(getCSS)
-          .then(processWithTextApi)
-          .then(cleanup);
+            .then(getCSS)
+            .then(processWithTextApi)
+            .then(cleanup);
     });
 }
 

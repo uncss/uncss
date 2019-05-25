@@ -73,7 +73,7 @@ describe('Compile the CSS of an HTML page passed by URL', () => {
         const localStylesheetPath = path.join(__dirname, '/input/main.css');
 
         this.timeout(25000);
-        uncss(['https://giakki.github.io/uncss/'], {
+        uncss(['https://uncss.github.io/uncss/'], {
             stylesheets: [path.join('file://', localStylesheetPath)]
         }, (err, output) => {
             expect(err).to.equal(null);

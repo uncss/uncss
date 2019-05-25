@@ -1,15 +1,40 @@
 'use strict';
 
-const jsdom = require('jsdom/lib/old-api.js'),
+const isHTML = require('is-html'),
+    isURL = require('is-absolute-url'),
+    { JSDOM, ResourceLoader, VirtualConsole } = require('jsdom'),
     path = require('path'),
     { Console } = require('console'),
     _ = require('lodash');
+
+class HtmlrootResourceLoader extends ResourceLoader {
+    constructor(htmlroot, userAgent) {
+        super({ userAgent });
+
+        this.htmlroot = htmlroot;
+    }
+
+    fetch(originalUrl, { element }) {
+        // See whether raw attribute value is root-relative.
+        const src = element.getAttribute('src');
+        if (!src) {
+            return null;
+        }
+
+        let url = originalUrl;
+        if (src.indexOf('/') === 0) {
+            url = 'file://' + path.join(this.htmlroot, src);
+        }
+
+        return super.fetch(url);
+    }
+}
 
 /**
  * Load a page.
  * @param  {String}  src
  * @param  {Object}  options
- * @return {Promise}
+ * @return {Promise<JSDOM>}
  */
 function fromSource(src, options) {
     const config = {
@@ -17,45 +42,39 @@ function fromSource(src, options) {
             FetchExternalResources: ['script'],
             ProcessExternalResources: ['script']
         },
-        virtualConsole: jsdom.createVirtualConsole().sendTo(new Console(process.stderr)),
-        userAgent: options.userAgent
+        runScripts: 'dangerously',
+        virtualConsole: new VirtualConsole().sendTo(new Console(process.stderr))
     };
 
     // The htmlroot option allows root-relative URLs (starting with a slash)
     // to be used for all resources. Without it, root-relative URLs are
     // looked up relative to file://, so will not be found.
     if (options.htmlroot) {
-        config.resourceLoader = function(resource, callback) {
-            // See whether raw attribute value is root-relative.
-            const src = resource.element.getAttribute('src');
-            if (src.indexOf('/') === 0) {
-                resource.url.pathname = path.join(options.htmlroot, src);
-            }
-
-            return resource.defaultFetch(callback);
-        };
-    }
-
-    if (options.inject) {
-        config.onload = function(window) {
-            if (typeof options.inject === 'function') {
-                options.inject(window);
-            } else {
-                require(path.join(__dirname, options.inject))(window);
-            }
-        };
+        config.resources = new HtmlrootResourceLoader(options.htmlroot, options.userAgent);
     }
 
     return new Promise((resolve, reject) => {
-        jsdom.env(src, config, (err, res) => {
-            if (err) {
-                return reject(err);
+        let pagePromise;
+        if (isURL(src)) {
+            pagePromise = JSDOM.fromURL(src, config);
+        } else if (isHTML(src)) {
+            pagePromise = Promise.resolve(new JSDOM(src, config));
+        } else {
+            pagePromise = JSDOM.fromFile(src, config);
+        }
+
+        return pagePromise.then((page) => {
+            if (options.inject) {
+                if (typeof options.inject === 'function') {
+                    options.inject(page.window);
+                } else {
+                    require(path.join(__dirname, options.inject))(page.window);
+                }
             }
-            return resolve(res);
-        });
-    }).then((result) => {
-        return new Promise((resolve) => {
-            setTimeout(() => resolve(result), options.timeout);
+
+            setTimeout(() => resolve(page), options.timeout);
+        }).catch((e) => {
+            reject(e);
         });
     });
 }
@@ -74,12 +93,13 @@ function getStylesheets(window, options) {
     const media = _.union(['', 'all', 'screen'], options.media);
     const elements = window.document.querySelectorAll('link[rel="stylesheet"]');
 
-    return Array.prototype.map.call(elements, (link) => ({
-        href: link.getAttribute('href'),
-        media: link.getAttribute('media') || ''
-    }))
-    .filter((sheet) => media.indexOf(sheet.media) !== -1)
-    .map((sheet) => sheet.href);
+    return Array.prototype.map
+        .call(elements, (link) => ({
+            href: link.getAttribute('href'),
+            media: link.getAttribute('media') || ''
+        }))
+        .filter((sheet) => media.indexOf(sheet.media) !== -1)
+        .map((sheet) => sheet.href);
 }
 
 /**

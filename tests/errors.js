@@ -76,10 +76,11 @@ describe('Error reporting', () => {
             stderrBuffer += data;
         };
 
-        uncss(['tests/jsdom/throw.html'], { raw: '' }, (error) => {
+        uncss(['tests/jsdom/throw.html'], (error) => {
+            process.stderr.write = oldWrite;
+
             expect(error).to.equal(null);
             expect(stderrBuffer).to.contain('Exception');
-            process.stderr.write = oldWrite;
             done();
         });
     });
