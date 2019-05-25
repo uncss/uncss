@@ -134,7 +134,8 @@ function getUsedSelectors(page, css) {
     css.walkRules((rule) => {
         usedSelectors = _.concat(usedSelectors, rule.selectors.map(dePseudify));
     });
-    return jsdom.findAll(page, usedSelectors);
+
+    return jsdom.findAll(page.window, usedSelectors);
 }
 
 /**
@@ -158,7 +159,7 @@ function getAllSelectors(css) {
  * @param  {Array}  usedSelectors   List of selectors that are found in {pages}
  * @return {Object}                 A css_parse-compatible stylesheet
  */
-function filterUnusedRules(pages, css, ignore, usedSelectors) {
+function filterUnusedRules(css, ignore, usedSelectors) {
     let ignoreNextRule = false,
         ignoreNextRulesStart = false,
         unusedRules = [],
@@ -234,7 +235,7 @@ module.exports = function uncss(pages, css, ignore) {
     return Promise.all(pages.map((page) => getUsedSelectors(page, css)))
     .then((usedSelectors) => {
         usedSelectors = _.flatten(usedSelectors);
-        const filteredCss = filterUnusedRules(pages, css, ignore, usedSelectors);
+        const filteredCss = filterUnusedRules(css, ignore, usedSelectors);
         const allSelectors = getAllSelectors(css);
         return [filteredCss, {
             /* Get the selectors for the report */
