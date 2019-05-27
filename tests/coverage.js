@@ -152,10 +152,14 @@ describe('Options', () => {
         uncss(rfs('selectors/index.html'), {
             uncssrc: 'tests/coverage/.uncssrc'
         }, (err, res) => {
-            expect(err).to.equal(null);
-            expect(res).to.equal(output);
+            try {
+                expect(err).to.equal(null);
+                expect(res).to.equal(output);
 
-            done();
+                done();
+            } catch (e) {
+                done(e);
+            }
         });
     });
 
@@ -164,19 +168,23 @@ describe('Options', () => {
             uncssrc: 'tests/coverage/.uncssrc',
             report: true
         }, (err, res, rep) => {
-            expect(err).to.equal(null);
-            expect(res).to.equal(output);
+            try {
+                expect(err).to.equal(null);
+                expect(res).to.equal(output);
 
-            expect(rep).to.have.ownProperty('original');
+                expect(rep).to.have.ownProperty('original');
 
-            expect(rep.selectors.all).to.be.instanceof(Array);
-            expect(rep.selectors.all.length).to.not.equal(0);
-            expect(rep.selectors.used).to.be.instanceof(Array);
-            expect(rep.selectors.used.length).to.not.equal(0);
-            expect(rep.selectors.unused).to.be.instanceof(Array);
-            expect(rep.selectors.unused.length).to.not.equal(0);
+                expect(rep.selectors.all).to.be.instanceof(Array);
+                expect(rep.selectors.all.length).to.not.equal(0);
+                expect(rep.selectors.used).to.be.instanceof(Array);
+                expect(rep.selectors.used.length).to.not.equal(0);
+                expect(rep.selectors.unused).to.be.instanceof(Array);
+                expect(rep.selectors.unused.length).to.not.equal(0);
 
-            done();
+                done();
+            } catch (e) {
+                done(e);
+            }
         });
     });
 });

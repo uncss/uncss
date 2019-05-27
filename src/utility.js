@@ -36,7 +36,7 @@ function parseUncssrc(filename) {
      * A string is a RegExp if it starts with '/', since that wouldn't be a valid CSS selector.
      */
     options.ignore = options.ignore ? options.ignore.map(strToRegExp) : null;
-    options.ignoreSheets = options.ignoreSheets ? options.ignoreSheets.map(strToRegExp) : null;
+    options.ignoreSheets = options.ignoreSheets ? options.ignoreSheets.map(strToRegExp) : [];
 
     return options;
 }
