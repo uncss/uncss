@@ -79,7 +79,7 @@ uncss(rawHtml, options, function (error, output) {
 
 UnCSS can also be used in conjunction with other JavaScript build systems, such as [Grunt](https://github.com/gruntjs/grunt), [Broccoli](https://github.com/broccolijs/broccoli#readme) or [Gulp](https://github.com/gulpjs/gulp)!
 
-- [grunt-uncss](https://github.com/addyosmani/grunt-uncss) – Thanks to [@addyosmani](https://github.com/addyosmani)
+- [grunt-uncss](https://github.com/uncss/grunt-uncss) – Thanks to [@addyosmani](https://github.com/addyosmani)
 - [gulp-uncss](https://github.com/ben-eb/gulp-uncss) – Thanks to [@ben-eb](https://github.com/ben-eb)
 - [broccoli-uncss](https://github.com/sindresorhus/broccoli-uncss) - Thanks to [@sindresorhus](https://github.com/sindresorhus)
 
