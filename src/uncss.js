@@ -196,7 +196,7 @@ function init(files, options, callback) {
         banner: true,
         csspath: '',
         html: files,
-        htmlRoot: undefined,
+        htmlRoot: null,
         ignore: [],
         ignoreSheets: [],
         inject: null,
@@ -204,9 +204,9 @@ function init(files, options, callback) {
         media: [],
         raw: null,
         report: false,
-        stylesheets: undefined,
+        stylesheets: null,
         timeout: 0,
-        uncssrc: undefined,
+        uncssrc: null,
         userAgent: 'uncss'
     }, options);
 

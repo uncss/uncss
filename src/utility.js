@@ -35,8 +35,8 @@ function parseUncssrc(filename) {
     /* RegExps can't be stored as JSON, therefore we need to parse them manually.
      * A string is a RegExp if it starts with '/', since that wouldn't be a valid CSS selector.
      */
-    options.ignore = options.ignore ? options.ignore.map(strToRegExp) : undefined;
-    options.ignoreSheets = options.ignoreSheets ? options.ignoreSheets.map(strToRegExp) : undefined;
+    options.ignore = options.ignore ? options.ignore.map(strToRegExp) : null;
+    options.ignoreSheets = options.ignoreSheets ? options.ignoreSheets.map(strToRegExp) : null;
 
     return options;
 }
