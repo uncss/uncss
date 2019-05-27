@@ -33,6 +33,18 @@ class HtmlrootResourceLoader extends ResourceLoader {
     }
 }
 
+function defaultOptions() {
+    return {
+        features: {
+            FetchExternalResources: ['script'],
+            ProcessExternalResources: ['script']
+        },
+        runScripts: 'dangerously',
+        userAgent: 'uncss',
+        virtualConsole: new VirtualConsole().sendTo(new Console(process.stderr))
+    };
+}
+
 /**
  * Load a page.
  * @param  {String}  src
@@ -40,14 +52,7 @@ class HtmlrootResourceLoader extends ResourceLoader {
  * @return {Promise<JSDOM>}
  */
 function fromSource(src, options) {
-    const config = {
-        features: {
-            FetchExternalResources: ['script'],
-            ProcessExternalResources: ['script']
-        },
-        runScripts: 'dangerously',
-        virtualConsole: new VirtualConsole().sendTo(new Console(process.stderr))
-    };
+    const config = _.cloneDeep(options.jsdom);
 
     // The htmlroot option allows root-relative URLs (starting with a slash)
     // to be used for all resources. Without it, root-relative URLs are
@@ -136,6 +141,7 @@ function findAll(window, sels) {
 }
 
 module.exports = {
+    defaultOptions,
     fromSource,
     findAll,
     getStylesheets
