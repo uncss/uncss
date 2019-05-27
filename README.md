@@ -163,7 +163,7 @@ Options:
     }
     ```
 
-- **jsdom** (object) (Supported only by API): Supply the options used to create the JSOM pages ([https://github.com/jsdom/jsdom](https://github.com/jsdom/jsdom)). At the moment, `config.resources` is not yet supported.
+- **jsdom** (object) (Supported only by API): Supply the options used to create the JSDOM pages ([https://github.com/jsdom/jsdom](https://github.com/jsdom/jsdom)). At the moment, `config.resources` is not yet supported.
 
 - **media** (string[]): By default UnCSS processes only stylesheets with media query `_all_`, `_screen_`, and those without one. Specify here which others to include.
 
