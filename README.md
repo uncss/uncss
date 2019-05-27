@@ -169,7 +169,9 @@ Options:
 
 - **raw** (string): Give the task a raw string of CSS in addition to the existing stylesheet options; useful in scripting when your CSS hasn't yet been written to disk.
 
-- **report** (boolean): Return the report object in callback.
+- **report** (boolean, default: `true`): Return the report object in callback.
+
+- **strictSSL** (boolean, default: `true`): Disable SSL verification when retrieving html source
 
 - **stylesheets** (string[]): Use these stylesheets instead of those extracted from the HTML files. Prepend paths with the `file://` protocol to force use of local stylesheets, otherwise paths will be resolved as a browser would for an anchor tag `href` on the HTML page.
 
@@ -191,7 +193,7 @@ Options:
   }
   ```
 
-- **userAgent** (String): The user agent string that jsdom should send when requesting pages. May be useful when loading markup from services which use user agent based device detection to serve custom markup to mobile devices. Defaults to `uncss`.
+- **userAgent** (String, default: `'uncss'`): The user agent string that jsdom should send when requesting pages. May be useful when loading markup from services which use user agent based device detection to serve custom markup to mobile devices. Defaults to `uncss`.
 
 ### As a PostCSS Plugin
 
@@ -221,8 +223,6 @@ See [PostCSS docs](https://github.com/postcss/postcss) for examples for your env
       /* this will NOT be ignored */
   }
   ```
-
-- **strictSSL** (Boolean): Disable SSL verification when retrieving html source
 
 ##### Example Configuration
 
