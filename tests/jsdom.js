@@ -162,4 +162,36 @@ describe('jsdom', () => {
             done();
         });
     });
+
+    it('Should have missing globals by default', (done) => {
+        uncss(['tests/jsdom/globals.html'], (err, output) => {
+            try {
+                expect(err).to.equal(null);
+                expect(output).to.include('.globals-undefined');
+
+                done();
+            } catch (e) {
+                done(e);
+            }
+        });
+    });
+
+    it('Should support injected globals', (done) => {
+        uncss(['tests/jsdom/globals.html'], {
+            jsdom: {
+                beforeParse(window) {
+                    window.matchMedia = () => { /* noop */ };
+                }
+            }
+        }, (err, output) => {
+            try {
+                expect(err).to.equal(null);
+                expect(output).to.include('.globals-function');
+
+                done();
+            } catch (e) {
+                done(e);
+            }
+        });
+    });
 });

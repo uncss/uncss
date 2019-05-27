@@ -193,18 +193,21 @@ function init(files, options, callback) {
 
     /* Assign default values to options, unless specified */
     options = _.merge({
-        csspath: '',
-        ignore: [],
-        media: [],
-        timeout: 0,
-        report: false,
-        ignoreSheets: [],
-        html: files,
         banner: true,
-        // gulp-uncss parameters:
+        csspath: '',
+        html: files,
+        htmlRoot: null,
+        ignore: [],
+        ignoreSheets: [],
+        inject: null,
+        jsdom: jsdom.defaultOptions(),
+        media: [],
         raw: null,
-        userAgent: 'uncss',
-        inject: null
+        report: false,
+        stylesheets: null,
+        timeout: 0,
+        uncssrc: null,
+        userAgent: 'uncss'
     }, options);
 
     process(options).then(([css, report]) => callback(null, css, report), callback);
