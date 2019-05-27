@@ -8,8 +8,11 @@ const isHTML = require('is-html'),
     _ = require('lodash');
 
 class HtmlrootResourceLoader extends ResourceLoader {
-    constructor(htmlroot, userAgent) {
-        super({ userAgent });
+    constructor(htmlroot, strictSSL, userAgent) {
+        super({
+            strictSSL,
+            userAgent
+        });
 
         this.htmlroot = htmlroot;
     }
@@ -50,11 +53,7 @@ function fromSource(src, options) {
     // to be used for all resources. Without it, root-relative URLs are
     // looked up relative to file://, so will not be found.
     if (options.htmlroot) {
-        config.resources = new HtmlrootResourceLoader(options.htmlroot, options.userAgent);
-    }
-
-    if (options.strictSSL !== undefined) {
-        config.strictSSL = options.strictSSL;
+        config.resources = new HtmlrootResourceLoader(options.htmlroot, options.strictSSL, options.userAgent);
     }
 
     return new Promise((resolve, reject) => {
