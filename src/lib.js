@@ -8,7 +8,7 @@ const jsdom = require('./jsdom.js'),
  *   selectors cannot be used with querySelectorAll.
  * http://www.w3.org/TR/2001/CR-css3-selectors-20011113/
  */
-const dePseudify = (function() {
+const dePseudify = (() => {
     const ignoredPseudos = [
             /* link */
             ':link',
@@ -46,19 +46,17 @@ const dePseudify = (function() {
         // Actual regex is of the format: /^(:hover|:focus|...)$/i
         pseudosRegex = new RegExp(`^(${ignoredPseudos.join('|')})$`, 'i');
 
-    function transform(selectors) {
+    const transform = selectors => {
         selectors.walkPseudos(selector => {
             if (pseudosRegex.test(selector.value)) {
                 selector.remove();
             }
         });
-    }
+    };
 
     const processor = postcssSelectorParser(transform);
 
-    return function(selector) {
-        return processor.processSync(selector);
-    };
+    return selector => processor.processSync(selector);
 })();
 
 /**
@@ -252,21 +250,20 @@ function filterUnusedRules(css, ignore, usedSelectors) {
  * @param  {Array}   ignore     List of selectors to be ignored
  * @return {Promise}
  */
-module.exports = function uncss(pages, css, ignore) {
-    return Promise.all(pages.map(page => getUsedSelectors(page, css))).then(usedSelectors => {
-        usedSelectors = _.flatten(usedSelectors);
-        const filteredCss = filterUnusedRules(css, ignore, usedSelectors);
-        const allSelectors = getAllSelectors(css);
-        return [
-            filteredCss,
-            {
-                /* Get the selectors for the report */
-                all: allSelectors,
-                unused: _.difference(allSelectors, usedSelectors),
-                used: usedSelectors,
-            },
-        ];
-    });
+module.exports = async function uncss(pages, css, ignore) {
+    const nestedUsedSelectors = await Promise.all(pages.map(page => getUsedSelectors(page, css)));
+    const usedSelectors = _.flatten(nestedUsedSelectors);
+    const filteredCss = filterUnusedRules(css, ignore, usedSelectors);
+    const allSelectors = getAllSelectors(css);
+    return [
+        filteredCss,
+        {
+            /* Get the selectors for the report */
+            all: allSelectors,
+            unused: _.difference(allSelectors, usedSelectors),
+            used: usedSelectors,
+        },
+    ];
 };
 
 module.exports.dePseudify = dePseudify;

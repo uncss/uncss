@@ -15,7 +15,7 @@ const glob = require('glob'),
  * @param  {Object}  options UnCSS options
  * @return {Array|Promise}
  */
-function getHTML(files, options) {
+async function getHTML(files, options) {
     if (_.isString(files)) {
         files = [files];
     }
@@ -30,7 +30,7 @@ function getHTML(files, options) {
     );
 
     if (!files.length) {
-        return Promise.reject(new Error('UnCSS: no HTML files found'));
+        throw new Error('UnCSS: no HTML files found');
     }
 
     // Save files for later reference.
@@ -45,18 +45,16 @@ function getHTML(files, options) {
  * @param  {Array}   pages   Pages opened by jsdom
  * @return {Promise}
  */
-function getStylesheets(files, options, pages) {
+async function getStylesheets(files, options, pages) {
     if (options.stylesheets && options.stylesheets.length) {
         /* Simulate the behavior below */
-        return Promise.resolve([files, options, pages, [options.stylesheets]]);
+        return [files, options, pages, [options.stylesheets]];
     }
+
     /* Extract the stylesheets from the HTML */
-    return Promise.all(pages.map(page => jsdom.getStylesheets(page.window, options))).then(stylesheets => [
-        files,
-        options,
-        pages,
-        stylesheets,
-    ]);
+    const stylesheets = await Promise.all(pages.map(page => jsdom.getStylesheets(page.window, options)));
+
+    return [files, options, pages, stylesheets];
 }
 
 /**
@@ -65,7 +63,7 @@ function getStylesheets(files, options, pages) {
  * @param  {Object}  options     UnCSS options
  * @param  {Array}   pages       Pages opened by jsdom
  * @param  {Array}   stylesheets List of CSS files
- * @return {Array}
+ * @return {Promise<Array>}
  */
 function getCSS([files, options, pages, stylesheets]) {
     /* Ignore specified stylesheets */
@@ -111,7 +109,7 @@ function getCSS([files, options, pages, stylesheets]) {
  * @param  {Array}   stylesheets List of CSS files
  * @return {Promise}
  */
-function processWithTextApi([options, pages, stylesheets]) {
+async function processWithTextApi([options, pages, stylesheets]) {
     /* If we specified a raw string of CSS, add it to the stylesheets array */
     if (options.raw) {
         if (_.isString(options.raw)) {
@@ -146,20 +144,20 @@ function processWithTextApi([options, pages, stylesheets]) {
         /* Try and construct a helpful error message */
         throw utility.parseErrorMessage(err, cssStr);
     }
-    return uncss(pages, pcss, options.ignore).then(([css, rep]) => {
-        let newCssStr = '';
-        postcss.stringify(css, result => {
-            newCssStr += result;
-        });
 
-        if (options.report) {
-            report = {
-                original: cssStr,
-                selectors: rep,
-            };
-        }
-        return [newCssStr, report];
+    const [css, rep] = await uncss(pages, pcss, options.ignore);
+    let newCssStr = '';
+    postcss.stringify(css, result => {
+        newCssStr += result;
     });
+
+    if (options.report) {
+        report = {
+            original: cssStr,
+            selectors: rep,
+        };
+    }
+    return [newCssStr, report];
 }
 
 /**
@@ -167,15 +165,17 @@ function processWithTextApi([options, pages, stylesheets]) {
  * Here we check the options and callback, then run the files through jsdom.
  * @param  {Array}    files     Array of filenames
  * @param  {Object}   [options] options
- * @param  {Function} callback(Error, String, Object)
+ * @param  {Function} callback  (Error, String, Object)
  */
 function init(files, options, callback) {
+    if (!options && !callback) {
+        options = {};
+    }
+
     if (_.isFunction(options)) {
         /* There were no options, this argument is actually the callback */
         callback = options;
         options = {};
-    } else if (!_.isFunction(callback)) {
-        throw new TypeError('UnCSS: expected a callback');
     }
 
     /* Try and read options from the specified uncssrc file */
@@ -184,12 +184,14 @@ function init(files, options, callback) {
             /* Manually-specified options take precedence over uncssrc options */
             options = _.merge(utility.parseUncssrc(options.uncssrc), options);
         } catch (err) {
-            if (err instanceof SyntaxError) {
-                callback(new SyntaxError('UnCSS: uncssrc file is invalid JSON.'));
-                return;
+            const wrappedErr =
+                err instanceof SyntaxError ? new SyntaxError('UnCSS: uncssrc file is invalid JSON.') : err;
+
+            if (callback) {
+                return callback(wrappedErr);
             }
-            callback(err);
-            return;
+
+            throw wrappedErr;
         }
     }
 
@@ -215,29 +217,33 @@ function init(files, options, callback) {
         options
     );
 
-    return process(options).then(([css, report]) => callback(null, css, report), callback);
+    const resultPromise = process(options);
+    if (!callback) {
+        return resultPromise.then(([css, report]) => ({ css, report }));
+    }
+
+    resultPromise.then(([css, report]) => callback(null, css, report), callback);
 }
 
 function processAsPostCss(options, pages) {
     return uncss(pages, options.rawPostCss, options.ignore);
 }
 
-function process(opts) {
-    return getHTML(opts.html, opts).then(pages => {
-        function cleanup(result) {
-            pages.forEach(page => page.window.close());
-            return result;
-        }
+async function process(opts) {
+    const pages = await getHTML(opts.html, opts);
+    const cleanup = result => {
+        pages.forEach(page => page.window.close());
+        return result;
+    };
 
-        if (opts.usePostCssInternal) {
-            return processAsPostCss(opts, pages).then(cleanup);
-        }
+    if (opts.usePostCssInternal) {
+        return processAsPostCss(opts, pages).then(cleanup);
+    }
 
-        return getStylesheets(opts.files, opts, pages)
-            .then(getCSS)
-            .then(processWithTextApi)
-            .then(cleanup);
-    });
+    return getStylesheets(opts.files, opts, pages)
+        .then(getCSS)
+        .then(processWithTextApi)
+        .then(cleanup);
 }
 
 const postcssPlugin = postcss.plugin('uncss', opts => {
@@ -253,7 +259,8 @@ const postcssPlugin = postcss.plugin('uncss', opts => {
         opts
     );
 
-    return function(css) {
+    return css => {
+        // eslint-disable-line no-unused-vars
         options = _.merge(options, {
             // This is used to pass the css object in to processAsPostCSS
             rawPostCss: css,

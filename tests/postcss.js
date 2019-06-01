@@ -2,6 +2,7 @@
 
 const expect = require('chai').expect,
     fs = require('fs'),
+    path = require('path'),
     postcss = require('postcss'),
     uncss = require('./../src/uncss.js');
 
@@ -23,64 +24,47 @@ describe('PostCSS Plugin', () => {
         });
     });
 
-    it('Simple end-to-end test', done => {
+    it('Simple end-to-end test', async () => {
         const opts = {};
         opts.html = ['./tests/glob/one.html'];
-        postcss([uncss.postcssPlugin(opts)])
-            .process(prevRun)
-            .then(
-                result => {
-                    expect(result.warnings().length).to.equal(0);
-                    expect(result.css).to.not.equal(undefined);
-                    expect(result.css).to.contain('h1');
-                    expect(result.css).not.to.contain('h2');
-                    expect(result.css).not.to.contain('h3');
-                    expect(result.css).not.to.contain('h4');
-                    expect(result.css).not.to.contain('h5');
-                    expect(result.css).not.to.contain('h6');
-                    done();
-                },
-                error => {
-                    done(error);
-                }
-            );
+        const result = await postcss([uncss.postcssPlugin(opts)]).process(prevRun, { from: undefined });
+
+        expect(result.warnings().length).to.equal(0);
+        expect(result.css).to.not.equal(undefined);
+        expect(result.css).to.contain('h1');
+        expect(result.css).not.to.contain('h2');
+        expect(result.css).not.to.contain('h3');
+        expect(result.css).not.to.contain('h4');
+        expect(result.css).not.to.contain('h5');
+        expect(result.css).not.to.contain('h6');
     });
 
-    it('Respects the ignores param', done => {
+    it('Respects the ignores param', async () => {
         const opts = {
             ignore: ['h4'],
         };
         opts.html = ['./tests/glob/one.html'];
-        postcss([uncss.postcssPlugin(opts)])
-            .process(prevRun)
-            .then(
-                result => {
-                    expect(result.warnings().length).to.equal(0);
-                    expect(result.css).to.not.equal(undefined);
-                    expect(result.css).to.contain('h1');
-                    expect(result.css).not.to.contain('h2');
-                    expect(result.css).not.to.contain('h3');
-                    expect(result.css).to.contain('h4');
-                    expect(result.css).not.to.contain('h5');
-                    expect(result.css).not.to.contain('h6');
-                    done();
-                },
-                error => {
-                    done(error);
-                }
-            );
+        const result = await postcss([uncss.postcssPlugin(opts)]).process(prevRun, { from: undefined });
+
+        expect(result.warnings().length).to.equal(0);
+        expect(result.css).to.not.equal(undefined);
+        expect(result.css).to.contain('h1');
+        expect(result.css).not.to.contain('h2');
+        expect(result.css).not.to.contain('h3');
+        expect(result.css).to.contain('h4');
+        expect(result.css).not.to.contain('h5');
+        expect(result.css).not.to.contain('h6');
     });
 
     it('Should work with http scripts', () => {
-        return postcss(
-            [
-                uncss.postcssPlugin({
-                    html: [path.join(__dirname, 'jsdom/http_script.html')],
-                    timeout: 2500
-                })
-            ])
+        return postcss([
+            uncss.postcssPlugin({
+                html: [path.join(__dirname, 'jsdom/http_script.html')],
+                timeout: 2500,
+            }),
+        ])
             .process(fs.readFileSync(path.join(__dirname, 'jsdom/jsdom.css')), { from: undefined })
-            .then((result) => {
+            .then(result => {
                 expect(result.warnings().length).to.equal(0);
                 expect(result.css).to.not.equal(undefined);
                 expect(result.css).to.contain('evaluated');
@@ -88,17 +72,18 @@ describe('PostCSS Plugin', () => {
     });
 
     it('Should accept options.uncssrc', () => {
-        return postcss(
-            [
-                uncss.postcssPlugin({
-                    html: [path.join(__dirname, 'selectors/index.html')],
-                    uncssrc: './tests/coverage/uncssrc'
-                })
-            ])
+        return postcss([
+            uncss.postcssPlugin({
+                html: [path.join(__dirname, 'selectors/index.html')],
+                uncssrc: './tests/coverage/uncssrc',
+            }),
+        ])
             .process(fs.readFileSync(path.join(__dirname, 'selectors/fixtures/classes.css')), { from: undefined })
-            .then((result) => {
+            .then(result => {
                 expect(result.warnings().length).to.equal(0);
-                expect(result.css).to.include(fs.readFileSync(path.join(__dirname, 'selectors/expected/classes.css'), 'utf-8'));
+                expect(result.css).to.include(
+                    fs.readFileSync(path.join(__dirname, 'selectors/expected/classes.css'), 'utf-8')
+                );
             });
     });
 });

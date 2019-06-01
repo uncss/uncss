@@ -18,6 +18,16 @@ span + span {
   text-decoration: underline;
 }
  
+/*** uncss> filename: tests/selectors/fixtures/at-rules.css ***/
+@charset "UTF-8";
+
+@font-face {
+    font-family: 'NotUsed';
+    src: url('non-existent.woff2') format('woff2');
+}
+
+@import 'nonexistent.css';
+ 
 /*** uncss> filename: tests/selectors/fixtures/classes.css ***/
 .red {
   color: red;
