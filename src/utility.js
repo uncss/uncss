@@ -118,8 +118,8 @@ function stripBom(utf8String) {
  * @param  {Array}   files  An array of the filenames to read
  * @return {Promise}
  */
-function readStylesheets(files, outputBanner) {
-    return Promise.all(
+async function readStylesheets(files, outputBanner) {
+    const res = await Promise.all(
         files.map(filename => {
             if (isURL(filename)) {
                 return new Promise((resolve, reject) => {
@@ -148,18 +148,18 @@ function readStylesheets(files, outputBanner) {
             }
             throw new Error(`UnCSS: could not open ${path.join(process.cwd(), filename)}`);
         })
-    ).then(res => {
-        // res is an array of the content of each file in files (in the same order)
-        if (outputBanner) {
-            for (let i = 0, len = files.length; i < len; i++) {
-                // We append a small banner to keep track of which file we are currently processing
-                // super helpful for debugging
-                const banner = `/*** uncss> filename: ${files[i].replace(/\\/g, '/')} ***/\n`;
-                res[i] = banner + res[i];
-            }
+    );
+
+    // res is an array of the content of each file in files (in the same order)
+    if (outputBanner) {
+        for (let i = 0, len = files.length; i < len; i++) {
+            // We append a small banner to keep track of which file we are currently processing
+            // super helpful for debugging
+            const banner = `/*** uncss> filename: ${files[i].replace(/\\/g, '/')} ***/\n`;
+            res[i] = banner + res[i];
         }
-        return res;
-    });
+    }
+    return res;
 }
 
 function parseErrorMessage(error, cssStr) {

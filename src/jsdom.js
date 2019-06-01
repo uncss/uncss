@@ -85,37 +85,29 @@ function defaultOptions() {
  * @param  {Object}  options
  * @return {Promise<JSDOM>}
  */
-function fromSource(src, options) {
+async function fromSource(src, options) {
     const config = _.cloneDeep(options.jsdom);
 
     config.resources = new CustomResourcesLoader(options.htmlroot, options.strictSSL, options.userAgent);
 
-    return new Promise((resolve, reject) => {
-        let pagePromise;
-        if (isURL(src)) {
-            pagePromise = JSDOM.fromURL(src, config);
-        } else if (isHTML(src)) {
-            pagePromise = Promise.resolve(new JSDOM(src, config));
+    let page;
+    if (isURL(src)) {
+        page = await JSDOM.fromURL(src, config);
+    } else if (isHTML(src)) {
+        page = new JSDOM(src, config);
+    } else {
+        page = await JSDOM.fromFile(src, config);
+    }
+
+    if (options.inject) {
+        if (typeof options.inject === 'function') {
+            options.inject(page.window);
         } else {
-            pagePromise = JSDOM.fromFile(src, config);
+            require(path.join(__dirname, options.inject))(page.window);
         }
+    }
 
-        return pagePromise
-            .then(page => {
-                if (options.inject) {
-                    if (typeof options.inject === 'function') {
-                        options.inject(page.window);
-                    } else {
-                        require(path.join(__dirname, options.inject))(page.window);
-                    }
-                }
-
-                setTimeout(() => resolve(page), options.timeout);
-            })
-            .catch(e => {
-                reject(e);
-            });
-    });
+    return new Promise(resolve => setTimeout(() => resolve(page), options.timeout));
 }
 
 /**

@@ -31,21 +31,13 @@ const tests = fixtures.map(test => ({
 }));
 
 describe('Selectors', () => {
-    before(done => {
-        uncss(
-            rfs('selectors/index.html'),
-            {
-                csspath: 'tests/selectors',
-            },
-            (err, output) => {
-                if (err) {
-                    throw err;
-                }
-                rawcss = output;
-                done();
-            }
-        );
-    });
+    before(() =>
+        uncss(rfs('selectors/index.html'), {
+            csspath: 'tests/selectors',
+        }).then(({ css }) => {
+            rawcss = css;
+        })
+    );
 
     tests.forEach(test => {
         if (test.expected) {

@@ -33,9 +33,8 @@ describe('dePseudify() function', () => {
 
     Object.keys(expected).forEach(input => {
         const output = expected[input];
-        it(`should convert ${input} to ${output || '(empty)'}`, done => {
+        it(`should convert ${input} to ${output || '(empty)'}`, () => {
             expect(dePseudify(input)).to.equal(output);
-            done();
         });
     });
 });

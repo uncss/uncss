@@ -1,0 +1,8 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: 'NotUsed';
+    src: url('non-existent.woff2') format('woff2');
+}
+
+@import 'nonexistent.css';
