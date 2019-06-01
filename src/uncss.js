@@ -215,7 +215,7 @@ function init(files, options, callback) {
         options
     );
 
-    process(options).then(([css, report]) => callback(null, css, report), callback);
+    return process(options).then(([css, report]) => callback(null, css, report), callback);
 }
 
 function processAsPostCss(options, pages) {
