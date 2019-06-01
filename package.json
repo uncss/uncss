@@ -39,11 +39,11 @@
         "src"
     ],
     "dependencies": {
-        "commander": "^2.20.0",
+        "commander": "^3.0.0",
         "glob": "^7.1.4",
         "is-absolute-url": "^3.0.1",
-        "is-html": "^1.1.0",
-        "jsdom": "^15.1.0",
+        "is-html": "^2.0.0",
+        "jsdom": "^15.1.1",
         "lodash": "^4.17.15",
         "postcss": "^7.0.17",
         "postcss-selector-parser": "6.0.2",
@@ -53,13 +53,13 @@
         "chai": "^4.2.0",
         "chai-resemble": "^1.2.0",
         "coveralls": "^3.0.6",
-        "eslint": "^5.16.0",
+        "eslint": "^6.2.2",
         "eslint-config-problems": "^3.0.1",
-        "husky": "^2.3.0",
-        "lint-staged": "^8.1.7",
+        "husky": "^3.0.4",
+        "lint-staged": "^9.2.5",
         "mocha": "^6.2.0",
         "nyc": "^14.1.1",
-        "prettier": "^1.17.1"
+        "prettier": "^1.18.2"
     },
     "engines": {
         "node": ">=6.0"
