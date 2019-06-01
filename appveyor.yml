@@ -23,4 +23,4 @@ matrix:
     fast_finish: true
 
 cache:
-    - 'node_modules -> appveyor.yml,package.json,package-lock.json'
+    - "node_modules -> appveyor.yml,package.json,package-lock.json"

@@ -6,8 +6,7 @@ const fs = require('fs'),
     uncss = require('../src/uncss');
 
 describe('Compile the CSS of an HTML page passed by path', () => {
-
-    it('Should compile two stylesheets into one and keep the media query', (done) => {
+    it('Should compile two stylesheets into one and keep the media query', done => {
         uncss(['tests/input/testpage.html'], (err, output) => {
             expect(err).to.equal(null);
             expect(output).to.not.equal(undefined);

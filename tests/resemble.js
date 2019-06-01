@@ -19,23 +19,23 @@ function rel(relativePath) {
 }
 
 describe('Pages should resemble the reference', () => {
-    it('Bootstrap', (done) => {
-        expect('file://' + rel('output/bootstrap/jumbotron.html')).to.resemble(
+    it('Bootstrap', done => {
+        expect(`file://${rel('output/bootstrap/jumbotron.html')}`).to.resemble(
             'https://getbootstrap.com/docs/3.3/examples/jumbotron/',
             {
                 name: 'bootstrap',
-                outDir: rel('screenshots')
+                outDir: rel('screenshots'),
             },
             done
         );
     });
 
-    it('Selectors', (done) => {
-        expect('file://' + rel('selectors/index.html')).to.resemble(
-            'file://' + rel('output/selectors/index.html'),
+    it('Selectors', done => {
+        expect(`file://${rel('selectors/index.html')}`).to.resemble(
+            `file://${rel('output/selectors/index.html')}`,
             {
                 name: 'selectors',
-                outDir: rel('screenshots')
+                outDir: rel('screenshots'),
             },
             done
         );
