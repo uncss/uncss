@@ -1,4 +1,5 @@
 /.git/
 /coverage/
 /node_modules/
+/tests/jsdom/
 /tests/output/

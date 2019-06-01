@@ -4,8 +4,7 @@ const expect = require('chai').expect,
     uncss = require('../src/uncss');
 
 describe('Using globbing patterns', () => {
-
-    it('should find both index pages in the directory and return the used CSS for both of them', (done) => {
+    it('should find both index pages in the directory and return the used CSS for both of them', done => {
         uncss(['tests/glob/**/*.html'], (err, output) => {
             expect(err).to.equal(null);
             expect(output).to.not.equal(undefined);

@@ -28,12 +28,12 @@ describe('dePseudify() function', () => {
         'li:only-child': 'li:only-child',
         'p:hover:not(.fancy)': 'p:not(.fancy)',
         'p:not(.fancy)': 'p:not(.fancy)',
-        'p:not(.fancy):hover': 'p:not(.fancy)'
+        'p:not(.fancy):hover': 'p:not(.fancy)',
     };
 
-    Object.keys(expected).forEach((input) => {
+    Object.keys(expected).forEach(input => {
         const output = expected[input];
-        it(`should convert ${input} to ${output || '(empty)'}`, (done) => {
+        it(`should convert ${input} to ${output || '(empty)'}`, done => {
             expect(dePseudify(input)).to.equal(output);
             done();
         });
