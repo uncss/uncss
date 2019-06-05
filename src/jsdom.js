@@ -1,13 +1,14 @@
 'use strict';
 
-const isHTML = require('is-html'),
+const fs = require('fs'),
+    isHTML = require('is-html'),
     isURL = require('is-absolute-url'),
     { JSDOM, ResourceLoader, VirtualConsole } = require('jsdom'),
     path = require('path'),
     { Console } = require('console'),
     _ = require('lodash');
 
-class HtmlrootResourceLoader extends ResourceLoader {
+class HtmlrootScriptLoader extends ResourceLoader {
     constructor(htmlroot, strictSSL, userAgent) {
         super({
             strictSSL,
@@ -17,7 +18,12 @@ class HtmlrootResourceLoader extends ResourceLoader {
         this.htmlroot = htmlroot;
     }
 
-    fetch(originalUrl, { element }) {
+    fetch(originalUrl, options) {
+        const element = options && options.element;
+        if (!element || element.nodeName.toLowerCase() !== 'script') {
+            return null;
+        }
+
         // See whether raw attribute value is root-relative.
         const src = element.getAttribute('src');
         if (!src) {
@@ -25,11 +31,13 @@ class HtmlrootResourceLoader extends ResourceLoader {
         }
 
         let url = originalUrl;
-        if (src.indexOf('/') === 0) {
-            url = 'file://' + path.join(this.htmlroot, src);
+        if (path.isAbsolute(src)) {
+            url = path.join(this.htmlroot, src);
+
+            return Promise.resolve(fs.readFileSync(url));
         }
 
-        return super.fetch(url);
+        return super.fetch(originalUrl, options);
     }
 }
 
@@ -58,7 +66,7 @@ function fromSource(src, options) {
     // to be used for all resources. Without it, root-relative URLs are
     // looked up relative to file://, so will not be found.
     if (options.htmlroot) {
-        config.resources = new HtmlrootResourceLoader(options.htmlroot, options.strictSSL, options.userAgent);
+        config.resources = new HtmlrootScriptLoader(options.htmlroot, options.strictSSL, options.userAgent);
     }
 
     return new Promise((resolve, reject) => {
