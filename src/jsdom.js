@@ -26,15 +26,19 @@ class HtmlrootScriptLoader extends ResourceLoader {
 
         // See whether raw attribute value is root-relative.
         const src = element.getAttribute('src');
-        if (!src) {
-            return null;
-        }
-
         let url = originalUrl;
         if (path.isAbsolute(src)) {
             url = path.join(this.htmlroot, src);
 
-            return Promise.resolve(fs.readFileSync(url));
+            return new Promise((resolve, reject) => {
+                fs.readFile(url, (err, buffer) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(buffer);
+                    }
+                });
+            });
         }
 
         return super.fetch(originalUrl, options);

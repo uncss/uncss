@@ -77,6 +77,35 @@ describe('jsdom', () => {
         });
     });
 
+    it('Should not use htmlroot when loading inline scripts', (done) => {
+        const options = { htmlroot: path.join(__dirname, './jsdom') };
+        uncss(['tests/jsdom/basic.html'], options, (err, output) => {
+            expect(err).to.equal(null);
+            expect(output).to.include('.evaluated');
+            done();
+        });
+    });
+
+    it('Should work with missing scripts and htmlroot', (done) => {
+        const options = { htmlroot: path.join(__dirname, './jsdom') };
+        // Overwrite stdout and stderr so we can monitor the output
+        const olderr = process.stderr.write;
+        let stderr = '';
+
+        process.stderr.write = function (content) {
+            stderr += content;
+        };
+
+        uncss(['tests/jsdom/not_found.html'], options, (err, output) => {
+            process.stderr.write = olderr;
+
+            expect(err).to.equal(null);
+            expect(output).not.not.include('.evaluated');
+            expect(stderr).to.include('Could not load script');
+            done();
+        });
+    });
+
     it('Should set the useragent to the value given in options', (done) => {
         const testUserAgent = 'foo';
         const options = {
