@@ -41,20 +41,20 @@
   "dependencies": {
     "commander": "^2.20.0",
     "glob": "^7.1.4",
-    "is-absolute-url": "^3.0.0",
+    "is-absolute-url": "^3.0.1",
     "is-html": "^1.1.0",
-    "jsdom": "^15.1.0",
-    "lodash": "^4.17.11",
-    "postcss": "^7.0.16",
+    "jsdom": "^15.1.1",
+    "lodash": "^4.17.15",
+    "postcss": "^7.0.17",
     "postcss-selector-parser": "6.0.2",
     "request": "^2.88.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-resemble": "^1.2.0",
-    "coveralls": "^3.0.3",
+    "coveralls": "^3.0.6",
     "eslint": "^5.16.0",
-    "mocha": "^6.1.4",
+    "mocha": "^6.2.0",
     "nyc": "^14.1.1"
   },
   "engines": {
