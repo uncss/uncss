@@ -8,29 +8,47 @@ const fs = require('fs'),
     { Console } = require('console'),
     _ = require('lodash');
 
-class HtmlrootScriptLoader extends ResourceLoader {
+/**
+ * Jsdom expects promises returned by ResourceLoader.fetch to have an 'abort' method.
+ * @param {Promise} promise The promise to augment.
+ */
+function makeResourcePromise(promise) {
+    promise.abort = () => { /* noop */ };
+
+    return promise;
+}
+
+class CustomResourcesLoader extends ResourceLoader {
     constructor(htmlroot, strictSSL, userAgent) {
         super({
             strictSSL,
             userAgent
         });
 
+        // The htmlroot option allows root-relative URLs (starting with a slash)
+        // to be used for all resources. Without it, root-relative URLs are
+        // looked up relative to file://, so will not be found.
         this.htmlroot = htmlroot;
     }
 
     fetch(originalUrl, options) {
         const element = options && options.element;
-        if (!element || element.nodeName.toLowerCase() !== 'script') {
-            return null;
+        if (!element) {
+            // HTML request?
+            return super.fetch(originalUrl, options);
+        }
+
+        // Only scripts need to be fetched. Stylesheets are read later by uncss.
+        if (!this.htmlroot || element.nodeName !== 'SCRIPT') {
+            return makeResourcePromise(Promise.resolve(Buffer.from('')));
         }
 
         // See whether raw attribute value is root-relative.
         const src = element.getAttribute('src');
-        let url = originalUrl;
-        if (path.isAbsolute(src)) {
-            url = path.join(this.htmlroot, src);
+        if (src && path.isAbsolute(src)) {
+            const url = path.join(this.htmlroot, src);
 
-            return new Promise((resolve, reject) => {
+            return makeResourcePromise(new Promise((resolve, reject) => {
                 fs.readFile(url, (err, buffer) => {
                     if (err) {
                         reject(err);
@@ -38,7 +56,7 @@ class HtmlrootScriptLoader extends ResourceLoader {
                         resolve(buffer);
                     }
                 });
-            });
+            }));
         }
 
         return super.fetch(originalUrl, options);
@@ -66,12 +84,7 @@ function defaultOptions() {
 function fromSource(src, options) {
     const config = _.cloneDeep(options.jsdom);
 
-    // The htmlroot option allows root-relative URLs (starting with a slash)
-    // to be used for all resources. Without it, root-relative URLs are
-    // looked up relative to file://, so will not be found.
-    if (options.htmlroot) {
-        config.resources = new HtmlrootScriptLoader(options.htmlroot, options.strictSSL, options.userAgent);
-    }
+    config.resources = new CustomResourcesLoader(options.htmlroot, options.strictSSL, options.userAgent);
 
     return new Promise((resolve, reject) => {
         let pagePromise;
