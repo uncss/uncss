@@ -237,21 +237,24 @@ function process(opts) {
 }
 
 const postcssPlugin = postcss.plugin('uncss', (opts) => {
-    opts = _.defaults(opts, {
+    let options = _.merge({
         usePostCssInternal: true,
         // Ignore stylesheets in the HTML files; only use those from the stream
         ignoreSheets: [/\s*/],
         html: [],
-        ignore: []
-    });
+        ignore: [],
+        jsdom: jsdom.defaultOptions()
+    }, opts);
 
     return function (css, result) { // eslint-disable-line no-unused-vars
-        opts = Object.assign(opts, {
+        options = _.merge(options, {
             // This is used to pass the css object in to processAsPostCSS
-            rawPostCss: css
+            rawPostCss: css,
+            // TODO: Investigate why we need a timeout only for PostCSS
+            timeout: opts.timeout || 100
         });
 
-        return process(opts);
+        return process(options);
     };
 });
 

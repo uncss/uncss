@@ -1,35 +1,65 @@
 'use strict';
 
-const isHTML = require('is-html'),
+const fs = require('fs'),
+    isHTML = require('is-html'),
     isURL = require('is-absolute-url'),
     { JSDOM, ResourceLoader, VirtualConsole } = require('jsdom'),
     path = require('path'),
     { Console } = require('console'),
     _ = require('lodash');
 
-class HtmlrootResourceLoader extends ResourceLoader {
+/**
+ * Jsdom expects promises returned by ResourceLoader.fetch to have an 'abort' method.
+ * @param {Promise} promise The promise to augment.
+ */
+function makeResourcePromise(promise) {
+    promise.abort = () => { /* noop */ };
+
+    return promise;
+}
+
+class CustomResourcesLoader extends ResourceLoader {
     constructor(htmlroot, strictSSL, userAgent) {
         super({
             strictSSL,
             userAgent
         });
 
+        // The htmlroot option allows root-relative URLs (starting with a slash)
+        // to be used for all resources. Without it, root-relative URLs are
+        // looked up relative to file://, so will not be found.
         this.htmlroot = htmlroot;
     }
 
-    fetch(originalUrl, { element }) {
+    fetch(originalUrl, options) {
+        const element = options && options.element;
+        if (!element) {
+            // HTML request?
+            return super.fetch(originalUrl, options);
+        }
+
+        // Only scripts need to be fetched. Stylesheets are read later by uncss.
+        if (!this.htmlroot || element.nodeName !== 'SCRIPT') {
+            return makeResourcePromise(Promise.resolve(Buffer.from('')));
+        }
+
         // See whether raw attribute value is root-relative.
         const src = element.getAttribute('src');
-        if (!src) {
-            return null;
+        if (src && path.isAbsolute(src)) {
+            const url = path.join(this.htmlroot, src);
+
+            return makeResourcePromise(new Promise((resolve, reject) => {
+                fs.readFile(url, (err, buffer) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(buffer);
+                    }
+                });
+            }));
         }
 
-        let url = originalUrl;
-        if (src.indexOf('/') === 0) {
-            url = 'file://' + path.join(this.htmlroot, src);
-        }
-
-        return super.fetch(url);
+        return super.fetch(originalUrl, options);
     }
 }
 
@@ -54,12 +84,7 @@ function defaultOptions() {
 function fromSource(src, options) {
     const config = _.cloneDeep(options.jsdom);
 
-    // The htmlroot option allows root-relative URLs (starting with a slash)
-    // to be used for all resources. Without it, root-relative URLs are
-    // looked up relative to file://, so will not be found.
-    if (options.htmlroot) {
-        config.resources = new HtmlrootResourceLoader(options.htmlroot, options.strictSSL, options.userAgent);
-    }
+    config.resources = new CustomResourcesLoader(options.htmlroot, options.strictSSL, options.userAgent);
 
     return new Promise((resolve, reject) => {
         let pagePromise;
