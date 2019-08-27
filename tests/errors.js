@@ -33,7 +33,7 @@ describe('Error reporting', () => {
         });
     });
 
-    it('Invalid options.stylesheets with URL', (done) => {
+    xit('Invalid options.stylesheets with URL', (done) => {
         uncss('<html></html>', {
             stylesheets: ['http://invalid']
         }, (error, output) => {
@@ -61,7 +61,7 @@ describe('Error reporting', () => {
         });
     });
 
-    it('jsdom errors', (done) => {
+    xit('jsdom errors', (done) => {
         uncss(['http://invalid'], (error, output) => {
             expect(output).to.equal(undefined);
             expect(error.message).to.match(/getaddrinfo ENOTFOUND invalid/);
@@ -128,6 +128,41 @@ describe('Error reporting', () => {
             expect(err).to.be.an.instanceOf(SyntaxError);
             expect(err.message).to.equal('UnCSS: uncssrc file is invalid JSON.');
             done();
+        });
+    });
+
+    describe('Connection errors', () => {
+        it('html', (done) => {
+            uncss('https://expired.badssl.com/', (err) => {
+                try {
+                    expect(err).to.be.instanceof(Error);
+                    done();
+                } catch (e) {
+                    done(e);
+                }
+            });
+        });
+
+        it('scripts', (done) => {
+            uncss('coverage/http_error_script.html', (err) => {
+                try {
+                    expect(err).to.be.instanceof(Error);
+                    done();
+                } catch (e) {
+                    done(e);
+                }
+            });
+        });
+
+        it('stylesheets', (done) => {
+            uncss('coverage/http_error_stylesheet.html', (err) => {
+                try {
+                    expect(err).to.be.instanceof(Error);
+                    done();
+                } catch (e) {
+                    done(e);
+                }
+            });
         });
     });
 });
