@@ -130,4 +130,39 @@ describe('Error reporting', () => {
             done();
         });
     });
+
+    describe('Connection errors', () => {
+        it('html', (done) => {
+            uncss('https://expired.badssl.com/', (err) => {
+                try {
+                    expect(err).to.be.instanceof(Error);
+                    done();
+                } catch (e) {
+                    done(e);
+                }
+            });
+        });
+
+        it('scripts', (done) => {
+            uncss('coverage/http_error_script.html', (err) => {
+                try {
+                    expect(err).to.be.instanceof(Error);
+                    done();
+                } catch (e) {
+                    done(e);
+                }
+            });
+        });
+
+        it('stylesheets', (done) => {
+            uncss('coverage/http_error_stylesheet.html', (err) => {
+                try {
+                    expect(err).to.be.instanceof(Error);
+                    done();
+                } catch (e) {
+                    done(e);
+                }
+            });
+        });
+    });
 });
