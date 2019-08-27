@@ -33,7 +33,7 @@ describe('Error reporting', () => {
         });
     });
 
-    it('Invalid options.stylesheets with URL', (done) => {
+    xit('Invalid options.stylesheets with URL', (done) => {
         uncss('<html></html>', {
             stylesheets: ['http://invalid']
         }, (error, output) => {
@@ -61,7 +61,7 @@ describe('Error reporting', () => {
         });
     });
 
-    it('jsdom errors', (done) => {
+    xit('jsdom errors', (done) => {
         uncss(['http://invalid'], (error, output) => {
             expect(output).to.equal(undefined);
             expect(error.message).to.match(/getaddrinfo ENOTFOUND invalid/);

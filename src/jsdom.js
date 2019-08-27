@@ -28,18 +28,18 @@ class CustomResourcesLoader extends ResourceLoader {
         // The htmlroot option allows root-relative URLs (starting with a slash)
         // to be used for all resources. Without it, root-relative URLs are
         // looked up relative to file://, so will not be found.
-        this.htmlroot = htmlroot;
+        this.htmlroot = htmlroot || '';
     }
 
     fetch(originalUrl, options) {
         const element = options && options.element;
         if (!element) {
-            // HTML request?
+            // HTTP request?
             return super.fetch(originalUrl, options);
         }
 
-        // Only scripts need to be fetched. Stylesheets are read later by uncss.
-        if (!this.htmlroot || element.nodeName !== 'SCRIPT') {
+        if (!element || element.nodeName !== 'SCRIPT') {
+            // Only scripts need to be fetched. Stylesheets are read later by uncss.
             return makeResourcePromise(Promise.resolve(Buffer.from('')));
         }
 
@@ -49,13 +49,13 @@ class CustomResourcesLoader extends ResourceLoader {
             const url = path.join(this.htmlroot, src);
 
             return makeResourcePromise(new Promise((resolve, reject) => {
-                fs.readFile(url, (err, buffer) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(buffer);
-                    }
-                });
+                try {
+                    const buffer = fs.readFileSync(url);
+
+                    resolve(buffer);
+                } catch (e) {
+                    reject(e);
+                }
             }));
         }
 
