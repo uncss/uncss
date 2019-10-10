@@ -100,6 +100,19 @@ function parsePaths(source, stylesheets, options) {
 }
 
 /**
+ * Given an UTF8 string, return a version of this string without the first byte if it corresponds
+ *   to the Byte Order Mark
+ * @param {String}  utf8String the string to strip
+ * @return {String}
+ */
+function stripBom(utf8String) {
+    if (utf8String.charCodeAt(0) === 0xFEFF) {
+        return utf8String.substr(1);
+    }
+    return utf8String;
+}
+
+/**
  * Given an array of filenames, return an array of the files' contents,
  *   only if the filename matches a regex
  * @param  {Array}   files  An array of the filenames to read
@@ -125,7 +138,7 @@ function readStylesheets(files, outputBanner) {
                     if (err) {
                         return reject(err);
                     }
-                    return resolve(contents);
+                    return resolve(stripBom(contents));
                 });
             });
         }
