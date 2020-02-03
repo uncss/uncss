@@ -51,7 +51,7 @@ var files   = ['my', 'array', 'of', 'HTML', 'files', 'or', 'http://urls.com'],
         inject       : function(window) { window.document.querySelector('html').classList.add('no-csscalc', 'csscalc'); },
         jsdom        : {
             userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X)',
-        }
+        },
         media        : ['(min-width: 700px) handheld and (orientation: landscape)'],
         raw          : 'h1 { color: green }',
         report       : false,
