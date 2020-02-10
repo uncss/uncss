@@ -71,6 +71,12 @@ function filterUnusedSelectors(selectors, ignore, usedSelectors) {
             if (_.isRegExp(ignore[i]) && ignore[i].test(selector)) {
                 return true;
             }
+            if (/:\w+/.test(ignore[i])) {
+                const ignored = dePseudify(ignore[i]);
+                if (ignored === selector) {
+                    return true;
+                }
+            }
             if (ignore[i] === selector) {
                 return true;
             }
