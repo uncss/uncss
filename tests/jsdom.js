@@ -67,6 +67,13 @@ describe('jsdom', () => {
         expect(css).to.include('.evaluated');
     });
 
+    it('Should accept local scripts and stylesheets with a query string', async () => {
+        const options = { htmlroot: path.join(__dirname, './jsdom') };
+        const { css } = await uncss(['tests/jsdom/querystring.html'], options);
+
+        expect(css).to.include('.evaluated');
+    });
+
     it('Should work with missing scripts and htmlroot', async () => {
         const options = { htmlroot: path.join(__dirname, './jsdom') };
         // Overwrite stdout and stderr so we can monitor the output
