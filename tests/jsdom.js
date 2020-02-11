@@ -190,4 +190,10 @@ describe('jsdom', () => {
 
         expect(css).to.include('.globals-function');
     });
+
+    it('Should not crash when there the css file starts with BOM + @', async () => {
+        const { css } = await uncss(['tests/input/testbom.html']);
+
+        expect(css).to.include('body');
+    });
 });
