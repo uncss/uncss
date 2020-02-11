@@ -157,7 +157,10 @@ function findAll(window, sels) {
     return sels.filter(selector => {
         try {
             return document.querySelector(selector);
+            // eslint-disable-next-line no-unused-vars
         } catch (e) {
+            // We ignore the error because there are a bunch of selectors which are out of our control.
+            // In that case, we consider them as unused.
             return true;
         }
     });

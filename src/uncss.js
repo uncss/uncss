@@ -4,6 +4,7 @@ const glob = require('glob'),
     isHTML = require('is-html'),
     isURL = require('is-absolute-url'),
     jsdom = require('./jsdom.js'),
+    path = require('path'),
     postcss = require('postcss'),
     uncss = require('./lib.js'),
     utility = require('./utility.js'),
@@ -23,7 +24,7 @@ async function getHTML(files, options) {
     files = _.flatten(
         files.map(file => {
             if (!isURL(file) && !isHTML(file)) {
-                return glob.sync(file);
+                return glob.sync(file).map(match => match.split('/').join(path.sep));
             }
             return file;
         })
