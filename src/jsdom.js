@@ -46,7 +46,7 @@ class CustomResourcesLoader extends ResourceLoader {
         }
 
         // See whether raw attribute value is root-relative.
-        const src = element.getAttribute('src');
+        const src = element.getAttribute('src').replace(/[#?].*$/, '');
         if (src && path.isAbsolute(src)) {
             const url = path.join(this.htmlroot, src);
 
@@ -63,7 +63,7 @@ class CustomResourcesLoader extends ResourceLoader {
             );
         }
 
-        return super.fetch(originalUrl, options);
+        return super.fetch(originalUrl.replace(/[#?].*$/, ''), options);
     }
 }
 
