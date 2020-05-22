@@ -86,4 +86,32 @@ describe('PostCSS Plugin', () => {
                 );
             });
     });
+
+    it('Should process all css files if multiple passed in', async () => {
+        const processor = postcss([
+            uncss.postcssPlugin({
+                html: [path.join(__dirname, 'selectors/index.html')]
+            })
+        ]);
+
+        const src = [
+            path.join(__dirname, 'selectors/fixtures/classes.css'),
+            path.join(__dirname, 'selectors/fixtures/elements.css')
+        ];
+        
+        return Promise.all([
+            processor.process(fs.readFileSync(src[0]), {from: src[0]})
+                .then(result => {
+                    expect(result.css).to.equal(
+                        fs.readFileSync(path.join(__dirname, 'selectors/expected/classes.css'), 'utf-8')
+                    );
+                }),
+            processor.process(fs.readFileSync(src[1]), {from: src[1]})
+                .then(result => {
+                    expect(result.css).to.equal(
+                        fs.readFileSync(path.join(__dirname, 'selectors/expected/elements.css'), 'utf-8')
+                    );
+                })
+        ]);
+    });
 });
