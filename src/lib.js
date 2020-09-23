@@ -8,44 +8,56 @@ const jsdom = require('./jsdom.js'),
  *   selectors cannot be used with querySelectorAll.
  * http://www.w3.org/TR/2001/CR-css3-selectors-20011113/
  */
-const dePseudify = (function () {
+const dePseudify = (() => {
     const ignoredPseudos = [
             /* link */
-            ':link', ':visited',
+            ':link',
+            ':visited',
             /* user action */
-            ':hover', ':active', ':focus', ':focus-within',
+            ':hover',
+            ':active',
+            ':focus',
+            ':focus-within',
             /* UI element states */
-            ':enabled', ':disabled', ':checked', ':indeterminate',
+            ':enabled',
+            ':disabled',
+            ':checked',
+            ':indeterminate',
             /* form validation */
-            ':required', ':invalid', ':valid',
+            ':required',
+            ':invalid',
+            ':valid',
             /* pseudo elements */
-            '::first-line', '::first-letter', '::selection', '::before', '::after',
+            '::first-line',
+            '::first-letter',
+            '::selection',
+            '::before',
+            '::after',
             /* pseudo classes */
             ':target',
             /* CSS2 pseudo elements */
-            ':before', ':after',
+            ':before',
+            ':after',
             /* Vendor-specific pseudo-elements:
              * https://developer.mozilla.org/ja/docs/Glossary/Vendor_Prefix
              */
-            '::?-(?:moz|ms|webkit|o)-[a-z0-9-]+'
+            '::?-(?:moz|ms|webkit|o)-[a-z0-9-]+',
         ],
         // Actual regex is of the format: /^(:hover|:focus|...)$/i
-        pseudosRegex = new RegExp('^(' + ignoredPseudos.join('|') + ')$', 'i');
+        pseudosRegex = new RegExp(`^(${ignoredPseudos.join('|')})$`, 'i');
 
-    function transform (selectors) {
-        selectors.walkPseudos((selector) => {
+    const transform = selectors => {
+        selectors.walkPseudos(selector => {
             if (pseudosRegex.test(selector.value)) {
                 selector.remove();
             }
         });
-    }
+    };
 
     const processor = postcssSelectorParser(transform);
 
-    return function (selector) {
-        return processor.processSync(selector);
-    };
-}());
+    return selector => processor.processSync(selector);
+})();
 
 /**
  * Private function used in filterUnusedRules.
@@ -61,7 +73,7 @@ function filterUnusedSelectors(selectors, ignore, usedSelectors) {
      * Example: '.clearfix:before' should be removed only if there
      *          is no '.clearfix'
      */
-    return selectors.filter((selector) => {
+    return selectors.filter(selector => {
         selector = dePseudify(selector);
         /* TODO: process @-rules */
         if (selector[0] === '@') {
@@ -70,6 +82,12 @@ function filterUnusedSelectors(selectors, ignore, usedSelectors) {
         for (let i = 0, len = ignore.length; i < len; ++i) {
             if (_.isRegExp(ignore[i]) && ignore[i].test(selector)) {
                 return true;
+            }
+            if (/:\w+/.test(ignore[i])) {
+                const ignored = dePseudify(ignore[i]);
+                if (ignored === selector) {
+                    return true;
+                }
             }
             if (ignore[i] === selector) {
                 return true;
@@ -88,20 +106,20 @@ function filterUnusedSelectors(selectors, ignore, usedSelectors) {
  */
 function filterKeyframes(css, unusedRules) {
     const usedAnimations = [];
-    css.walkDecls((decl) => {
+    css.walkDecls(decl => {
         if (_.endsWith(decl.prop, 'animation-name')) {
             /* Multiple animations, separated by comma */
             usedAnimations.push(...postcss.list.comma(decl.value));
         } else if (_.endsWith(decl.prop, 'animation')) {
             /* Support multiple animations */
-            postcss.list.comma(decl.value).forEach((anim) => {
+            postcss.list.comma(decl.value).forEach(anim => {
                 /* If declared as animation, name can be anywhere in the string; so we include all the properties */
                 usedAnimations.push(...postcss.list.space(anim));
             });
         }
     });
     const usedAnimationsSet = new Set(usedAnimations);
-    css.walkAtRules(/keyframes$/, (atRule) => {
+    css.walkAtRules(/keyframes$/, atRule => {
         if (!usedAnimationsSet.has(atRule.params)) {
             unusedRules.push(atRule);
             atRule.remove();
@@ -116,7 +134,7 @@ function filterKeyframes(css, unusedRules) {
  */
 function filterEmptyAtRules(css) {
     /* Filter media queries with no remaining rules */
-    css.walkAtRules((atRule) => {
+    css.walkAtRules(atRule => {
         if (atRule.name === 'media' && atRule.nodes.length === 0) {
             atRule.remove();
         }
@@ -131,7 +149,7 @@ function filterEmptyAtRules(css) {
  */
 function getUsedSelectors(page, css) {
     let usedSelectors = [];
-    css.walkRules((rule) => {
+    css.walkRules(rule => {
         usedSelectors = _.concat(usedSelectors, rule.selectors.map(dePseudify));
     });
 
@@ -145,7 +163,7 @@ function getUsedSelectors(page, css) {
  */
 function getAllSelectors(css) {
     let selectors = [];
-    css.walkRules((rule) => {
+    css.walkRules(rule => {
         selectors = _.concat(selectors, rule.selector);
     });
     return selectors;
@@ -162,9 +180,11 @@ function getAllSelectors(css) {
 function filterUnusedRules(css, ignore, usedSelectors) {
     let ignoreNextRule = false,
         ignoreNextRulesStart = false,
-        unusedRules = [],
         unusedRuleSelectors,
         usedRuleSelectors;
+
+    const unusedRules = [];
+
     /* Rule format:
      *  { selectors: [ '...', '...' ],
      *    declarations: [ { property: '...', value: '...' } ]
@@ -173,13 +193,16 @@ function filterUnusedRules(css, ignore, usedSelectors) {
      *            filter the rules with no selectors
      */
     ignoreNextRule = false;
-    css.walk((rule) => {
+    css.walk(rule => {
         if (rule.type === 'comment') {
-            if (/^!?\s?uncss:ignore start\s?$/.test(rule.text)) { // ignore next rules while using comment `/* uncss:ignore start */`
+            if (/^!?\s?uncss:ignore start\s?$/.test(rule.text)) {
+                // ignore next rules while using comment `/* uncss:ignore start */`
                 ignoreNextRulesStart = true;
-            } else if (/^!?\s?uncss:ignore end\s?$/.test(rule.text)) { // until `/* uncss:ignore end */` was found
+            } else if (/^!?\s?uncss:ignore end\s?$/.test(rule.text)) {
+                // until `/* uncss:ignore end */` was found
                 ignoreNextRulesStart = false;
-            } else if (/^!?\s?uncss:ignore\s?$/.test(rule.text)) { // ignore next rule while using comment `/* uncss:ignore */`
+            } else if (/^!?\s?uncss:ignore\s?$/.test(rule.text)) {
+                // ignore next rule while using comment `/* uncss:ignore */`
                 ignoreNextRule = true;
             }
         } else if (rule.type === 'rule') {
@@ -194,17 +217,13 @@ function filterUnusedRules(css, ignore, usedSelectors) {
                 ignore = ignore.concat(rule.selectors);
             }
 
-            usedRuleSelectors = filterUnusedSelectors(
-                rule.selectors,
-                ignore,
-                usedSelectors
-            );
-            unusedRuleSelectors = rule.selectors.filter((selector) => usedRuleSelectors.indexOf(selector) < 0);
+            usedRuleSelectors = filterUnusedSelectors(rule.selectors, ignore, usedSelectors);
+            unusedRuleSelectors = rule.selectors.filter(selector => usedRuleSelectors.indexOf(selector) < 0);
             if (unusedRuleSelectors && unusedRuleSelectors.length) {
                 unusedRules.push({
                     type: 'rule',
                     selectors: unusedRuleSelectors,
-                    position: rule.source
+                    position: rule.source,
                 });
             }
             if (usedRuleSelectors.length === 0) {
@@ -231,19 +250,20 @@ function filterUnusedRules(css, ignore, usedSelectors) {
  * @param  {Array}   ignore     List of selectors to be ignored
  * @return {Promise}
  */
-module.exports = function uncss(pages, css, ignore) {
-    return Promise.all(pages.map((page) => getUsedSelectors(page, css)))
-    .then((usedSelectors) => {
-        usedSelectors = _.flatten(usedSelectors);
-        const filteredCss = filterUnusedRules(css, ignore, usedSelectors);
-        const allSelectors = getAllSelectors(css);
-        return [filteredCss, {
+module.exports = async function uncss(pages, css, ignore) {
+    const nestedUsedSelectors = await Promise.all(pages.map(page => getUsedSelectors(page, css)));
+    const usedSelectors = _.flatten(nestedUsedSelectors);
+    const filteredCss = filterUnusedRules(css, ignore, usedSelectors);
+    const allSelectors = getAllSelectors(css);
+    return [
+        filteredCss,
+        {
             /* Get the selectors for the report */
             all: allSelectors,
             unused: _.difference(allSelectors, usedSelectors),
-            used: usedSelectors
-        }];
-    });
+            used: usedSelectors,
+        },
+    ];
 };
 
 module.exports.dePseudify = dePseudify;

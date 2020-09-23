@@ -13,7 +13,9 @@ const fs = require('fs'),
  * @param {Promise} promise The promise to augment.
  */
 function makeResourcePromise(promise) {
-    promise.abort = () => { /* noop */ };
+    promise.abort = () => {
+        /* noop */
+    };
 
     return promise;
 }
@@ -22,7 +24,7 @@ class CustomResourcesLoader extends ResourceLoader {
     constructor(htmlroot, strictSSL, userAgent) {
         super({
             strictSSL,
-            userAgent
+            userAgent,
         });
 
         // The htmlroot option allows root-relative URLs (starting with a slash)
@@ -44,22 +46,24 @@ class CustomResourcesLoader extends ResourceLoader {
         }
 
         // See whether raw attribute value is root-relative.
-        const src = element.getAttribute('src');
+        const src = element.getAttribute('src').replace(/[#?].*$/, '');
         if (src && path.isAbsolute(src)) {
             const url = path.join(this.htmlroot, src);
 
-            return makeResourcePromise(new Promise((resolve, reject) => {
-                try {
-                    const buffer = fs.readFileSync(url);
+            return makeResourcePromise(
+                new Promise((resolve, reject) => {
+                    try {
+                        const buffer = fs.readFileSync(url);
 
-                    resolve(buffer);
-                } catch (e) {
-                    reject(e);
-                }
-            }));
+                        resolve(buffer);
+                    } catch (e) {
+                        reject(e);
+                    }
+                })
+            );
         }
 
-        return super.fetch(originalUrl, options);
+        return super.fetch(originalUrl.replace(/[#?].*$/, ''), options);
     }
 }
 
@@ -67,11 +71,11 @@ function defaultOptions() {
     return {
         features: {
             FetchExternalResources: ['script'],
-            ProcessExternalResources: ['script']
+            ProcessExternalResources: ['script'],
         },
         runScripts: 'dangerously',
         userAgent: 'uncss',
-        virtualConsole: new VirtualConsole().sendTo(new Console(process.stderr))
+        virtualConsole: new VirtualConsole().sendTo(new Console(process.stderr)),
     };
 }
 
@@ -81,35 +85,29 @@ function defaultOptions() {
  * @param  {Object}  options
  * @return {Promise<JSDOM>}
  */
-function fromSource(src, options) {
+async function fromSource(src, options) {
     const config = _.cloneDeep(options.jsdom);
 
     config.resources = new CustomResourcesLoader(options.htmlroot, options.strictSSL, options.userAgent);
 
-    return new Promise((resolve, reject) => {
-        let pagePromise;
-        if (isURL(src)) {
-            pagePromise = JSDOM.fromURL(src, config);
-        } else if (isHTML(src)) {
-            pagePromise = Promise.resolve(new JSDOM(src, config));
+    let page;
+    if (isURL(src)) {
+        page = await JSDOM.fromURL(src, config);
+    } else if (isHTML(src)) {
+        page = new JSDOM(src, config);
+    } else {
+        page = await JSDOM.fromFile(src, config);
+    }
+
+    if (options.inject) {
+        if (typeof options.inject === 'function') {
+            options.inject(page.window);
         } else {
-            pagePromise = JSDOM.fromFile(src, config);
+            require(path.join(__dirname, options.inject))(page.window);
         }
+    }
 
-        return pagePromise.then((page) => {
-            if (options.inject) {
-                if (typeof options.inject === 'function') {
-                    options.inject(page.window);
-                } else {
-                    require(path.join(__dirname, options.inject))(page.window);
-                }
-            }
-
-            setTimeout(() => resolve(page), options.timeout);
-        }).catch((e) => {
-            reject(e);
-        });
-    });
+    return new Promise(resolve => setTimeout(() => resolve(page), options.timeout));
 }
 
 /**
@@ -127,12 +125,12 @@ function getStylesheets(window, options) {
     const elements = window.document.querySelectorAll('link[rel="stylesheet"]');
 
     return Array.prototype.map
-        .call(elements, (link) => ({
+        .call(elements, link => ({
             href: link.getAttribute('href'),
-            media: link.getAttribute('media') || ''
+            media: link.getAttribute('media') || '',
         }))
-        .filter((sheet) => media.indexOf(sheet.media) !== -1)
-        .map((sheet) => sheet.href);
+        .filter(sheet => media.indexOf(sheet.media) !== -1)
+        .map(sheet => sheet.href);
 }
 
 /**
@@ -146,20 +144,23 @@ function findAll(window, sels) {
 
     // Unwrap noscript elements.
     const elements = document.getElementsByTagName('noscript');
-    Array.prototype.forEach.call(elements, (ns) => {
+    Array.prototype.forEach.call(elements, ns => {
         const wrapper = document.createElement('div');
         wrapper.innerHTML = ns.textContent;
         // Insert each child of the <noscript> as its sibling
-        Array.prototype.forEach.call(wrapper.children, (child) => {
+        Array.prototype.forEach.call(wrapper.children, child => {
             ns.parentNode.insertBefore(child, ns);
         });
     });
 
     // Do the filtering.
-    return sels.filter((selector) => {
+    return sels.filter(selector => {
         try {
             return document.querySelector(selector);
+            // eslint-disable-next-line no-unused-vars
         } catch (e) {
+            // We ignore the error because there are a bunch of selectors which are out of our control.
+            // In that case, we consider them as unused.
             return true;
         }
     });
@@ -169,5 +170,5 @@ module.exports = {
     defaultOptions,
     fromSource,
     findAll,
-    getStylesheets
+    getStylesheets,
 };
