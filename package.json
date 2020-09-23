@@ -45,8 +45,8 @@
         "is-html": "^2.0.0",
         "jsdom": "^15.1.1",
         "lodash": "^4.17.15",
-        "postcss": "^7.0.26",
-        "postcss-selector-parser": "6.0.2",
+        "postcss": "^8.0.8",
+        "postcss-selector-parser": "^6.0.3",
         "request": "^2.88.0"
     },
     "devDependencies": {
