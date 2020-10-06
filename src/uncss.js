@@ -247,8 +247,8 @@ async function process(opts) {
         .then(cleanup);
 }
 
-const postcssPlugin = postcss.plugin('uncss', opts => {
-    let options = _.merge(
+const postcssPlugin = postcss.plugin('uncss', opts => css => {
+    const options = _.merge(
         {
             usePostCssInternal: true,
             // Ignore stylesheets in the HTML files; only use those from the stream
@@ -257,20 +257,17 @@ const postcssPlugin = postcss.plugin('uncss', opts => {
             ignore: [],
             jsdom: jsdom.defaultOptions(),
         },
-        opts
-    );
-
-    return css => {
-        // eslint-disable-line no-unused-vars
-        options = _.merge(options, {
+        opts,
+        // This is used to pass the css object in to processAsPostCSS
+        {
             // This is used to pass the css object in to processAsPostCSS
             rawPostCss: css,
             // TODO: Investigate why we need a timeout only for PostCSS
-            timeout: opts.timeout || 100
-        });
+            timeout: opts.timeout || 100,
+        }
+    );
 
-        return process(options);
-    };
+    return process(options);
 });
 
 module.exports = init;
