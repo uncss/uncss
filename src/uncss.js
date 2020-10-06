@@ -265,6 +265,8 @@ const postcssPlugin = postcss.plugin('uncss', opts => {
         options = _.merge(options, {
             // This is used to pass the css object in to processAsPostCSS
             rawPostCss: css,
+            // TODO: Investigate why we need a timeout only for PostCSS
+            timeout: opts.timeout || 100
         });
 
         return process(options);
