@@ -2,7 +2,7 @@
 
 const fs = require('fs'),
     path = require('path'),
-    expect = require('chai').expect,
+    { expect } = require('chai'),
     uncss = require('../src/uncss');
 
 const ghPath = path.join(__dirname, '/output/gh-pages/stylesheets/stylesheet.css');
@@ -12,7 +12,7 @@ describe('Compile the CSS of an HTML page passed by URL', () => {
     /* Used to check that all the requests to gh-pages generate the same CSS.
      * Expected to fail if the gh-page is updated.
      */
-    before(done => {
+    before((done) => {
         fs.readFile(ghPath, 'utf-8', (err, stylesheet) => {
             if (err) {
                 throw err;
@@ -22,7 +22,7 @@ describe('Compile the CSS of an HTML page passed by URL', () => {
         });
     });
 
-    it('Accepts an array of URLs', done => {
+    it('Accepts an array of URLs', (done) => {
         uncss(['https://getbootstrap.com/docs/3.3/examples/jumbotron/'], (err, output) => {
             expect(err).to.equal(null);
             expect(output).to.have.length.above(2);
@@ -30,7 +30,7 @@ describe('Compile the CSS of an HTML page passed by URL', () => {
         });
     });
 
-    it('Deals with CSS files linked with absolute URL', done => {
+    it('Deals with CSS files linked with absolute URL', (done) => {
         uncss(['https://uncss.github.io/uncss/'], (err, output) => {
             expect(err).to.equal(null);
             expect(output).to.equal(prevRun);
@@ -39,7 +39,7 @@ describe('Compile the CSS of an HTML page passed by URL', () => {
         });
     });
 
-    it('Deals with relative options.stylesheets when using URLs', done => {
+    it('Deals with relative options.stylesheets when using URLs', (done) => {
         uncss(
             ['https://uncss.github.io/uncss/'],
             {
@@ -57,7 +57,7 @@ describe('Compile the CSS of an HTML page passed by URL', () => {
         );
     });
 
-    it('Deals with absolute options.stylesheets when using URLs', done => {
+    it('Deals with absolute options.stylesheets when using URLs', (done) => {
         uncss(
             ['https://uncss.github.io/uncss/'],
             {
@@ -75,7 +75,7 @@ describe('Compile the CSS of an HTML page passed by URL', () => {
         );
     });
 
-    it('Deals with local options.stylesheets when using URLs', function(done) {
+    it('Deals with local options.stylesheets when using URLs', function (done) {
         const localStylesheetPath = path.join(__dirname, '/input/main.css');
 
         this.timeout(25000);
@@ -93,10 +93,7 @@ describe('Compile the CSS of an HTML page passed by URL', () => {
                     }
 
                     // First line of output is comment added by uncss, so remove before comparing:
-                    output = output
-                        .split('\n')
-                        .splice(1)
-                        .join('\n');
+                    output = output.split('\n').splice(1).join('\n');
 
                     expect(output).to.equal(stylesheet);
                     done();
@@ -105,7 +102,7 @@ describe('Compile the CSS of an HTML page passed by URL', () => {
         );
     });
 
-    after(done => {
+    after((done) => {
         fs.writeFile(path.join(__dirname, '/output/gh-pages/stylesheets/stylesheet.css'), prevRun, done);
     });
 });

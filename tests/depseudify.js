@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect,
+const { expect } = require('chai'),
     { dePseudify } = require('../src/lib');
 
 describe('dePseudify() function', () => {
@@ -31,7 +31,7 @@ describe('dePseudify() function', () => {
         'p:not(.fancy):hover': 'p:not(.fancy)',
     };
 
-    Object.keys(expected).forEach(input => {
+    Object.keys(expected).forEach((input) => {
         const output = expected[input];
         it(`should convert ${input} to ${output || '(empty)'}`, () => {
             expect(dePseudify(input)).to.equal(output);

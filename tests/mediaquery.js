@@ -2,7 +2,7 @@
 
 const fs = require('fs'),
     path = require('path'),
-    expect = require('chai').expect,
+    { expect } = require('chai'),
     uncss = require('../src/uncss');
 
 describe('Compile the CSS of an HTML page passed by path', () => {

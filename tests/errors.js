@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect,
+const { expect } = require('chai'),
     uncss = require('./../src/uncss.js');
 
 const invalidCss =
@@ -70,7 +70,7 @@ describe('Error reporting', () => {
     it('jsdom errors to stderr', async () => {
         let stderrBuffer = '';
         const oldWrite = process.stderr.write;
-        process.stderr.write = function(data) {
+        process.stderr.write = function (data) {
             stderrBuffer += data;
         };
 
@@ -107,7 +107,6 @@ describe('Error reporting', () => {
     });
 
     it('Report should be generated only if specified', async () => {
-        // eslint-disable-next-line no-unused-vars
         const { report } = await uncss(['tests/selectors/index.html']);
 
         expect(report).to.equal(undefined);
@@ -136,7 +135,7 @@ describe('Error reporting', () => {
         }
     });
 
-    it('Reports errors in the uncssrc file (callback)', done => {
+    it('Reports errors in the uncssrc file (callback)', (done) => {
         uncss(
             ['selectors/index.html'],
             {

@@ -1,7 +1,7 @@
 'use strict';
 
 const fs = require('fs'),
-    expect = require('chai').expect,
+    { expect } = require('chai'),
     uncss = require('./../src/uncss.js');
 
 describe('Raw HTML', () => {

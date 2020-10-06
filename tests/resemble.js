@@ -10,7 +10,7 @@ if (process.version.match(/^v6/)) {
 
 const resemble = require('chai-resemble');
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.use(resemble);
 
@@ -19,7 +19,7 @@ function rel(relativePath) {
 }
 
 describe('Pages should resemble the reference', () => {
-    it('Bootstrap', done => {
+    it('Bootstrap', (done) => {
         expect(`file://${rel('output/bootstrap/jumbotron.html')}`).to.resemble(
             'https://getbootstrap.com/docs/3.3/examples/jumbotron/',
             {
@@ -30,7 +30,7 @@ describe('Pages should resemble the reference', () => {
         );
     });
 
-    it('Selectors', done => {
+    it('Selectors', (done) => {
         expect(`file://${rel('selectors/index.html')}`).to.resemble(
             `file://${rel('output/selectors/index.html')}`,
             {

@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect,
+const { expect } = require('chai'),
     uncss = require('../src/uncss');
 
 describe('Using globbing patterns', () => {

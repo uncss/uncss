@@ -107,7 +107,7 @@ async function fromSource(src, options) {
         }
     }
 
-    return new Promise(resolve => setTimeout(() => resolve(page), options.timeout));
+    return new Promise((resolve) => setTimeout(() => resolve(page), options.timeout));
 }
 
 /**
@@ -125,12 +125,12 @@ function getStylesheets(window, options) {
     const elements = window.document.querySelectorAll('link[rel="stylesheet"]');
 
     return Array.prototype.map
-        .call(elements, link => ({
+        .call(elements, (link) => ({
             href: link.getAttribute('href'),
             media: link.getAttribute('media') || '',
         }))
-        .filter(sheet => media.indexOf(sheet.media) !== -1)
-        .map(sheet => sheet.href);
+        .filter((sheet) => media.indexOf(sheet.media) !== -1)
+        .map((sheet) => sheet.href);
 }
 
 /**
@@ -140,21 +140,21 @@ function getStylesheets(window, options) {
  * @return {Array}
  */
 function findAll(window, sels) {
-    const document = window.document;
+    const { document } = window;
 
     // Unwrap noscript elements.
     const elements = document.getElementsByTagName('noscript');
-    Array.prototype.forEach.call(elements, ns => {
+    Array.prototype.forEach.call(elements, (ns) => {
         const wrapper = document.createElement('div');
         wrapper.innerHTML = ns.textContent;
         // Insert each child of the <noscript> as its sibling
-        Array.prototype.forEach.call(wrapper.children, child => {
+        Array.prototype.forEach.call(wrapper.children, (child) => {
             ns.parentNode.insertBefore(child, ns);
         });
     });
 
     // Do the filtering.
-    return sels.filter(selector => {
+    return sels.filter((selector) => {
         try {
             return document.querySelector(selector);
             // eslint-disable-next-line no-unused-vars

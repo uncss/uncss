@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect,
+const { expect } = require('chai'),
     path = require('path'),
     uncss = require('./../src/uncss.js');
 
@@ -11,7 +11,7 @@ describe('jsdom', () => {
         expect(css).to.include('.evaluated');
     });
 
-    it('Should exit only when JS evaluation has finished', async function() {
+    it('Should exit only when JS evaluation has finished', async function () {
         this.timeout(100000);
         const { css } = await uncss(['tests/jsdom/long_wait.html']);
 
@@ -80,7 +80,7 @@ describe('jsdom', () => {
         const olderr = process.stderr.write;
         let stderr = '';
 
-        process.stderr.write = function(content) {
+        process.stderr.write = function (content) {
             stderr += content;
         };
 
@@ -122,7 +122,7 @@ describe('jsdom', () => {
     it('Should execute passed in javascript function before uncss runs', async () => {
         const options = {
             htmlroot: path.join(__dirname, './jsdom'),
-            inject: window => {
+            inject: (window) => {
                 window.document.querySelector('html').classList.add('no-test', 'test');
             },
         };
@@ -151,10 +151,10 @@ describe('jsdom', () => {
             olderr = process.stderr.write;
         let stdout = '',
             stderr = '';
-        process.stdout.write = function(content) {
+        process.stdout.write = function (content) {
             stdout += content;
         };
-        process.stderr.write = function(content) {
+        process.stderr.write = function (content) {
             stderr += content;
         };
 

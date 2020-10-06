@@ -2,7 +2,7 @@
 
 const fs = require('fs'),
     path = require('path'),
-    expect = require('chai').expect,
+    { expect } = require('chai'),
     uncss = require('./../src/uncss.js');
 
 /* Read file sync sugar. */
@@ -24,7 +24,7 @@ const fixtures = fs.readdirSync(path.join(__dirname, 'selectors/fixtures')),
  *   ...
  *  }, ...]
  */
-const tests = fixtures.map(test => ({
+const tests = fixtures.map((test) => ({
     fixture: test,
     expected: expected.indexOf(test) === -1 ? null : true,
     unused: unused.indexOf(test) === -1 ? null : true,
@@ -39,7 +39,7 @@ describe('Selectors', () => {
         })
     );
 
-    tests.forEach(test => {
+    tests.forEach((test) => {
         if (test.expected) {
             it(`Should output expected ${test.fixture.split('.')[0]}`, () => {
                 expect(rawcss).to.include.string(rfs(`selectors/expected/${test.fixture}`));
@@ -53,7 +53,7 @@ describe('Selectors', () => {
         }
     });
 
-    after(done => {
+    after((done) => {
         fs.writeFile(path.join(__dirname, '/output/selectors/uncss.css'), rawcss, done);
     });
 });

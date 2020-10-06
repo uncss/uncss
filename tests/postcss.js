@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect,
+const { expect } = require('chai'),
     fs = require('fs'),
     path = require('path'),
     postcss = require('postcss'),
@@ -14,7 +14,7 @@ describe('PostCSS Plugin', () => {
     /* Used to check that all the requests to gh-pages generate the same CSS.
      * Expected to fail if the gh-page is updated.
      */
-    before(done => {
+    before((done) => {
         fs.readFile(spreadsheetPath, 'utf-8', (err, stylesheet) => {
             if (err) {
                 throw err;
@@ -64,7 +64,7 @@ describe('PostCSS Plugin', () => {
             }),
         ])
             .process(fs.readFileSync(path.join(__dirname, 'jsdom/jsdom.css')), { from: undefined })
-            .then(result => {
+            .then((result) => {
                 expect(result.warnings().length).to.equal(0);
                 expect(result.css).to.not.equal(undefined);
                 expect(result.css).to.contain('evaluated');
@@ -79,7 +79,7 @@ describe('PostCSS Plugin', () => {
             }),
         ])
             .process(fs.readFileSync(path.join(__dirname, 'selectors/fixtures/classes.css')), { from: undefined })
-            .then(result => {
+            .then((result) => {
                 expect(result.warnings().length).to.equal(0);
                 expect(result.css).to.include(
                     fs.readFileSync(path.join(__dirname, 'selectors/expected/classes.css'), 'utf-8')
@@ -90,28 +90,26 @@ describe('PostCSS Plugin', () => {
     it('Should process all css files if multiple passed in', async () => {
         const processor = postcss([
             uncss.postcssPlugin({
-                html: [path.join(__dirname, 'selectors/index.html')]
-            })
+                html: [path.join(__dirname, 'selectors/index.html')],
+            }),
         ]);
 
         const src = [
             path.join(__dirname, 'selectors/fixtures/classes.css'),
-            path.join(__dirname, 'selectors/fixtures/elements.css')
+            path.join(__dirname, 'selectors/fixtures/elements.css'),
         ];
-        
+
         return Promise.all([
-            processor.process(fs.readFileSync(src[0]), {from: src[0]})
-                .then(result => {
-                    expect(result.css).to.equal(
-                        fs.readFileSync(path.join(__dirname, 'selectors/expected/classes.css'), 'utf-8')
-                    );
-                }),
-            processor.process(fs.readFileSync(src[1]), {from: src[1]})
-                .then(result => {
-                    expect(result.css).to.equal(
-                        fs.readFileSync(path.join(__dirname, 'selectors/expected/elements.css'), 'utf-8')
-                    );
-                })
+            processor.process(fs.readFileSync(src[0]), { from: src[0] }).then((result) => {
+                expect(result.css).to.equal(
+                    fs.readFileSync(path.join(__dirname, 'selectors/expected/classes.css'), 'utf-8')
+                );
+            }),
+            processor.process(fs.readFileSync(src[1]), { from: src[1] }).then((result) => {
+                expect(result.css).to.equal(
+                    fs.readFileSync(path.join(__dirname, 'selectors/expected/elements.css'), 'utf-8')
+                );
+            }),
         ]);
     });
 });
