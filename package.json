@@ -63,7 +63,7 @@
         "prettier": "^2.1.2"
     },
     "engines": {
-        "node": ">=8.0"
+        "node": ">=10.0"
     },
     "nyc": {
         "include": [
