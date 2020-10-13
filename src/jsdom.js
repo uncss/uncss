@@ -136,12 +136,14 @@ function getStylesheets(window, options) {
 /**
  * Remove Ignored HTML.
  * @param  {Object}  window A jsdom window
- * @param  {string}  ignoreHtmlClass Class denoting which HTML elements to ignore
+ * @param  {Array<string>}  ignoreHtmlClasses List of classes denoting which HTML elements to ignore
  */
-function removeIgnoredHtml(window, ignoreHtmlClass) {
-    const elements = window.document.getElementsByClassName(ignoreHtmlClass);
-    while (elements.length > 0) {
-        elements[0].parentNode.removeChild(elements[0]);
+function removeIgnoredHtml(window, ignoreHtmlClasses) {
+    for (const ignoreHtmlClass of ignoreHtmlClasses) {
+        const elements = window.document.getElementsByClassName(ignoreHtmlClass);
+        while (elements.length > 0) {
+            elements[0].parentNode.removeChild(elements[0]);
+        }
     }
 }
 
