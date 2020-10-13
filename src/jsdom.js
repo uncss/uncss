@@ -134,6 +134,20 @@ function getStylesheets(window, options) {
 }
 
 /**
+ * Remove Ignored HTML.
+ * @param  {Object}  window A jsdom window
+ * @param  {Array<string>}  ignoreHtmlClasses List of classes denoting which HTML elements to ignore
+ */
+function removeIgnoredHtml(window, ignoreHtmlClasses) {
+    for (const ignoreHtmlClass of ignoreHtmlClasses) {
+        const elements = window.document.getElementsByClassName(ignoreHtmlClass);
+        while (elements.length > 0) {
+            elements[0].parentNode.removeChild(elements[0]);
+        }
+    }
+}
+
+/**
  * Filter unused selectors.
  * @param  {Object}  window A jsdom window
  * @param  {Array}   sels   List of selectors to be filtered
@@ -169,6 +183,7 @@ function findAll(window, sels) {
 module.exports = {
     defaultOptions,
     fromSource,
+    removeIgnoredHtml,
     findAll,
     getStylesheets,
 };

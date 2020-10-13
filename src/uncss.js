@@ -146,7 +146,7 @@ async function processWithTextApi([options, pages, stylesheets]) {
         throw utility.parseErrorMessage(err, cssStr);
     }
 
-    const [css, rep] = await uncss(pages, pcss, options.ignore);
+    const [css, rep] = await uncss(pages, pcss, options.ignore, options.ignoreHtmlClasses);
     let newCssStr = '';
     postcss.stringify(css, result => {
         newCssStr += result;
@@ -204,6 +204,7 @@ function init(files, options, callback) {
             html: files,
             htmlRoot: null,
             ignore: [],
+            ignoreHtmlClasses: [],
             ignoreSheets: [],
             inject: null,
             jsdom: jsdom.defaultOptions(),
@@ -227,7 +228,7 @@ function init(files, options, callback) {
 }
 
 function processAsPostCss(options, pages) {
-    return uncss(pages, options.rawPostCss, options.ignore);
+    return uncss(pages, options.rawPostCss, options.ignore, options.ignoreHtmlClasses);
 }
 
 async function process(opts) {
@@ -255,6 +256,7 @@ const postcssPlugin = postcss.plugin('uncss', opts => css => {
             ignoreSheets: [/\s*/],
             html: [],
             ignore: [],
+            ignoreHtmlClasses: [],
             jsdom: jsdom.defaultOptions(),
         },
         opts,
