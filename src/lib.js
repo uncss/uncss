@@ -145,13 +145,18 @@ function filterEmptyAtRules(css) {
  * Find which selectors are used in {pages}
  * @param  {Array}    page          List of jsdom pages
  * @param  {Object}   css           The postcss.Root node
+ * @param  {string | null}  ignoreHTMLClass the name of HTML class to be ignored
  * @return {Promise}
  */
-function getUsedSelectors(page, css) {
+function getUsedSelectors(page, css, ignoreHTMLClass) {
     let usedSelectors = [];
     css.walkRules(rule => {
         usedSelectors = _.concat(usedSelectors, rule.selectors.map(dePseudify));
     });
+
+    if (ignoreHTMLClass) {
+        jsdom.removeIgnoredHtml(page, ignoreHTMLClass);
+    }
 
     return jsdom.findAll(page.window, usedSelectors);
 }
@@ -248,10 +253,11 @@ function filterUnusedRules(css, ignore, usedSelectors) {
  * @param  {Array}   pages      List of jsdom pages
  * @param  {Object}  css        The postcss.Root node
  * @param  {Array}   ignore     List of selectors to be ignored
+ * @param {string | null} ignoreHTMLClass the name of HTML class to be ignored
  * @return {Promise}
  */
-module.exports = async function uncss(pages, css, ignore) {
-    const nestedUsedSelectors = await Promise.all(pages.map(page => getUsedSelectors(page, css)));
+module.exports = async function uncss(pages, css, ignore, ignoreHTMLClass) {
+    const nestedUsedSelectors = await Promise.all(pages.map(page => getUsedSelectors(page, css, ignoreHTMLClass)));
     const usedSelectors = _.flatten(nestedUsedSelectors);
     const filteredCss = filterUnusedRules(css, ignore, usedSelectors);
     const allSelectors = getAllSelectors(css);
