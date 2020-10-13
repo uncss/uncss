@@ -139,6 +139,8 @@ Options:
   /* uncss:ignore end */
   ```
 
+- **ignoreHtmlClasses** (string[]): provide a list of classes to ignore HTML by. The elements of this array are passed to `getElementsByClassName`.
+
 - **ignoreSheets** (string[] | RegExp[]): Do not process these stylesheets, e.g. Google fonts. Accepts strings or regex patterns.
 
 - **inject** (string / function(window)): Path to a local javascript file which is executed before uncss runs. A function can also be passed directly in.
