@@ -46,10 +46,25 @@ const dePseudify = (() => {
         // Actual regex is of the format: /^(:hover|:focus|...)$/i
         pseudosRegex = new RegExp(`^(${ignoredPseudos.join('|')})$`, 'i');
 
+    const removeEmptyNodes = node => {
+        if (!node.nodes) {
+            return;
+        }
+        node.each(removeEmptyNodes);
+        if (node.length === 0) {
+            node.remove();
+        }
+    };
+
     const transform = selectors => {
         selectors.walkPseudos(selector => {
             if (pseudosRegex.test(selector.value)) {
                 selector.remove();
+            }
+        });
+        selectors.walkPseudos(selector => {
+            if (selector.value === ':not') {
+                removeEmptyNodes(selector);
             }
         });
     };
