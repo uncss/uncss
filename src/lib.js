@@ -52,6 +52,11 @@ const dePseudify = (() => {
                 selector.remove();
             }
         });
+        selectors.walkPseudos((selector) => {
+            if (selector.toString() === ':not()') {
+                selector.remove()
+            }
+        });
     };
 
     const processor = postcssSelectorParser(transform);
