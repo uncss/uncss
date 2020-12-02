@@ -160,7 +160,7 @@ function findAll(window, sels) {
             // eslint-disable-next-line no-unused-vars
         } catch (e) {
             // We ignore the error because there are a bunch of selectors which are out of our control.
-            // In that case, we consider them as unused.
+            // In that case, we consider them to be used.
             return true;
         }
     });
