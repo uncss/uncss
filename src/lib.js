@@ -33,6 +33,7 @@ const dePseudify = (() => {
             '::selection',
             '::before',
             '::after',
+            '::placeholder',
             /* pseudo classes */
             ':target',
             /* CSS2 pseudo elements */
