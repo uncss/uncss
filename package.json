@@ -40,6 +40,7 @@
     ],
     "dependencies": {
         "@root/request": "^1.6.1",
+        "axios": "^0.21.1",
         "commander": "^4.1.1",
         "glob": "^7.1.6",
         "is-absolute-url": "^3.0.3",
@@ -47,8 +48,7 @@
         "jsdom": "^15.1.1",
         "lodash": "^4.17.20",
         "postcss": "^8.1.1",
-        "postcss-selector-parser": "^6.0.4",
-        "request": "^2.88.0"
+        "postcss-selector-parser": "^6.0.4"
     },
     "devDependencies": {
         "chai": "^4.2.0",
