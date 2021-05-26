@@ -45,7 +45,7 @@
         "glob": "^7.1.6",
         "is-absolute-url": "^3.0.3",
         "is-html": "^2.0.0",
-        "jsdom": "^15.1.1",
+        "jsdom": "^16.0.0",
         "lodash": "^4.17.20",
         "postcss": "^8.1.1",
         "postcss-selector-parser": "^6.0.4"
@@ -53,7 +53,7 @@
     "devDependencies": {
         "chai": "^4.2.0",
         "chai-resemble": "^2.0.0",
-        "coveralls": "^3.1.0",
+        "coveralls-next": "^4.0.0",
         "eslint": "^7.10.0",
         "eslint-config-problems": "^5.0.0",
         "husky": "^4.3.0",
