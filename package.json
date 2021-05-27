@@ -42,6 +42,7 @@
         "@root/request": "^1.6.1",
         "axios": "^0.21.1",
         "commander": "^4.1.1",
+        "fsevents": "^2.3.2",
         "glob": "^7.1.6",
         "is-absolute-url": "^3.0.3",
         "is-html": "^2.0.0",
@@ -97,5 +98,8 @@
         "*.js": [
             "eslint --fix"
         ]
+    },
+    "optionalDependencies": {
+        "fsevents": "^2.3.2"
     }
 }
