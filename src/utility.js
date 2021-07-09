@@ -2,11 +2,11 @@
 
 const isHTML = require('is-html'),
     isURL = require('is-absolute-url'),
-    request = require('request'),
     fs = require('fs'),
     os = require('os'),
     path = require('path'),
-    url = require('url');
+    url = require('url'),
+    axios = require('axios');
 
 function isWindows() {
     return os.platform() === 'win32';
@@ -49,7 +49,7 @@ function parseUncssrc(filename) {
  * @return {Array}              List of paths
  */
 function parsePaths(source, stylesheets, options) {
-    return stylesheets.map(sheet => {
+    return stylesheets.map((sheet) => {
         let sourceProtocol;
         const isLocalFile = sheet.substr(0, 5) === 'file:';
 
@@ -120,21 +120,17 @@ function stripBom(utf8String) {
  */
 async function readStylesheets(files, outputBanner) {
     const res = await Promise.all(
-        files.map(filename => {
+        files.map((filename) => {
             if (isURL(filename)) {
                 return new Promise((resolve, reject) => {
-                    request(
-                        {
-                            url: filename,
-                            headers: { 'User-Agent': 'UnCSS' },
-                        },
-                        (err, response, body) => {
-                            if (err) {
-                                return reject(err);
-                            }
-                            return resolve(body);
-                        }
-                    );
+                    axios.default
+                        .get(filename, { headers: { 'User-Agent': 'UnCSS' } })
+                        .then((response) => {
+                            return resolve(response.data);
+                        })
+                        .catch((error) => {
+                            return reject(error);
+                        });
                 });
             } else if (fs.existsSync(filename)) {
                 return new Promise((resolve, reject) => {
