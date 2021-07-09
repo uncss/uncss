@@ -41,7 +41,7 @@
     "dependencies": {
         "@root/request": "^1.6.1",
         "axios": "^0.21.1",
-        "commander": "^7.2.0",
+        "commander": "^8.0.0",
         "glob": "^7.1.6",
         "is-absolute-url": "^3.0.3",
         "is-html": "^2.0.0",
@@ -56,9 +56,9 @@
         "coveralls-next": "^4.0.0",
         "eslint": "^7.10.0",
         "eslint-config-problems": "^5.0.0",
-        "husky": "^6.0.0",
+        "husky": "^7.0.1",
         "lint-staged": "^11.0.0",
-        "mocha": "^8.1.3",
+        "mocha": "^9.0.2",
         "nyc": "^15.1.0",
         "prettier": "^2.1.2"
     },
