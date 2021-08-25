@@ -4,11 +4,12 @@
 [![Linux Build Status](https://img.shields.io/travis/uncss/uncss/master.svg?label=Linux%20build)](https://travis-ci.org/uncss/uncss)
 [![Windows Build status](https://img.shields.io/appveyor/ci/uncss/uncss/master.svg?label=Windows%20build)](https://ci.appveyor.com/project/uncss/uncss/branch/master)
 [![Coverage Status](https://img.shields.io/coveralls/uncss/uncss.svg)](https://coveralls.io/r/uncss/uncss?branch=master)
-[![dependencies Status](https://img.shields.io/david/uncss/uncss.svg)](https://david-dm.org/uncss/uncss)
-[![devDependencies Status](https://img.shields.io/david/dev/uncss/uncss.svg)](https://david-dm.org/uncss/uncss?type=dev)
+[![dependencies Status](https://img.shields.io/david/novaatwarren/uncss.svg)](https://david-dm.org/novaatwarren/uncss)
+[![devDependencies Status](https://img.shields.io/david/dev/novaatwarren/uncss.svg)](https://david-dm.org/novaatwarren/uncss?type=dev)
 
 UnCSS is a tool that removes unused CSS from your stylesheets.
 It works across multiple files and supports Javascript-injected CSS.
+This fork was made because the [original](https://github.com/uncss/uncss) isn't maintained (starting Oct 2020, last checked Aug 2021).
 
 ## How
 
