@@ -39,14 +39,14 @@
         "src"
     ],
     "dependencies": {
-        "@root/request": "^1.6.1",
+        "@root/request": "^1.7.0",
         "axios": "^0.21.1",
-        "commander": "^8.0.0",
+        "commander": "^8.1.0",
         "glob": "^7.1.6",
-        "is-absolute-url": "^3.0.3",
+        "is-absolute-url": "^4.0.1",
         "is-html": "^2.0.0",
-        "jsdom": "^16.0.0",
-        "lodash": "^4.17.20",
+        "jsdom": "^17.0.0",
+        "lodash": "^4.17.21",
         "postcss": "^8.1.1",
         "postcss-selector-parser": "^6.0.4"
     },
