@@ -1,10 +1,10 @@
 {
-    "name": "uncss",
+    "name": "@novaatwarren/uncss",
     "version": "0.17.3",
     "author": "Giakki",
     "description": "Remove unused CSS styles",
     "license": "MIT",
-    "homepage": "https://github.com/uncss/uncss",
+    "homepage": "https://github.com/NovaAtWarren/uncss",
     "scripts": {
         "cover": "nyc npm run mocha",
         "coveralls": "nyc report --reporter=text-lcov | coveralls",
@@ -20,10 +20,10 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/uncss/uncss.git"
+        "url": "git+https://github.com/NovaAtWarren/uncss.git"
     },
     "bugs": {
-        "url": "https://github.com/uncss/uncss/issues"
+        "url": "https://github.com/NovaAtWarren/uncss/issues"
     },
     "keywords": [
         "optimize",
