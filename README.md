@@ -29,7 +29,7 @@ The process by which UnCSS removes the unused rules is as follows:
 ## Installation
 
 ```shell
-npm install -g uncss
+npm install -g @novaatwarren/uncss
 ```
 
 ## Usage
@@ -41,7 +41,7 @@ npm install -g uncss
 ### Within Node.js
 
 ```js
-var uncss = require('uncss');
+var uncss = require('@novaatwarren/uncss');
 
 var files   = ['my', 'array', 'of', 'HTML', 'files', 'or', 'http://urls.com'],
     options = {
