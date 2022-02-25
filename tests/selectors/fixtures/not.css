@@ -1,4 +1,0 @@
-div:not(#bat):not(#man),
-div:not(#battleground) {
-  display: inline-block;
-}

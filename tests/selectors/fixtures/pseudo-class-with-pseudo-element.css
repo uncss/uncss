@@ -1,7 +1,0 @@
-h5:hover::before {
-  content: "@";
-}
-
-.unused:hover::before {
-  content: "!";
-}
