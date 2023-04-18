@@ -83,7 +83,7 @@
                     if (err) {
                         throw err;
                     }
-                    console.err(`${program.output} has been saved!`);
+                    console.log(`${program.output} has been saved!`);
                 });
             } else {
                 console.log(css);
