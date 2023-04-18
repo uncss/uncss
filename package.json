@@ -7,7 +7,7 @@
     "homepage": "https://github.com/uncss/uncss",
     "scripts": {
         "cover": "c8 npm run mocha",
-        "eslint": "eslint \"**/*.js\" bin/uncss",
+        "eslint": "eslint \"**/*.js\"",
         "mocha": "mocha \"tests/*.js\"",
         "lint": "npm run eslint",
         "test": "npm run eslint && npm run mocha",
@@ -15,7 +15,7 @@
     },
     "main": "src/uncss.js",
     "bin": {
-        "uncss": "bin/uncss"
+        "uncss": "bin/uncss.js"
     },
     "repository": {
         "type": "git",

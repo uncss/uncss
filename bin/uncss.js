@@ -3,7 +3,7 @@
 /* eslint-disable no-console */
 'use strict';
 
-(function() {
+(function () {
     process.title = 'uncss';
 
     const uncss = require('../src/uncss.js'),
@@ -52,7 +52,7 @@
 
     if (program.args.length) {
         if (options.ignore) {
-            options.ignore = options.ignore.map(ign => {
+            options.ignore = options.ignore.map((ign) => {
                 /* Create RegExes */
                 if (ign[0] === '/') {
                     /* Remove starting and trailing '/' */
@@ -63,7 +63,7 @@
         }
 
         if (options.ignoreSheets) {
-            options.ignoreSheets = options.ignoreSheets.map(ign => {
+            options.ignoreSheets = options.ignoreSheets.map((ign) => {
                 /* Create RegExes */
                 if (ign[0] === '/') {
                     /* Remove starting and trailing '/' */
@@ -79,7 +79,7 @@
                 throw err;
             }
             if (program.output) {
-                fs.writeFile(program.output, css, 'utf8', err => {
+                fs.writeFile(program.output, css, 'utf8', (err) => {
                     if (err) {
                         throw err;
                     }
@@ -96,7 +96,7 @@
         process.stdin.resume();
         process.stdin.setEncoding('utf8');
 
-        process.stdin.on('data', chunk => {
+        process.stdin.on('data', (chunk) => {
             buffer += chunk;
         });
 
