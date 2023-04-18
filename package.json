@@ -44,7 +44,7 @@
         "glob": "^7.1.6",
         "is-absolute-url": "^3.0.3",
         "is-html": "^2.0.0",
-        "jsdom": "^15.1.1",
+        "jsdom": "^16.5.0",
         "lodash": "^4.17.20",
         "postcss": "^8.1.1",
         "postcss-selector-parser": "^6.0.4",
