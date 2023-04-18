@@ -29,6 +29,7 @@ describe('dePseudify() function', () => {
         'p:hover:not(.fancy)': 'p:not(.fancy)',
         'p:not(.fancy)': 'p:not(.fancy)',
         'p:not(.fancy):hover': 'p:not(.fancy)',
+        'input::placeholder': 'input',
     };
 
     Object.keys(expected).forEach((input) => {
