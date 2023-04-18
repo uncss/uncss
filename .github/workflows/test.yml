@@ -1,0 +1,53 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - master
+      - "!dependabot/**"
+  pull_request:
+  workflow_dispatch:
+
+env:
+  FORCE_COLOR: 2
+  NODE_COV: 18 # The Node.js version to run coveralls on
+
+jobs:
+  run:
+    name: Node ${{ matrix.node }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [10, 12, 14, 16, 18]
+        os: [ubuntu-latest, windows-latest]
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Run tests with coverage
+        run: npm run cover
+        if: "!startsWith(matrix.os, 'windows')"
+
+      - name: Run tests
+        run: npm run mocha
+        if: startsWith(matrix.os, 'windows')
+
+      - name: Run Coveralls
+        uses: coverallsapp/github-action@v2
+        if: startsWith(matrix.os, 'ubuntu') && matrix.node == env.NODE_COV
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
