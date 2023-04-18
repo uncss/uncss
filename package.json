@@ -61,38 +61,5 @@
     },
     "engines": {
         "node": ">=10.0"
-    },
-    "nyc": {
-        "include": [
-            "src/**/*.js"
-        ]
-    },
-    "prettier": {
-        "endOfLine": "lf",
-        "printWidth": 120,
-        "singleQuote": true,
-        "tabWidth": 4,
-        "trailingComma": "es5",
-        "overrides": [
-            {
-                "files": "*.yml",
-                "options": {
-                    "singleQuote": false
-                }
-            }
-        ]
-    },
-    "husky": {
-        "hooks": {
-            "pre-commit": "lint-staged"
-        }
-    },
-    "lint-staged": {
-        "*.{js,css,json,md}": [
-            "prettier --write"
-        ],
-        "*.js": [
-            "eslint --fix"
-        ]
     }
 }
