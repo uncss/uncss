@@ -80,7 +80,7 @@ function parsePaths(source, stylesheets, options) {
 
         /* Path already parsed by jsdom or user supplied local file */
         if (isLocalFile) {
-            sheet = url.parse(sheet).path.replace('%20', ' ');
+            sheet = url.parse(sheet).path.replace(/%20/g, ' ');
             /* If on windows, remove first '/' */
             sheet = isWindows() ? sheet.substring(1) : sheet;
 
